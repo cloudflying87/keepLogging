@@ -1,12 +1,12 @@
 module.exports = function(sequelize, DataTypes) {
-    const flightTime = sequelize.define("flightTime", {
+    const FlightTime = sequelize.define("FlightTime", {
         userId: {
-            type: DataTypes.INT,
+            type: DataTypes.INTEGER,
             allowNull: false,
-            refrences: {
-                model: user,
-                key: id
-            }
+        //     refrences: {
+        //         model: User,
+        //         key: id
+        //     }
         },
         date: {
             type: DataTypes.DATE,
@@ -16,27 +16,28 @@ module.exports = function(sequelize, DataTypes) {
         depAir: DataTypes.STRING,
         enrRout: DataTypes.STRING,
         arrAir: DataTypes.STRING,
-        flightNum: DataTypes.INT,
+        flightNum: DataTypes.INTEGER,
         depTime: DataTypes.TIME,
         arrTime: DataTypes.TIME,
-        landings: DataTypes.INT,
+        landings: DataTypes.INTEGER,
         imc: DataTypes.DECIMAL(5, 2),
         hood: DataTypes.DECIMAL(5, 2),
-        iap: DataTypes.INT,
-        holds: DataTypes.INT,
+        iap: DataTypes.INTEGER,
+        holds: DataTypes.INTEGER,
         aircraftType: {
-            type: DataTypes.INT,
+            type: DataTypes.INTEGER,
             allowNull: false,
-            refrences: {
-                model: aircraft,
-                key: id
-            }
+        //     refrences: {
+        //         model: Aircraft,
+        //         key: id
+        //     }
         },
-        pic: DECIMAL(5, 2),
-        sic: DECIMAL(5, 2),
-        cfi: DECIMAL(5, 2),
-        dualI: DECIMAL(5, 2),
-        cxt: DECIMAL(5, 2),
+        pic: DataTypes.DECIMAL(5, 2),
+        sic: DataTypes.DECIMAL(5, 2),
+        cfi: DataTypes.DECIMAL(5, 2),
+        dualI: DataTypes.DECIMAL(5, 2),
+        cxt: DataTypes.DECIMAL(5, 2),
         comments: DataTypes.STRING
     });
+    return FlightTime;
 };
