@@ -2,15 +2,15 @@ const fs = require('fs');
 const mysql = require('mysql2');
 const csv = require('fast-csv');
 require('dotenv').config();
-let host = process.env.DB_HOST
-let port = process.env.DB_PORT
-let user = process.env.DB_USER
-let password = process.env.DB_PASS
-let database = process.env.DB_NAME
-let connection;
+    let host = process.env.HOST_LOCAL
+    let port = process.env.PORT_LOCAL
+    let user = process.env.USER_LOCAL
+    let password = process.env.PASS_LOCAL
+    let database = process.env.NAME_LOCAL
 
-
-let stream = fs.createReadStream("sampledataSmall.csv");
+// var importFile = 'sampledataSmall.csv'
+var importFile = 'airplanes.csv'
+let stream = fs.createReadStream(importFile);
 let myData = [];
 let csvStream = csv
     .parse()
@@ -19,25 +19,40 @@ let csvStream = csv
     })
     .on("end", function () {
 		myData.shift();
-		
+        
+        
+        
+        // let connection;
 		// create a new connection to the database
 		const connection = mysql.createConnection({
-			host: 'localhost',
-			user: '',
-			password: '',
-			database: 'logbook_db'
+            host: 'localhost',
+            port: 3306,
+            user: 'root',
+            password: 'DlhNJob2020!',
+            database: 'logbook_db',
+
+            // host: host,
+            // port: port,
+            // user: user,
+            // password: password,
+            // database: database,
 		});
 
         // open the connection
 		connection.connect((error) => {
 			if (error) {
 				console.error(error);
-			} else {
+			} else if (importFile =='sampleDataSmall.csv') {
 				let query = 'INSERT INTO flighttimes (id,userId,date,airCraftId,depAir,enrRout,arrAir,flightNum,depTime,arrTime,landings,imc,hood,iap,holds,aircraftType,pic,sic,cfi,dualI,cxt,solo,total,dayLdg,night,nightLdg,comments,instructor,student) VALUES ?';
 				connection.query(query, [myData], (error, response) => {
 					console.log(error || response);
 				});
-			}
+			} else if (importFile =='airplanes.csv') {
+                let query = 'INSERT INTO aircraft (id,aircraftType,class,numEngine, tailWheel,complex,highPerf,turboFan,turboProp,rotorcraft,poweredLift) VALUES ?'
+                    connection.query(query, [myData], (error, response) => {
+                    console.log(error || response);
+                })
+            }
 		});
    	});
 

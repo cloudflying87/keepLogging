@@ -11,12 +11,12 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: true, 
             defaultValue: 0
         },
-        highPerf: { 
+        complex: { 
             type: DataTypes.BOOLEAN, 
             allowNull: true, 
             defaultValue: 0
         },
-        complex: { 
+        highPerf: { 
             type: DataTypes.BOOLEAN, 
             allowNull: true, 
             defaultValue: 0
@@ -40,6 +40,16 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.BOOLEAN, 
             allowNull: true, 
             defaultValue: 0
+        },
+        createdAt: {
+            type: DataTypes.DATE(3),
+            defaultValue: sequelize.literal('CURRENT_TIMESTAMP(3)'),
+            field: 'created_at',
+        },
+        updatedAt: {
+            type: DataTypes.DATE(3),
+            defaultValue: sequelize.literal('CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)'),
+            field: 'updated_at',
         },
     });
     return Aircraft;
