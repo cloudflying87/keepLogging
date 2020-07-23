@@ -16,11 +16,11 @@ module.exports = function(sequelize, DataTypes) {
         depAir: DataTypes.STRING,
         enrRout: DataTypes.STRING,
         arrAir: DataTypes.STRING,
-        flightNum: DataTypes.INTEGER,
+        flightNum: DataTypes.STRING,
         depTime: DataTypes.TIME,
         arrTime: DataTypes.TIME,
         landings: DataTypes.INTEGER,
-        imc: DataTypes.DECIMAL(5, 2),
+        imc: DataTypes.DECIMAL,
         hood: DataTypes.DECIMAL(5, 2),
         iap: DataTypes.INTEGER,
         holds: DataTypes.INTEGER,
@@ -44,7 +44,17 @@ module.exports = function(sequelize, DataTypes) {
         nightLdg: DataTypes.INTEGER,
         comments: DataTypes.STRING,
         instructor: DataTypes.STRING,
-        student: DataTypes.STRING
+        student: DataTypes.STRING,
+        createdAt: {
+            allowNull: false,
+            type: DataTypes.DATE,
+            defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+        },
+        updatedAt: {
+            allowNull: false,
+            type: DataTypes.DATE,
+            defaultValue: sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+        },
     });
     return FlightTime;
 };
