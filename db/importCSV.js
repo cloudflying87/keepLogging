@@ -8,8 +8,8 @@ require('dotenv').config();
     let password = process.env.PASS_LOCAL
     let database = process.env.NAME_LOCAL
 
-// var importFile = 'sampledataSmall.csv'
-var importFile = 'airplanes.csv'
+var importFile = 'sampledataSmall.csv'
+// var importFile = 'airplanes.csv'
 let stream = fs.createReadStream(importFile);
 let myData = [];
 let csvStream = csv
@@ -25,11 +25,11 @@ let csvStream = csv
         // let connection;
 		// create a new connection to the database
 		const connection = mysql.createConnection({
-            host: 'localhost',
+            host: '',
             port: 3306,
-            user: 'root',
-            password: 'DlhNJob2020!',
-            database: 'logbook_db',
+            user: '',
+            password: '',
+            database: '',
 
             // host: host,
             // port: port,
@@ -42,7 +42,7 @@ let csvStream = csv
 		connection.connect((error) => {
 			if (error) {
 				console.error(error);
-			} else if (importFile =='sampleDataSmall.csv') {
+			} else if (importFile =='sampledataSmall.csv') {
 				let query = 'INSERT INTO flighttimes (id,userId,date,airCraftId,depAir,enrRout,arrAir,flightNum,depTime,arrTime,landings,imc,hood,iap,holds,aircraftType,pic,sic,cfi,dualI,cxt,solo,total,dayLdg,night,nightLdg,comments,instructor,student) VALUES ?';
 				connection.query(query, [myData], (error, response) => {
 					console.log(error || response);

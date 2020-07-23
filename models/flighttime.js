@@ -46,14 +46,14 @@ module.exports = function(sequelize, DataTypes) {
         instructor: DataTypes.STRING,
         student: DataTypes.STRING,
         createdAt: {
-            type: DataTypes.DATE(3),
-            defaultValue: sequelize.literal('CURRENT_TIMESTAMP(3)'),
-            field: 'created_at',
-          },
+            allowNull: false,
+            type: DataTypes.DATE,
+            defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+        },
         updatedAt: {
-        type: DataTypes.DATE(3),
-        defaultValue: sequelize.literal('CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)'),
-        field: 'updated_at',
+            allowNull: false,
+            type: DataTypes.DATE,
+            defaultValue: sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
         },
     });
     return FlightTime;
