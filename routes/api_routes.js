@@ -55,6 +55,82 @@ module.exports = function(app) {
     }
   });
 
+      //----------------------------------------------------------------------------
+    // flight_time routes begin here
+
+
+    // Routes for flight_time table per user id
+    app.get("/api/flight_time/:userId", function (req, res) {
+      // if (!req.user) {
+      //     res.redirect(307, "/api/login");
+      // } else {
+          db.FlightTime.findAll({
+              where: {
+                  UserId: req.params.userId
+              },
+              include: [db.User, db.Aircraft]
+          })
+              .then(results => res.json(results))
+              .catch(err => res.status(404).json(err));
+      // };
+  });
+
+  // Route for selecting one flight_time
+  app.get("/api/flight_time/:id", function (req, res) {
+      if (!req.user) {
+          res.redirect(307, "/api/login");
+      } else {
+          db.FlightTime.findAll({
+              where: {
+                  id: req.params.id,
+              }
+          })
+              .then(results => res.json(results))
+              .catch(err => res.status(404).json(err));
+      }
+  });
+
+  // Route for creating a flight_time
+  app.post("/api/flight_time/", function (req, res) {
+      // if (!req.user) {
+      //     res.redirect(307, "/api/login");
+      // } else {
+          db.FlightTime.create(req.body)
+              .then(results => res.json(results))
+              .catch(err => res.status(404).json(err));
+      // };
+  });
+
+  // Route for updating a flight_time
+  app.post("/api/flight_time/:id", function (req, res) {
+      if (!req.user) {
+          res.redirect(307, "/api/login");
+      } else {
+          db.FlightTime.update(req.body, {
+              where: {
+                  id: req.body.id
+              }
+          })
+              .then(results => res.json(results))
+              .catch(err => res.status(404).json(err));
+      };
+  });
+
+  // Route for deleting a flight_time
+  app.delete("/api/flight_time/:id", function (req, res) {
+      if (!req.user) {
+          res.redirect(307, "/api/login");
+      } else {
+          db.FlightTime.destroy({
+              where: {
+                  id: req.params.id
+              }
+          })
+              .then(results => res.json(results))
+              .catch(err => res.status(400).json(err));
+      };
+  });
+
 //Aircraft Routes
   
 // Flight Time routes
