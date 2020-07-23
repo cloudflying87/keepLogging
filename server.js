@@ -10,7 +10,6 @@ require('dotenv').config()
 // Setting up port and requiring models for syncing
 var PORT = process.env.PORT || 8080;
 var db = require("./models");
-console.log("user_local env ",process.env.USER_LOCAL)
 
 // Creating express app and configuring middleware needed for authentication
 var app = express();

@@ -19,9 +19,9 @@ let csvStream = csv
     })
     .on("end", function () {
 		myData.shift();
-        
-        
-        
+
+
+
         // let connection;
 		// create a new connection to the database
 		const connection = mysql.createConnection({
@@ -43,7 +43,7 @@ let csvStream = csv
 			if (error) {
 				console.error(error);
 			} else if (importFile =='./db/sampleDataSmall2.csv') {
-				let query = 'INSERT INTO flighttimes (id,userId,date,tailnumber,depAir,enrRout,arrAir,flightNum,depTime,arrTime,landings,imc,hood,iap,holds,AircraftId,pic,sic,cfi,dualI,cxt,solo,total,dayLdg,night,nightLdg,comments,instructor,student) VALUES ?';
+				let query = 'INSERT INTO flighttimes (id,UserId,date,tailnumber,depAir,enrRout,arrAir,flightNum,depTime,arrTime,landings,imc,hood,iap,holds,AircraftId,pic,sic,cfi,dualI,cxt,solo,total,dayLdg,night,nightLdg,comments,instructor,student) VALUES ?';
 				connection.query(query, [myData], (error, response) => {
 					console.log(error || response);
 				});
@@ -86,7 +86,7 @@ stream.pipe(csvStream);
 
 //     // create a new connection to the database
 //     const connection = db.sequelize
-      
+
 
 //     // open the connection
 //     connection.connect(error => {
