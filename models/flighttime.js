@@ -37,7 +37,14 @@ module.exports = function(sequelize, DataTypes) {
         cfi: DataTypes.DECIMAL(5, 2),
         dualI: DataTypes.DECIMAL(5, 2),
         cxt: DataTypes.DECIMAL(5, 2),
-        comments: DataTypes.STRING
+        solo: DataTypes.DECIMAL(5, 2),
+        total: DataTypes.DECIMAL(5, 2),
+        dayLdg: DataTypes.INTEGER,
+        night: DataTypes.DECIMAL(5, 2),
+        nightLdg: DataTypes.INTEGER,
+        comments: DataTypes.STRING,
+        instructor: DataTypes.STRING,
+        student: DataTypes.STRING
     });
     return FlightTime;
 };
