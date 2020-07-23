@@ -1,18 +1,10 @@
 module.exports = function(sequelize, DataTypes) {
     const FlightTime = sequelize.define("FlightTime", {
-        userId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        //     refrences: {
-        //         model: User,
-        //         key: id
-        //     }
-        },
         date: {
             type: DataTypes.DATE,
             allowNull: false
         },
-        aircraftId: DataTypes.STRING,
+        tailNumber: DataTypes.STRING,
         depAir: DataTypes.STRING,
         enrRout: DataTypes.STRING,
         arrAir: DataTypes.STRING,
@@ -24,14 +16,6 @@ module.exports = function(sequelize, DataTypes) {
         hood: DataTypes.DECIMAL(5, 2),
         iap: DataTypes.INTEGER,
         holds: DataTypes.INTEGER,
-        aircraftType: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        //     refrences: {
-        //         model: Aircraft,
-        //         key: id
-        //     }
-        },
         pic: DataTypes.DECIMAL(5, 2),
         sic: DataTypes.DECIMAL(5, 2),
         cfi: DataTypes.DECIMAL(5, 2),
@@ -56,5 +40,15 @@ module.exports = function(sequelize, DataTypes) {
             defaultValue: sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
         },
     });
+
+    FlightTime.associate = function(models) {
+        FlightTime.belongsTo(models.User, {
+            foreignKey: {
+                allowNull: false
+            }
+        });
+        FlightTime.belongsTo(models.Aircraft);
+    };
+
     return FlightTime;
 };
