@@ -43,18 +43,6 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: true,
             defaultValue: 0
         },
-
-        // createdAt: {
-        //     allowNull: false,
-        //     type: DataTypes.DATE,
-        //     defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
-        // },
-        // updatedAt: {
-        //     allowNull: false,
-        //     type: DataTypes.DATE,
-        //     defaultValue: sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
-        // },
-
     });
 
     Aircraft.associate = function (models) {
