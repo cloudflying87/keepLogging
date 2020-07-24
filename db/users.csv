@@ -1,0 +1,4 @@
+id,email,password,createdAt,updatedAt
+1,d@d.com,$2a$10$BsLVkYAHo125zchKGlO8WelkkvE3AHm0K5sqo4X36U55fpJc.PX4.,"2020-07-24 12:31:14","2020-07-24 12:31:14"
+2,a@a.com,$2a$10$ydnlZZBumKU1xYshDVTchOniycKjq8dJ5ApudUha4OyMSDPq6rmPu,"2020-07-24 12:31:27","2020-07-24 12:31:27"
+3,b@b.com,$2a$10$8Be6tHcNZzBDJKSLs0lSEuaP7xh4LzI3aFFrUreCvNW0vmZkkxGQO,"2020-07-24 12:31:37","2020-07-24 12:31:37"
