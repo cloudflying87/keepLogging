@@ -21,14 +21,9 @@ module.exports = function (sequelize, DataTypes) {
         //     defaultValue: sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
         // }
     });
-    // Airport.associate = function (models) {
-    //     Airport.hasMany(models.FlightTime, {
-    //     foreignKey: {
-    //             name: "depAir",
-    //             allowNull: false
-    //         },
-    //         onDelete: "cascade",
-    //     });
-    // };
+    Airport.associate = function (models) {
+        Airport.hasMany(models.FlightTime);
+    };
+
     return Airport;
 }

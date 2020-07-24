@@ -80,7 +80,7 @@ module.exports = function (app) {
           UserId: req.params.userId,
           id: req.params.id
         },
-        include: db.Aircraft
+        include: [db.Aircraft, db.Airport.icao]
       })
         .then(results => res.json(results))
         .catch(err => res.status(404).json(err));
@@ -278,7 +278,7 @@ app.delete("/api/airports/delete/:id", function (req, res) {
 //         console.log(results)
 //         res.json(results)
 //       })
-        
+
 //       .catch(err => res.status(400).json(err));
 // });
 

@@ -61,7 +61,7 @@ for (let i = 0; i < importFile.length; i++) {
     stream.pipe(csvStream);
 }
 // ------------------------------------ old version
-/* 
+/*
 
 const fs = require('fs');
 const mysql = require('mysql2');
@@ -166,4 +166,4 @@ stream.pipe(csvStream);
 //   });
 
 // stream.pipe(csvStream);
-*/
+

@@ -42,17 +42,9 @@ module.exports = function(sequelize, DataTypes) {
     });
 
     FlightTime.associate = function(models) {
-        FlightTime.belongsTo(models.User, {
-            // foreignKey: {
-            //     allowNull: false
-            // }
-        });
+        FlightTime.belongsTo(models.User);
         FlightTime.belongsTo(models.Aircraft);
-        // FlightTime.belongsTo(models.Airport{
-        //     foreignKey: {
-
-        //     }
-        // })
+        FlightTime.belongsTo(models.Airport);
     };
 
     return FlightTime;
