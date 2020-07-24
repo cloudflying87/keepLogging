@@ -23,6 +23,10 @@ module.exports = function (sequelize, DataTypes) {
     });
     // Airport.associate = function (models) {
     //     Airport.hasMany(models.FlightTime, {
+    //     foreignKey: {
+    //             name: "depAir",
+    //             allowNull: false
+    //         },
     //         onDelete: "cascade",
     //     });
     // };

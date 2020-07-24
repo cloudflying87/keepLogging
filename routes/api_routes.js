@@ -1,6 +1,7 @@
 // Requiring our models and passport as we've configured it
 var db = require("../models");
 var passport = require("../config/passport");
+const { QueryTypes } = require("sequelize");
 
 // exporting this as a function to use in server.js
 module.exports = function (app) {
@@ -79,7 +80,7 @@ module.exports = function (app) {
           UserId: req.params.userId,
           id: req.params.id
         },
-        include: db.Aircraft
+        include: [db.Aircraft, db.Airport]
       })
         .then(results => res.json(results))
         .catch(err => res.status(404).json(err));
@@ -263,5 +264,22 @@ app.delete("/api/airports/delete/:id", function (req, res) {
       .catch(err => res.status(400).json(err));
   // };
 });
+
+// app.get("/api/airports/test", function (req, res) {
+//   // if (!req.user) {
+//   //   res.redirect(307, "/api/login");
+//   // } else {
+//     const airportTest = sequelize.query(
+//       'SELECT flighttimes.id , arr.latitude, arr.longitude, dep.latitude, dep.longitude FROM logbook_db.flighttimes ftime left outer join airports dep on ftime.depAir = dep.icao left outer join airports arr on ftime.arrAir = arr.icao;',
+//       {
+//       type:QueryTypes.SELECT,
+//     })
+//       .then(results => {
+//         console.log(results)
+//         res.json(results)
+//       })
+        
+//       .catch(err => res.status(400).json(err));
+// });
 
 };

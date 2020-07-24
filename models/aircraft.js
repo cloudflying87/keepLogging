@@ -1,4 +1,4 @@
-const airport = require("./airport");
+// const airport = require("./airport");
 
 module.exports = function (sequelize, DataTypes) {
     const Aircraft = sequelize.define("Aircraft", {
@@ -43,6 +43,7 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: true,
             defaultValue: 0
         },
+        
         // createdAt: {
         //     allowNull: false,
         //     type: DataTypes.DATE,
@@ -53,6 +54,7 @@ module.exports = function (sequelize, DataTypes) {
         //     type: DataTypes.DATE,
         //     defaultValue: sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
         // },
+        
     });
 
     Aircraft.associate = function (models) {
