@@ -3,8 +3,6 @@ $(document).ready(function() {
   var loginForm = $("form.login");
   var emailInput = $("input#email-input");
   var passwordInput = $("input#password-input");
-  const feedbackDiv = $("<div>");
-  const feedbackMsg = $("<p>")
 
   // When the form is submitted, we validate there's an email and password entered
   loginForm.on("submit", function(event) {
