@@ -10,16 +10,6 @@ module.exports = function (sequelize, DataTypes) {
         airportElevation: DataTypes.INTEGER,
         timeZone: DataTypes.INTEGER,
         timeZoneName: DataTypes.STRING,
-        // createdAt: {
-        //     allowNull: false,
-        //     type: DataTypes.DATE,
-        //     defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
-        // },
-        // updatedAt: {
-        //     allowNull: false,
-        //     type: DataTypes.DATE,
-        //     defaultValue: sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
-        // }
     });
     // Airport.associate = function (models) {
     //     Airport.hasMany(models.FlightTime, {
