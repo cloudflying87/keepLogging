@@ -60,4 +60,3 @@ for (let i = 0; i < importFile.length; i++) {
 
     stream.pipe(csvStream);
 }
-

@@ -36,7 +36,7 @@ $(document).ready(function() {
   }
 
   function handleLoginErr(err) {
-    $("#alert .msg").text(err.responseJSON);
+    $("#alert .msg").text(err.statusText + ": Account already exists for this email address");
     $("#alert").fadeIn(500);
   }
 });

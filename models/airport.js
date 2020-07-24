@@ -11,14 +11,9 @@ module.exports = function (sequelize, DataTypes) {
         timeZone: DataTypes.INTEGER,
         timeZoneName: DataTypes.STRING,
     });
-    // Airport.associate = function (models) {
-    //     Airport.hasMany(models.FlightTime, {
-    //     foreignKey: {
-    //             name: "depAir",
-    //             allowNull: false
-    //         },
-    //         onDelete: "cascade",
-    //     });
-    // };
+    Airport.associate = function (models) {
+        Airport.hasMany(models.FlightTime);
+    };
+
     return Airport;
 }

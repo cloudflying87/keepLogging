@@ -9,7 +9,13 @@ module.exports = function (app) {
   // If the user has valid login credentials, send them to the members page.
   // Otherwise the user will be sent an error
   app.post("/api/login", passport.authenticate("local"), function (req, res) {
-    res.json(req.user);
+    if (req.user) {
+      res.json(req.user);
+    }
+    else {
+      console.log("Inccorect email or password")
+    }
+
   });
 
   // Route for signing up a user. The user's password is automatically hashed and stored securely thanks to
@@ -75,15 +81,15 @@ module.exports = function (app) {
     // if (!req.user) {
     //   res.redirect(307, "/login");
     // } else {
-      db.FlightTime.findAll({
-        where: {
-          UserId: req.params.userId,
-          id: req.params.id
-        },
-        include: db.Aircraft
-      })
-        .then(results => res.json(results))
-        .catch(err => res.status(404).json(err));
+    db.FlightTime.findAll({
+      where: {
+        UserId: req.params.userId,
+        id: req.params.id
+      },
+      include: [db.Aircraft, db.Airport.icao]
+    })
+      .then(results => res.json(results))
+      .catch(err => res.status(404).json(err));
     // };
   });
 
@@ -103,14 +109,14 @@ module.exports = function (app) {
     // if (!req.user) {
     //   res.redirect(307, "/api/login");
     // } else {
-      db.FlightTime.update(req.body, {
-        where: {
-          UserId: req.params.UserId,
-          id: req.params.id
-        }
-      })
-        .then(results => res.json(results))
-        .catch(err => res.status(404).json(err));
+    db.FlightTime.update(req.body, {
+      where: {
+        UserId: req.params.UserId,
+        id: req.params.id
+      }
+    })
+      .then(results => res.json(results))
+      .catch(err => res.status(404).json(err));
     // };
   });
 
@@ -119,14 +125,14 @@ module.exports = function (app) {
     // if (!req.user) {
     //   res.redirect(307, "/api/login");
     // } else {
-      db.FlightTime.destroy({
-        where: {
-          UserId: req.params.UserId,
-          id: req.params.id
-        }
-      })
-        .then(results => res.json(results))
-        .catch(err => res.status(400).json(err));
+    db.FlightTime.destroy({
+      where: {
+        UserId: req.params.UserId,
+        id: req.params.id
+      }
+    })
+      .then(results => res.json(results))
+      .catch(err => res.status(400).json(err));
     // };
   });
 
@@ -150,13 +156,13 @@ module.exports = function (app) {
     // if (!req.user) {
     //   res.redirect(307, "/login");
     // } else {
-      db.Aircraft.findAll({
-        where: {
-          id: req.params.id
-        },
-      })
-        .then(results => res.json(results))
-        .catch(err => res.status(404).json(err));
+    db.Aircraft.findAll({
+      where: {
+        id: req.params.id
+      },
+    })
+      .then(results => res.json(results))
+      .catch(err => res.status(404).json(err));
     // };
   });
 
@@ -176,13 +182,13 @@ module.exports = function (app) {
     // if (!req.user) {
     //   res.redirect(307, "/api/login");
     // } else {
-      db.Aircraft.update(req.body, {
-        where: {
-          id: req.params.id
-        }
-      })
-        .then(results => res.json(results))
-        .catch(err => res.status(404).json(err));
+    db.Aircraft.update(req.body, {
+      where: {
+        id: req.params.id
+      }
+    })
+      .then(results => res.json(results))
+      .catch(err => res.status(404).json(err));
     // };
   });
 
@@ -191,32 +197,32 @@ module.exports = function (app) {
     // if (!req.user) {
     //   res.redirect(307, "/api/login");
     // } else {
-      db.Aircraft.destroy({
-        where: {
-          id: req.params.id
-        }
-      })
-        .then(results => res.json(results))
-        .catch(err => res.status(400).json(err));
+    db.Aircraft.destroy({
+      where: {
+        id: req.params.id
+      }
+    })
+      .then(results => res.json(results))
+      .catch(err => res.status(400).json(err));
     // };
   });
-// -----------------------------------------
-// Airport Routes
+  // -----------------------------------------
+  // Airport Routes
 
-app.get("/api/airports/", function (req, res) {
-  // if (!req.user) {
-  //   res.redirect(307, "/login");
-  // } else {
+  app.get("/api/airports/", function (req, res) {
+    // if (!req.user) {
+    //   res.redirect(307, "/login");
+    // } else {
     db.Airport.findAll()
       .then(results => res.json(results))
       .catch(err => res.status(404).json(err));
-  // };
-});
+    // };
+  });
 
-app.get("/api/airports/:id", function (req, res) {
-  // if (!req.user) {
-  //   res.redirect(307, "/login");
-  // } else {
+  app.get("/api/airports/:id", function (req, res) {
+    // if (!req.user) {
+    //   res.redirect(307, "/login");
+    // } else {
     db.Airport.findAll({
       where: {
         id: req.params.id
@@ -224,23 +230,23 @@ app.get("/api/airports/:id", function (req, res) {
     })
       .then(results => res.json(results))
       .catch(err => res.status(404).json(err));
-  // };
-});
+    // };
+  });
 
-app.post("/api/airports/", function (req, res) {
-  // if (!req.user) {
-  //     res.redirect(307, "/login");
-  // } else {
-  db.Airport.create(req.body)
-    .then(results => res.json(results))
-    .catch(err => res.status(404).json(err));
-  // };
-});
+  app.post("/api/airports/", function (req, res) {
+    // if (!req.user) {
+    //     res.redirect(307, "/login");
+    // } else {
+    db.Airport.create(req.body)
+      .then(results => res.json(results))
+      .catch(err => res.status(404).json(err));
+    // };
+  });
 
-app.post("/api/airports/update/:id", function (req, res) {
-  // if (!req.user) {
-  //   res.redirect(307, "/api/login");
-  // } else {
+  app.post("/api/airports/update/:id", function (req, res) {
+    // if (!req.user) {
+    //   res.redirect(307, "/api/login");
+    // } else {
     db.Airport.update(req.body, {
       where: {
         id: req.params.id
@@ -248,13 +254,13 @@ app.post("/api/airports/update/:id", function (req, res) {
     })
       .then(results => res.json(results))
       .catch(err => res.status(404).json(err));
-  // };
-});
+    // };
+  });
 
-app.delete("/api/airports/delete/:id", function (req, res) {
-  // if (!req.user) {
-  //   res.redirect(307, "/api/login");
-  // } else {
+  app.delete("/api/airports/delete/:id", function (req, res) {
+    // if (!req.user) {
+    //   res.redirect(307, "/api/login");
+    // } else {
     db.Airport.destroy({
       where: {
         id: req.params.id
@@ -262,25 +268,25 @@ app.delete("/api/airports/delete/:id", function (req, res) {
     })
       .then(results => res.json(results))
       .catch(err => res.status(400).json(err));
-  // };
-});
+    // };
+  });
 
-// app.get("/api/airports/test", function (req, res) {
-//   // if (!req.user) {
-//   //   res.redirect(307, "/api/login");
-//   // } else {
-//     const airportTest = sequelize.query(
-//       'SELECT flighttimes.id , arr.latitude, arr.longitude, dep.latitude, dep.longitude FROM logbook_db.flighttimes ftime left outer join airports dep on ftime.depAir = dep.icao left outer join airports arr on ftime.arrAir = arr.icao;',
-//       {
-//       type:QueryTypes.SELECT,
-//     })
-//       .then(results => {
-//         console.log(results)
-//         res.json(results)
-//       })
-        
-//       .catch(err => res.status(400).json(err));
-// });
+  // app.get("/api/airports/test", function (req, res) {
+  //   // if (!req.user) {
+  //   //   res.redirect(307, "/api/login");
+  //   // } else {
+  //     const airportTest = sequelize.query(
+  //       'SELECT flighttimes.id , arr.latitude, arr.longitude, dep.latitude, dep.longitude FROM logbook_db.flighttimes ftime left outer join airports dep on ftime.depAir = dep.icao left outer join airports arr on ftime.arrAir = arr.icao;',
+  //       {
+  //       type:QueryTypes.SELECT,
+  //     })
+  //       .then(results => {
+  //         console.log(results)
+  //         res.json(results)
+  //       })
+
+  //       .catch(err => res.status(400).json(err));
+  // });
 
 
 };
