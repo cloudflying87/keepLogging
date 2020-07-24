@@ -35,17 +35,17 @@ for (let i = 0; i < importFile.length; i++) {
                 if (error) {
                     console.error(error);
                 } else if (importFile[i] =='./db/sampleDataSmall2.csv') {
-                    let query = 'INSERT INTO flighttimes (id,UserId,date,tailnumber,depAir,enrRout,arrAir,flightNum,depTime,arrTime,landings,imc,hood,iap,holds,AircraftId,pic,sic,cfi,dualI,cxt,solo,total,dayLdg,night,nightLdg,comments,instructor,student) VALUES ?';
+                    let query = 'INSERT INTO flighttimes (id,UserId,date,tailnumber,depAir,enrRout,arrAir,flightNum,depTime,arrTime,landings,imc,hood,iap,holds,AircraftId,pic,sic,cfi,dualI,cxt,solo,total,dayLdg,night,nightLdg,comments,instructor,student,createdAt,updatedAt) VALUES ?';
                     connection.query(query, [myData], (error, response) => {
                         console.log(error || response);
                     });
                 } else if (importFile[i] =='./db/airplanes.csv') {
-                    let query = 'INSERT INTO aircraft (id,aircraftType,class,numEngine, tailWheel,complex,highPerf,turboFan,turboProp,rotorcraft,poweredLift) VALUES ?'
+                    let query = 'INSERT INTO aircraft (id,aircraftType,class,numEngine, tailWheel,complex,highPerf,turboFan,turboProp,rotorcraft,poweredLift,createdAt,updatedAt) VALUES ?'
                         connection.query(query, [myData], (error, response) => {
                         console.log(error || response);
                     })
                 } else if (importFile [i] =='./db/airports.csv') {
-                    let query = 'INSERT INTO airports (id,airportName,airportCity,airportCountry,threeLetter,icao,latitude,longitude,airportElevation,timeZone,timeZoneName) VALUES ?'
+                    let query = 'INSERT INTO airports (id,airportName,airportCity,airportCountry,threeLetter,icao,latitude,longitude,airportElevation,timeZone,timeZoneName,createdAt,updatedAt) VALUES ?'
                         connection.query(query, [myData], (error, response) => {
                         console.log(error || response);
                     })
