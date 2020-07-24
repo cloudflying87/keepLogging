@@ -1,3 +1,5 @@
+const airport = require("./airport");
+
 module.exports = function (sequelize, DataTypes) {
     const Aircraft = sequelize.define("Aircraft", {
         aircraftType: {
@@ -63,6 +65,7 @@ module.exports = function (sequelize, DataTypes) {
             //   allowNull: false
         });
     };
+    
 
     return Aircraft;
 };

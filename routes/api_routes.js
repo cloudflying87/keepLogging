@@ -199,5 +199,69 @@ module.exports = function (app) {
         .catch(err => res.status(400).json(err));
     // };
   });
+// -----------------------------------------
+// Airport Routes
+
+app.get("/api/airports/", function (req, res) {
+  // if (!req.user) {
+  //   res.redirect(307, "/login");
+  // } else {
+    db.Airport.findAll()
+      .then(results => res.json(results))
+      .catch(err => res.status(404).json(err));
+  // };
+});
+
+app.get("/api/airports/:id", function (req, res) {
+  // if (!req.user) {
+  //   res.redirect(307, "/login");
+  // } else {
+    db.Airport.findAll({
+      where: {
+        id: req.params.id
+      },
+    })
+      .then(results => res.json(results))
+      .catch(err => res.status(404).json(err));
+  // };
+});
+
+app.post("/api/airports/", function (req, res) {
+  // if (!req.user) {
+  //     res.redirect(307, "/login");
+  // } else {
+  db.Airport.create(req.body)
+    .then(results => res.json(results))
+    .catch(err => res.status(404).json(err));
+  // };
+});
+
+app.post("/api/airports/update/:id", function (req, res) {
+  // if (!req.user) {
+  //   res.redirect(307, "/api/login");
+  // } else {
+    db.Airport.update(req.body, {
+      where: {
+        id: req.params.id
+      }
+    })
+      .then(results => res.json(results))
+      .catch(err => res.status(404).json(err));
+  // };
+});
+
+app.delete("/api/airports/delete/:id", function (req, res) {
+  // if (!req.user) {
+  //   res.redirect(307, "/api/login");
+  // } else {
+    db.Airport.destroy({
+      where: {
+        id: req.params.id
+      }
+    })
+      .then(results => res.json(results))
+      .catch(err => res.status(400).json(err));
+  // };
+});
 
 };
