@@ -85,6 +85,7 @@ let csvStream = csv
     })
     .on("end", function () {
 		myData.shift();
+
 		const connection = mysql.createConnection({
             host: host,
             port: port,
@@ -117,4 +118,52 @@ let csvStream = csv
 
 stream.pipe(csvStream);
 
+
+*/
+
+
+// const fs = require("fs");
+// // const mysql = require("mysql");
+// const fastcsv = require("fast-csv");
+// var env       = process.env.NODE_ENV || 'development';
+// var Sequelize = require('sequelize');
+// var config    = require(__dirname + '/../config/config')[env];
+// var db = require("../models");
+
+// if (config.use_env_variable) {
+//     var sequelize = new Sequelize(process.env[config.use_env_variable]);
+//   } else {
+//     var sequelize = new Sequelize(config.database, config.username, config.password, config);
+//   }
+
+// let stream = fs.createReadStream("sampledataSmall.csv");
+// let csvData = [];
+// let csvStream = fastcsv
+//   .parse()
+//   .on("data", function(data) {
+//     csvData.push(data);
+//   })
+//   .on("end", function() {
+//     // remove the first line: header
+//     csvData.shift();
+
+//     // create a new connection to the database
+//     const connection = db.sequelize
+
+
+//     // open the connection
+//     connection.connect(error => {
+//       if (error) {
+//         console.error(error);
+//       } else {
+//         let query =
+//           "INSERT INTO flighttimes (id, name, description, created_at) VALUES ?";
+//         connection.query(query, [csvData], (error, response) => {
+//           console.log(error || response);
+//         });
+//       }
+//     });
+//   });
+
+// stream.pipe(csvStream);
 */
