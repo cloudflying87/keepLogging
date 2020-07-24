@@ -1,4 +1,4 @@
-﻿id,userID,date,tailnumber,depAir,enrRout,arrAir,flightNum,depTime,arrTime,landings,imc,hood,iap,holds,AircraftId,pic,sic,cfi,dualI,cxt,Solo,Total,dayLdg,night,nightLdg,Remarks,Instructor/Captain/FO,Student/FA
+﻿id,UserId,date,tailnumber,depAir,enrRout,arrAir,flightNum,depTime,arrTime,landings,imc,hood,iap,holds,AircraftId,pic,sic,cfi,dualI,cxt,Solo,Total,dayLdg,night,nightLdg,Remarks,Instructor/Captain/FO,Student/FA
 1,1,2008-01-24,N35LU,KGGG,,KGGG,,,,1,0,0,0,0,9,0,0,0,1.1,0,0,1.1,1,0,0,"Constant airspeed climb/descent, level turns, use of flaps, normal t/o and lnd, primary and secondary effects",Caleb Brown,
 2,1,2008-01-25,N35LU,KGGG,3F4,KGGG,,,,2,0,0,0,0,9,0,0,0,1.4,0,0,1.4,1,0.7,1,"Worked on straight and level flight, correcting for wind, Flight to Vivan and back",Caleb Brown,
 3,1,2008-01-26,N36LU,KGGG,KTYR,KGGG,,,,2,0,0,0,0,9,0,0,0,1.4,0,0,1.4,2,0,0,"Climbs turns and descents with and without Flaps, Flight to Tyler",Caleb Brown,
