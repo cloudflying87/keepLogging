@@ -200,6 +200,24 @@ module.exports = function (app) {
       .catch(err => res.status(400).json(err));
     // };
   });
+
+  app.get("/api/aircraft/:aircraftType", function (req, res) {
+    // if (!req.user) {
+    //   res.redirect(307, "/login");
+    // } else {
+    db.Aircraft.findAll({
+      where:{
+        aircraftType:"C=172"
+      }
+    })
+      .then(results => {
+        console.log('Working')
+        res.json(results)
+      })
+        
+      .catch(err => res.status(404).json(err));
+    // };
+  });
   // -----------------------------------------
   // Airport Routes
 
