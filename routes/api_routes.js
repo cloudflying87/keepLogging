@@ -80,7 +80,7 @@ module.exports = function (app) {
         UserId: req.params.userId,
         id: req.params.id
       },
-      include: [db.Aircraft, db.Airport.icao]
+      // include: [db.Aircraft, db.Airport.icao]
     })
       .then(results => res.json(results))
       .catch(err => res.status(404).json(err));

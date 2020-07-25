@@ -23,6 +23,11 @@ $("#create-flight").on("click", function (e) {
     createFlight();
 });
 
+$('#createFlightButton').on('click', function (e) {
+    e.preventDefault();
+    writeFlightTime();
+})
+
 function createInputLoop(arr1, arr2) {
     $accordian.append('<p>', arr2[0])
     for (let i = 1; i < arr1.length; i++) {
@@ -35,7 +40,7 @@ function createInputLoop(arr1, arr2) {
         $accordian.append($label, $input)
     };
 }
-// Used to make all of the input boxes for the create flight section 
+// Used to make all of the input boxes for the create flight section
 function createFlight() {
     //General Flight Info
     const generalFlight = ['', 'date', 'tailNumber', 'aircraftID', 'depAir', 'enrRout', 'arrAir', 'comments']
@@ -53,7 +58,7 @@ function createFlight() {
 
     const newButton = $("<button>").attr('id', 'createFlightButton').text("Add Flight")
     $accordian.append(newButton)
-    
+
     $("#createFlightButton").click(function (event){
         event.preventDefault();
         writeFlightTime();
@@ -142,7 +147,7 @@ function writeFlightTime(){
     };
     $.post("/api/flight_time", {
         UserId: userData.id,
-        
+
         date: $("#date").val(),
         tailNumber: $("#tailNumber").val().trim(),
         AircraftID: $("#aircraftID").val().trim(),
@@ -159,7 +164,7 @@ function writeFlightTime(){
         cxt: cxt,
         night: night,
         hood: hood,
-        imc: imc,        
+        imc: imc,
         dual: dual,
         cfi: cfi,
         sic: sic,
@@ -173,22 +178,64 @@ function writeFlightTime(){
       .catch(function(err) {
         console.log(err.responseJSON.parent)
       });
-    
+
 }
+
+// function for getting all flights associated with the logged in user
 function getFlights(userId) {
     $.ajax({
         method: "GET",
         url: `/api/flight_time/${userId}`
     })
-        .then(flights => {
-
-            for (const property in flights) {
-                // console.log(flights[property])
-                // const $p = $("<p>").text(JSON.stringify(flights[property].property));
-                // $("#flight-times").append($p);
-
-            }
-        })
+        .then(async flights => await displayFlightTimeTable(flights))
         .catch(err => console.error(err));
+};
 
+// function for displaying all flight times in a table
+function displayFlightTimeTable(flights) {
+    console.log("flights: ", flights) // flights is an array of objects coming back from the db, where each object is 1 flighttime.
+
+    // creates an array of names from flight_time table to use as table column names
+    //doing this in html, but saving the code for potential future refactoring
+    // let col = [];
+    // for (let i = 0; i < flights.length; i++) {
+    //     for (const key in flights[i]) {
+    //         if (col.indexOf(key) === -1) {
+    //             col.push(key);
+    //         };
+    //     };
+    // };
+    // console.log(col);
+
+    // pushing the values from the flgihts object into an array
+    // array to hold flight_time data
+    let data = [];
+    const $tbody = $("#body");
+    let $tr;
+    let $td;
+    for (let i = 0; i < flights.length; i++) {
+        // extract the values from flight_time and push them into data array in order to populate the table
+        $th = $("<th>").attr("scope", "row").text([i + 1]);
+        $tr = $("<tr>")
+        for (const values in flights[i]) {
+            // push all the flights data into the array, except for the Aircraft object
+            // if (typeof flights[i][values] !== "object") {
+            //     data.push(flights[i][values])
+            //     // push the first 32 indeces of the array into a new array
+            //     //
+            // };
+            $td = $("<td>").text(flights[i][values]); //flights[i] {id:4, date:...}
+            $tr.append($td)
+        };
+        $tbody.append($th, $tr);
+
+        // pushing the values from the aircraft object into an array
+        let aircraftValues = []
+        for (const values in data[32]) {
+            // console.log("DATA32VALUES: ", data[32][values])
+            aircraftValues.push(data[32][values])
+        };
+        // console.log(data[32].id)
+        // console.log("Aircraft Values: ", aircraftValues)
+    };
 };
