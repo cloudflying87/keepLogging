@@ -61,47 +61,6 @@ function writeFlightTime() {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // function for getting all flights associated with the logged in user
 function getFlights(userId) {
     $.ajax({
@@ -114,21 +73,20 @@ function getFlights(userId) {
 
 // function for displaying all flight times in a table
 function displayFlightTimeTable(flights) {
-    // console.log(flights)
+    console.log("flights: ", flights) // flights is an array of objects coming back from the db, where each object is 1 flighttime.
 
     // creates an array of names from flight_time table to use as table column names
+    //doing this in html, but saving the code for potential future refactoring
     // let col = [];
     // for (let i = 0; i < flights.length; i++) {
     //     for (const key in flights[i]) {
     //         if (col.indexOf(key) === -1) {
     //             col.push(key);
     //         };
-
     //     };
     // };
     // console.log(col);
 
-    //TODO: create another for in loop to grab the values of those keys, and then add those to the table with another for loop, similar to the one below.
     // pushing the values from the flgihts object into an array
     // array to hold flight_time data
     let data = [];
@@ -137,45 +95,27 @@ function displayFlightTimeTable(flights) {
     let $td;
     for (let i = 0; i < flights.length; i++) {
         // extract the values from flight_time and push them into data array in order to populate the table
+        $th = $("<th>").attr("scope", "row").text([i + 1]);
+        $tr = $("<tr>")
         for (const values in flights[i]) {
             // push all the flights data into the array, except for the Aircraft object
-            if (typeof flights[i][values] !== "object") {
-                data.push(flights[i][values])
-            };
+            // if (typeof flights[i][values] !== "object") {
+            //     data.push(flights[i][values])
+            //     // push the first 32 indeces of the array into a new array
+            //     //
+            // };
+            $td = $("<td>").text(flights[i][values]); //flights[i] {id:4, date:...}
+            $tr.append($td)
         };
-
-        // make a number of rows in the table equal to the number of flights
-        $tr = $("<tr>")
-        $th = $("<th>").attr("scope", "row").text([i + 1]);
-        $td = $("<td>");
-        $tr.append($td)
         $tbody.append($th, $tr);
-        // data.forEach(e => {
-        //     $td = $td.text(e)
-        //     console.log("e: ", e)
-        // })
+
+        // pushing the values from the aircraft object into an array
+        let aircraftValues = []
+        for (const values in data[32]) {
+            // console.log("DATA32VALUES: ", data[32][values])
+            aircraftValues.push(data[32][values])
+        };
+        // console.log(data[32].id)
+        // console.log("Aircraft Values: ", aircraftValues)
     };
-
-    // console.log("data", data)
-
-    // pushing the values from the aircraft object into an array
-    let aircraftValues = []
-    for (const values in data[32]) {
-        // console.log("DATA32VALUES: ", data[32][values])
-        aircraftValues.push(data[32][values])
-    }
-    // console.log(data[32].id)
-    // console.log("Aircraft Values: ", aircraftValues)
-
-
-    // making the table
-    // for (let i = 1; i < data.length; i++) {
-    //     console.log("data: ", data[i], i)
-    //     const $td = $("<td>");
-    //     $td.text(data[i])
-    //     $tr = $tr.append($td);
-    //     $tbody.append($tr)
-
-    // };
-
 };
