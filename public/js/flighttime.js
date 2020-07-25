@@ -26,27 +26,29 @@ $("#create-flight").on("click", function (e) {
 function createInputLoop(arr1, arr2) {
     $accordian.append('<p>', arr2[0])
     for (let i = 1; i < arr1.length; i++) {
-        const $input = $(`<input class='form-control placeholder='${arr1[0]}'>`);
-        const $label = $("<label>")
-        $input.attr('id', arr1[i])
-        $label.text(arr2[i])
+        const $input = $('<input class=form-control>');
+        const $label = $("<label>");
+        $input.attr('id', arr1[i]);
+        $input.attr('placeholder', arr1[0]);
+        $input.addClass(arr2[1]);
+        $label.text(arr2[i+1]);
         $accordian.append($label, $input)
     };
 }
-
+// Used to make all of the input boxes for the create flight section 
 function createFlight() {
     //General Flight Info
     const generalFlight = ['', 'date', 'tailNumber', 'aircraftID', 'depAir', 'enrRout', 'arrAir', 'comments']
-    const generalFlightInfo = ['General Flight Information', 'Date', 'Tail Number', 'Aircraft Type', 'Departure Airport', 'Enroute Airports', 'ArrivalAirports', 'Comments']
+    const generalFlightInfo = ['General Flight Information', 'general', 'Date', 'Tail Number', 'Aircraft Type', 'Departure Airport', 'Enroute Airports', 'ArrivalAirports', 'Comments']
     createInputLoop(generalFlight, generalFlightInfo)
 
     // Landings and Approaches
-    const approachLanding = ['0', 'approach', 'holds', 'totalLandings', 'dayLdg', 'nightLdg']
-    const approachLandingInfo = ['Aproaches and Landings', 'Approach', 'Holds', 'Total Landings', 'Day Landing', 'Night Landing']
+    const approachLanding = [0, 'approach', 'holds', 'totalLandings', 'dayLdg', 'nightLdg']
+    const approachLandingInfo = ['Aproaches and Landings','app', 'Approach', 'Holds', 'Total Landings', 'Day Landing', 'Night Landing']
     createInputLoop(approachLanding, approachLandingInfo)
     // Times
-    const flightTimesIds = ['0.00', 'total', 'cxt', 'night', 'hood', 'imc', 'dual', 'cfi', 'sic', 'pic']
-    const flightTimesidsLabel = ['Flight Times', 'Total', 'Cross-Country', 'Night', 'Simulated Instrument', 'IMC', 'Dual (Instruction Recieved)', 'CFI (Instructor)', 'SIC (Second in Command)', 'PIC (Pilot in Command)']
+    const flightTimesIds = [0.00, 'total', 'cxt', 'night', 'hood', 'imc', 'dual', 'cfi', 'sic', 'pic']
+    const flightTimesidsLabel = ['Flight Times','times', 'Total', 'Cross-Country', 'Night', 'Simulated Instrument', 'IMC', 'Dual (Instruction Recieved)', 'CFI (Instructor)', 'SIC (Second in Command)', 'PIC (Pilot in Command)']
     createInputLoop(flightTimesIds, flightTimesidsLabel)
 
     const newButton = $("<button>").attr('id', 'createFlightButton').text("Add Flight")
@@ -56,11 +58,18 @@ function createFlight() {
         event.preventDefault();
         writeFlightTime();
     })
-
 };
 
 function writeFlightTime(){
-    console.log(userData.id)
+    const NULL = null
+   $('.form-control').each(function(){
+        console.log($(this).attr('class'))
+    if ($(this).hasClass('general')) {
+        const generalName = $(this).attr('id')
+    }
+            Error();
+    });
+
     if ($("#imc").val().trim()==''){
         imc = 0.00
     } else {
@@ -77,7 +86,7 @@ function writeFlightTime(){
         holds = $("#holds").val().trim()
     };
     if ($("#pic").val().trim()==''){
-        pic = 0.00
+        pic = NULL
     } else {
         pic = $("#pic").val().trim()
     };
