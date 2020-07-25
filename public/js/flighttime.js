@@ -28,6 +28,16 @@ $('#createFlightButton').on('click', function (e) {
     writeFlightTime();
 })
 
+$('#create-aircraft').on('click', function(e) {
+    e.preventDefault();
+    $accordian.empty();
+    createAircraft();
+})
+
+$('#create-aircraft-button').on('click', function (e) {
+    e.preventDefault();
+})
+
 function createInputLoop(arr1, arr2) {
     $accordian.append('<p>', arr2[0])
     for (let i = 1; i < arr1.length; i++) {
@@ -181,6 +191,19 @@ function writeFlightTime(){
 
 }
 
+// function for input boxes for create aircraft section
+function createAircraft() {
+
+    const generalAircraft = ['', 'aircraftType', 'class', 'numEngine', 'tailWheel', 'complex', 'highPerf', 'turboFan', 'turboProp', 'rototcraft', 'poweredLift'];
+
+    const generalAircraftInfo = ['General Aircraft Information', 'general', 'Aircraft Type', 'Class', 'Number of Engines', 'Tail Wheel', 'Complex', 'High Perf', 'Turbo Fan', 'Turbo Prop', 'Rotocraft', 'Powered Lift'];
+
+    createInputLoop(generalAircraft, generalAircraftInfo);
+
+    const newButton = $("<button>").attr('id', 'create-aircraft-button').text("Add Aircraft")
+    $accordian.append(newButton)
+
+}
 // function for getting all flights associated with the logged in user
 function getFlights(userId) {
     $.ajax({
@@ -230,7 +253,7 @@ function displayFlightTimeTable(flights) {
             $td = $("<td>").text(flights[i][values]); //flights[i] {id:4, date:...}
             $tr.append($td)
         };
-        
+
         let $button = $("<button>")
         .text("Edit")
         .attr('data-ft-id', flights[i].id);
