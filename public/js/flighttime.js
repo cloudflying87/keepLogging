@@ -215,7 +215,9 @@ function displayFlightTimeTable(flights) {
     let $td;
     for (let i = 0; i < flights.length; i++) {
         // extract the values from flight_time and push them into data array in order to populate the table
-        $th = $("<th>").attr("scope", "row").text([i + 1]);
+        $th = $("<th>")
+        .attr("scope", "row")
+        .text([i + 1]);
         $tr = $("<tr>")
         for (const values in flights[i]) {
             // push all the flights data into the array, except for the Aircraft object
@@ -224,9 +226,15 @@ function displayFlightTimeTable(flights) {
             //     // push the first 32 indeces of the array into a new array
             //     //
             // };
+            // console.log("flights at i .id: ",flights[i].id)
             $td = $("<td>").text(flights[i][values]); //flights[i] {id:4, date:...}
             $tr.append($td)
         };
+        
+        let $button = $("<button>")
+        .text("Edit")
+        .attr('data-ft-id', flights[i].id);
+        $tr.append($button);
         $tbody.append($th, $tr);
 
         // pushing the values from the aircraft object into an array

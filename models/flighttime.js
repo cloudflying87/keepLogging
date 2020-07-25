@@ -19,6 +19,7 @@ module.exports = function(sequelize, DataTypes) {
         pic: {
            type: DataTypes.DECIMAL(5, 2),
            allowNull: true
+        //    default: 
         },
         sic: DataTypes.DECIMAL(5, 2),
         cfi: DataTypes.DECIMAL(5, 2),
