@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
         depTime: DataTypes.TIME,
         arrTime: DataTypes.TIME,
         landings: DataTypes.INTEGER,
-        imc: DataTypes.DECIMAL,
+        imc: DataTypes.DECIMAL(5, 2),
         hood: DataTypes.DECIMAL(5, 2),
         iap: DataTypes.INTEGER,
         holds: DataTypes.INTEGER,
@@ -34,7 +34,7 @@ module.exports = function(sequelize, DataTypes) {
     FlightTime.associate = function(models) {
         FlightTime.belongsTo(models.User);
         FlightTime.belongsTo(models.Aircraft);
-        FlightTime.belongsTo(models.Airport);
+        // FlightTime.belongsTo(models.Airport);
     };
 
     return FlightTime;
