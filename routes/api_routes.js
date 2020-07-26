@@ -142,25 +142,26 @@ module.exports = function (app) {
     //     res.redirect(307, "/api/login");
     // } else {
     db.FlightTime
-      .sum({
-        where: { 
-          UserId: req.params.userId,
-        },
-        // attributes: [
-        //   'UserId',
-        //     [sequelize.fn('sum', sequelize.col('imc')), 'total_imc'],
-        //     [sequelize.fn('sum', sequelize.col('imc')), 'total_imc'],
-        //     [sequelize.fn('sum', sequelize.col('imc')), 'total_imc'],
-        //     [sequelize.fn('sum', sequelize.col('imc')), 'total_imc'],
-        //     [sequelize.fn('sum', sequelize.col('imc')), 'total_imc']
-        // ],
-        // group: ['UserId']
+      .findAll({
+        where: {UserId: req.params.userId},
+        attributes: [
+          [sequelize.fn('sum', sequelize.col('imc')), 'imc'],
+          [sequelize.fn('sum', sequelize.col('hood')), 'hood'],
+          [sequelize.fn('sum', sequelize.col('iap')), 'iap'],
+          [sequelize.fn('sum', sequelize.col('holds')), 'holds'],
+          [sequelize.fn('sum', sequelize.col('pic')), 'pic'],
+          [sequelize.fn('sum', sequelize.col('sic')), 'sic'],
+          [sequelize.fn('sum', sequelize.col('cfi')), 'cfi'],
+          [sequelize.fn('sum', sequelize.col('dualI')), 'dualI'],
+          [sequelize.fn('sum', sequelize.col('cxt')), 'cxt'],
+          [sequelize.fn('sum', sequelize.col('solo')), 'solo'],
+        ]
       })
-      .then(results => res.json(results))
+      .then(sum => res.json(sum))
       .catch(err => res.status(404).json(err));
     // };
   });
-  //-----------------------------------------------------------------------------------------------------------------------
+  // ----------------------------------------------------------
   // aircraft routes begin here
 
 
