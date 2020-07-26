@@ -43,8 +43,8 @@ function createInputLoop(arr1, arr2) {
 // Used to make all of the input boxes for the create flight section
 function createFlight() {
     //General Flight Info
-    const generalFlight = ['', 'date', 'tailNumber', 'aircraftID', 'depAir', 'enrRout', 'arrAir', 'comments']
-    const generalFlightInfo = ['General Flight Information', 'general', 'Date', 'Tail Number', 'Aircraft Type', 'Departure Airport', 'Enroute Airports', 'ArrivalAirports', 'Comments']
+    const generalFlight = ['', 'date', 'tailNumber', 'aircraftID', 'depAir', 'enrRout', 'arrAir', 'comments','inst','stu']
+    const generalFlightInfo = ['General Flight Information', 'general', 'Date', 'Tail Number', 'Aircraft Type', 'Departure Airport', 'Enroute Airports', 'ArrivalAirports', 'Comments','Instructor','Student']
     createInputLoop(generalFlight, generalFlightInfo)
 
     // Landings and Approaches
@@ -206,7 +206,7 @@ function getFlights(userId) {
 
 // function for displaying all flight times in a table
 function displayFlightTimeTable(flights) {
-    // console.log("flights: ", flights) // flights is an array of objects coming back from the db, where each object is 1 flighttime.
+    console.log("flights: ", flights) // flights is an array of objects coming back from the db, where each object is 1 flighttime.
 
     // creates an array of names from flight_time table to use as table column names
     //doing this in html, but saving the code for potential future refactoring
@@ -269,17 +269,7 @@ function displayFlightTimeTable(flights) {
     $('.delete-flight').click(function (event){
         const flightDeleteId = $(this).attr('data-ft-id')
         deleteFlights(flightDeleteId)
-
     })
-
-    function deleteFlights(deleteId) {
-        $.ajax({
-            method: "DELETE",
-            url: `/api/flight_time/delete/${userData.id}/${deleteId}`
-        })
-            .then(getFlights(userData.id))
-            .catch(err => console.error(err));
-    };
 
     $('.editButton').click(function (event){
         event.preventDefault();
@@ -287,12 +277,13 @@ function displayFlightTimeTable(flights) {
         $accordian.empty();
         $('#create').collapse('toggle')
         createFlight()
-        editFlights(flightEditId)
+        editFlightsAPICall(flightEditId)
 
     })
 };
 
-function editFlights(flightId) {
+
+function editFlightsAPICall(flightId) {
     $.ajax({
         method: "GET",
         url: `/api/flight_time/${userData.id}/${flightId}`
@@ -304,6 +295,43 @@ function editFlights(flightId) {
 function editFlightTime(flight){
     console.log(flight)
     $('.form-control').each(function(){
-        $("#date").val(flight[0].date)
+        console.log($(this).attr('id'))
     })
+        $("#date").val(flight[0].date);
+        $("#tailNumber").val(flight[0].tailNumber);
+        $("#aircraftID").val(flight[0].aircraftId);
+        $("#depAir").val(flight[0].depAir);
+        $("#enrRout").val(flight[0].enrRout);
+        $("#arrAir").val(flight[0].arrAir);
+        $("#comments").val(flight[0].comments);
+        $("#inst").val(flight[0].instructor);
+        $("#stu").val(flight[0].student);
+        $("#approach").val(flight[0].iap);
+        $("#holds").val(flight[0].holds);
+        $("#totalLandings").val(flight[0].landings)
+        $("#dayLdg").val(flight[0].dayLdg)
+        $("#nightLdg").val(flight[0].nightLdg)
+        $("#total").val(flight[0].total)
+        $("#cxt").val(flight[0].cxt)
+        $("#night").val(flight[0].night)
+        $("#hood").val(flight[0].hood)
+        $("#imc").val(flight[0].imc)
+        $("#dualI").val(flight[0].dualI)
+        $("#cfi").val(flight[0].cfi)
+        $("#pic").val(flight[0].pic)
+        $("#sic").val(flight[0].sic)
+        $("#solo").val(flight[0].solo)
+        
+    
 }
+
+// To delete flights function
+function deleteFlights(deleteId) {
+    $.ajax({
+        method: "DELETE",
+        url: `/api/flight_time/delete/${userData.id}/${deleteId}`
+    })
+    // attempting to refresh the page. Not currently doing that as desired. Trying to call the document load function to repopluate the table at the bottom of the page. 
+        .then(getFlights(userData.id))
+        .catch(err => console.error(err));
+};
