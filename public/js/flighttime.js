@@ -252,7 +252,9 @@ function displayFlightTimeTable(flights) {
         .text("Edit")
         .attr('data-ft-id', flights[i].id)
         .addClass('editButton');
-        $tr.append($button);
+        const $delBtn = $("<i class='fas fa-trash-alt float-right text-danger delete-flight'>")
+        .attr('data-ft-id', flights[i].id)
+        $tr.append($button,$delBtn);
         $tbody.append($th, $tr);
 
         // pushing the values from the aircraft object into an array
@@ -264,9 +266,27 @@ function displayFlightTimeTable(flights) {
         // console.log(data[32].id)
         // console.log("Aircraft Values: ", aircraftValues)
     };
+    $('.delete-flight').click(function (event){
+        const flightDeleteId = $(this).attr('data-ft-id')
+        deleteFlights(flightDeleteId)
+
+    })
+
+    function deleteFlights(deleteId) {
+        $.ajax({
+            method: "DELETE",
+            url: `/api/flight_time/delete/${userData.id}/${deleteId}`
+        })
+            .then(getFlights(userData.id))
+            .catch(err => console.error(err));
+    };
+
     $('.editButton').click(function (event){
         event.preventDefault();
         const flightEditId = $(this).attr('data-ft-id')
+        $accordian.empty();
+        $('#create').collapse('toggle')
+        createFlight()
         editFlights(flightEditId)
 
     })
@@ -283,4 +303,7 @@ function editFlights(flightId) {
 
 function editFlightTime(flight){
     console.log(flight)
+    $('.form-control').each(function(){
+        $("#date").val(flight[0].date)
+    })
 }
