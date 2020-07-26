@@ -19,6 +19,9 @@ $(document).ready(async function () {
 
 $("#create-flight").on("click", function (e) {
     e.preventDefault();
+    // if ($(".collapse show")) {
+        //     e.stopPropagation();
+        // }
     $accordian.empty();
     createFlight();
 });
@@ -26,13 +29,16 @@ $("#create-flight").on("click", function (e) {
 
 $('#create-aircraft').on('click', function (e) {
     e.preventDefault();
+    // if ($(".collapse show")) {
+    //     e.stopPropagation();
+    // }
     $accordian.empty();
     createAircraft();
 });
 
 
 function createInputLoop(arr1, arr2) {
-    $accordian.append('<p>', arr2[0])
+    $accordian.append(arr2[0], '<hr>')
     for (let i = 1; i < arr1.length; i++) {
         const $input = $('<input class=form-control>');
         const $label = $("<label>");
@@ -45,7 +51,7 @@ function createInputLoop(arr1, arr2) {
 };
 
 function createInputLoopCheckboxes(arr1, arr2) {
-    $accordian.append('<p>', arr2[0])
+    $accordian.append(arr2[0], '<hr>')
     for (let i = 1; i < arr1.length; i++) {
         const $input = $('<input type=checkbox value=0 class=aircraft-chkbx>');
         const $label = $("<label>");
