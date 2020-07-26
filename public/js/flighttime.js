@@ -227,7 +227,7 @@ function createAircraft() {
 
     createInputLoop(generalAircraft, generalAircraftLabels);
 
-    const generalAircraftBoolean = ['', 'tailWheel', 'complex', 'highPerf', 'turboFan', 'turboProp', 'rototcraft', 'poweredLift'];
+    const generalAircraftBoolean = ['', 'tailWheel', 'complex', 'highPerf', 'turboFan', 'turboProp', 'rotorcraft', 'poweredLift'];
 
     const generalAircraftBooleanLabels = ['', 'general', 'Tail Wheel', 'Complex', 'High Perf', 'Turbo Fan', 'Turbo Prop', 'Rotorcraft', 'Powered Lift'];
 
@@ -291,6 +291,7 @@ function getFlights(userId) {
 // function for displaying all flight times in a table
 function displayFlightTimeTable(flights) {
     console.log("flights: ", flights) // flights is an array of objects coming back from the db, where each object is 1 flighttime.
+    console.log("flights Keys: ", Object.keys(flights[0]))
 
     // creates an array of names from flight_time table to use as table column names
     //doing this in html, but saving the code for potential future refactoring

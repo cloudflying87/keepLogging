@@ -67,6 +67,9 @@ module.exports = function (app) {
         model: db.Aircraft,
         attributes: ['aircraftType']
       }],
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "AircraftId", "UserId"]
+      },
       raw: true
     })
       .then(results => res.json(results))
