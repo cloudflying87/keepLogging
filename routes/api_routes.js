@@ -1,7 +1,7 @@
 // Requiring our models and passport as we've configured it
 var db = require("../models");
 var passport = require("../config/passport");
-const { QueryTypes } = require("sequelize");
+const sequelize = require("sequelize");
 
 // exporting this as a function to use in server.js
 module.exports = function (app) {
@@ -101,7 +101,7 @@ module.exports = function (app) {
     } else {
     db.FlightTime.create(req.body)
       .then(results => res.json(results))
-      .catch(err => res.status(404).json(err));
+      .catch(err => res.status(404).json(err.message));
     };
   });
 
@@ -136,7 +136,30 @@ module.exports = function (app) {
       .catch(err => res.status(400).json(err));
     };
   });
-
+  // I cant get this call to work if I use flight_time. I think it is calling the get request above that has two // after flight times. I am sure I am doing something wrong I just dont know what it is. 
+  app.get("/api/flight_times/totals/:userId/", function (req, res) {
+    // if (!req.user) {
+    //     res.redirect(307, "/api/login");
+    // } else {
+    db.FlightTime
+      .sum({
+        where: { 
+          UserId: req.params.userId,
+        },
+        // attributes: [
+        //   'UserId',
+        //     [sequelize.fn('sum', sequelize.col('imc')), 'total_imc'],
+        //     [sequelize.fn('sum', sequelize.col('imc')), 'total_imc'],
+        //     [sequelize.fn('sum', sequelize.col('imc')), 'total_imc'],
+        //     [sequelize.fn('sum', sequelize.col('imc')), 'total_imc'],
+        //     [sequelize.fn('sum', sequelize.col('imc')), 'total_imc']
+        // ],
+        // group: ['UserId']
+      })
+      .then(results => res.json(results))
+      .catch(err => res.status(404).json(err));
+    // };
+  });
   //-----------------------------------------------------------------------------------------------------------------------
   // aircraft routes begin here
 
@@ -208,22 +231,25 @@ module.exports = function (app) {
     };
   });
 
-  app.get("/api/aircraft/:aircraftType", function (req, res) {
-    if (!req.user) {
-      res.redirect(307, "/login");
-    } else {
+  app.get("/api/aircraft/userFind/:aircraftType", function (req, res) {
+    // if (!req.user) {
+    //   res.redirect(307, "/login");
+    // } else {
     db.Aircraft.findAll({
       where:{
-        aircraftType:"C=172"
-      }
-    })
+        aircraftType: req.params.aircraftType
+      },
+      // attributes: {
+      //   exclude: ['class','aircraftType','numEngine','tailWheel','complex','highPerf','turboFan','turboProp','rotorcraft','poweredLift','createdAt','updatedAt']
+      // },
+    }).map(i => i.get('id'))
       .then(results => {
-        console.log('Working')
+        
         res.json(results)
       })
 
       .catch(err => res.status(404).json(err));
-    };
+    // };
   });
   // -----------------------------------------
   // Airport Routes
