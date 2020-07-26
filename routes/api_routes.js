@@ -1,7 +1,7 @@
 // Requiring our models and passport as we've configured it
 var db = require("../models");
 var passport = require("../config/passport");
-const { QueryTypes } = require("sequelize");
+const sequelize = require("sequelize");
 
 // exporting this as a function to use in server.js
 module.exports = function (app) {
@@ -129,7 +129,23 @@ module.exports = function (app) {
       .catch(err => res.status(400).json(err));
     // };
   });
-
+  // I cant get this call to work if I use flight_time. I think it is calling the get request above that has two // after flight times. I am sure I am doing something wrong I just dont know what it is. 
+  app.get("/api/flight_times/totals/:userId/", function (req, res) {
+    // if (!req.user) {
+    //     res.redirect(307, "/api/login");
+    // } else {
+    db.FlightTime.findAll({
+      where: {
+        UserId: req.params.userId
+      }, 
+      attributes: ['id',[
+        sequelize.fn('sum', sequelize.col('total')), 'total'
+      ]]
+    })
+      .then(results => res.json(results))
+      .catch(err => res.status(404).json(err));
+    // };
+  });
   //-----------------------------------------------------------------------------------------------------------------------
   // aircraft routes begin here
 

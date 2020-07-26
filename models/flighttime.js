@@ -44,3 +44,7 @@ module.exports = function(sequelize, DataTypes) {
 
     return FlightTime;
 };
+
+// exports.totalFlightTimes = () => FlightTime.findAll({
+//     attributes: ['userId', [sequelize.fn('sum', sequelize.col('total')), 'total']],
+//   });

@@ -23,6 +23,12 @@ $("#create-flight").on("click", function (e) {
     createFlight();
 });
 
+$("#show-totals").on("click", function (e) {
+    e.preventDefault();
+    $accordian.empty();
+    showTotalsFunction();
+});
+
 $('#createFlightButton').on('click', function (e) {
     e.preventDefault();
     writeFlightTime();
@@ -338,3 +344,7 @@ function deleteFlights(deleteId) {
         .then(getFlights(userData.id))
         .catch(err => console.error(err));
 };
+
+function showTotalsFunction (){
+    console.log('working')
+}
