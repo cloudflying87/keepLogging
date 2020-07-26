@@ -134,14 +134,15 @@ module.exports = function (app) {
     // if (!req.user) {
     //     res.redirect(307, "/api/login");
     // } else {
-    db.FlightTime.findAll({
+    db.FlightTime.sum(
+      'landings', {
       where: {
         UserId: req.params.userId
       }, 
-      attributes: ['id',[
-        sequelize.fn('sum', sequelize.col('total')), 'total'
-      ]]
-    })
+      // attributes: ['id',[
+      //   sequelize.fn('sum', sequelize.col('total','landings')), 'total','landings'
+      // ]]
+      })
       .then(results => res.json(results))
       .catch(err => res.status(404).json(err));
     // };
