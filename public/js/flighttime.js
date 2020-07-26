@@ -43,12 +43,12 @@ function createInputLoop(arr1, arr2) {
 // Used to make all of the input boxes for the create flight section
 function createFlight() {
     //General Flight Info
-    const generalFlight = ['', 'date', 'tailNumber', 'aircraftID', 'depAir', 'enrRout', 'arrAir', 'comments','inst','stu']
+    const generalFlight = ['', 'date', 'tailNumber', 'aircraftID', 'depAir', 'enrRout', 'arrAir', 'comments','instructor','student']
     const generalFlightInfo = ['General Flight Information', 'general', 'Date', 'Tail Number', 'Aircraft Type', 'Departure Airport', 'Enroute Airports', 'ArrivalAirports', 'Comments','Instructor','Student']
     createInputLoop(generalFlight, generalFlightInfo)
 
     // Landings and Approaches
-    const approachLanding = [0, 'approach', 'holds', 'totalLandings', 'dayLdg', 'nightLdg']
+    const approachLanding = [0, 'iap', 'holds', 'landings', 'dayLdg', 'nightLdg']
     const approachLandingInfo = ['Aproaches and Landings','app', 'Approach', 'Holds', 'Total Landings', 'Day Landing', 'Night Landing']
     createInputLoop(approachLanding, approachLandingInfo)
     // Times
@@ -95,15 +95,15 @@ function writeFlightTime(){
     } else {
         holds = $("#holds").val().trim()
     };
-    if ($("#approach").val().trim()==''){
-        approach = 0.00
+    if ($("#iap").val().trim()==''){
+        iap = 0.00
     } else {
-        approach = $("#approach").val().trim()
+        iap = $("#iap").val().trim()
     };
-    if ($("#totalLandings").val().trim()==''){
-        totalLandings = 0.00
+    if ($("#landings").val().trim()==''){
+        landings = 0.00
     } else {
-        totalLandings = $("#totalLandings").val().trim()
+        landings = $("#landings").val().trim()
     };
     if ($("#dayLdg").val().trim()==''){
         dayLdg = 0.00
@@ -167,9 +167,11 @@ function writeFlightTime(){
         enrRout: $("#enrRout").val().trim(),
         arrAir: $("#arrAir").val().trim(),
         comments: $("#comments").val().trim(),
-        iap: approach,
+        instructor: $("#instructor").val().trim(),
+        student: $("#student").val().trim(),
+        iap: iap,
         holds: holds,
-        landings: totalLandings,
+        landings: landings,
         dayLdg: dayLdg,
         nightLdg: nightLdg,
         total: total,
@@ -291,7 +293,7 @@ function editFlightsAPICall(flightId) {
         .then(async flight => await editFlightTime(flight))
         .catch(err => console.error(err));
 };
-
+// Manually putting in each of the flight time values into the input boxes. 
 function editFlightTime(flight){
     console.log(flight)
     $('.form-control').each(function(){
@@ -304,11 +306,11 @@ function editFlightTime(flight){
         $("#enrRout").val(flight[0].enrRout);
         $("#arrAir").val(flight[0].arrAir);
         $("#comments").val(flight[0].comments);
-        $("#inst").val(flight[0].instructor);
-        $("#stu").val(flight[0].student);
-        $("#approach").val(flight[0].iap);
+        $("#instructor").val(flight[0].instructor);
+        $("#student").val(flight[0].student);
+        $("#iap").val(flight[0].iap);
         $("#holds").val(flight[0].holds);
-        $("#totalLandings").val(flight[0].landings)
+        $("#landings").val(flight[0].landings)
         $("#dayLdg").val(flight[0].dayLdg)
         $("#nightLdg").val(flight[0].nightLdg)
         $("#total").val(flight[0].total)
@@ -327,11 +329,12 @@ function editFlightTime(flight){
 
 // To delete flights function
 function deleteFlights(deleteId) {
+    $("#body").empty();
     $.ajax({
         method: "DELETE",
         url: `/api/flight_time/delete/${userData.id}/${deleteId}`
     })
-    // attempting to refresh the page. Not currently doing that as desired. Trying to call the document load function to repopluate the table at the bottom of the page. 
+    
         .then(getFlights(userData.id))
         .catch(err => console.error(err));
 };
