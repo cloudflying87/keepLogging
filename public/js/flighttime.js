@@ -93,7 +93,7 @@ function createFlight() {
     })
 };
 
-function writeFlightTime() {
+async function writeFlightTime() {
     const NULL = null
 //    $('.form-control').each(function(){
 //     if ($(this).hasClass('app')) {
@@ -183,47 +183,59 @@ function writeFlightTime() {
     } else {
         total = $("#total").val().trim()
     };
+    let aircraftFind
+    try {
+            aircraftFind = $("#aircraftID").val().trim();
 
-
-    $.post("/api/flight_time", {
-        UserId: userData.id,
-
-        date: $("#date").val(),
-        tailNumber: $("#tailNumber").val().trim(),
-        AircraftID: $("#aircraftID").val().trim(),
-        depAir: $("#depAir").val().trim(),
-        enrRout: $("#enrRout").val().trim(),
-        arrAir: $("#arrAir").val().trim(),
-        comments: $("#comments").val().trim(),
-        instructor: $("#instructor").val().trim(),
-        student: $("#student").val().trim(),
-        iap: iap,
-        holds: holds,
-        landings: landings,
-        dayLdg: dayLdg,
-        nightLdg: nightLdg,
-        total: total,
-        cxt: cxt,
-        night: night,
-        hood: hood,
-        imc: imc,
-        dualI: dualI,
-        cfi: cfi,
-        sic: sic,
-        pic: pic,
-        solo: solo,
-    })
-
+            await $.ajax({
+            method: "GET",
+            url: `/api/aircraft/userFind/${aircraftFind}`
+        })
+        .then(aircraftId =>  aircraftFind = aircraftId[0])
+        .catch(err => console.error(err.message))
+        console.log(aircraftFind)
+        await $.post("/api/flight_time", {
+        
+            UserId: userData.id,
+    
+            date: $("#date").val(),
+            tailNumber: $("#tailNumber").val().trim(),
+            AircraftId: aircraftFind,
+            depAir: $("#depAir").val().trim(),
+            enrRout: $("#enrRout").val().trim(),
+            arrAir: $("#arrAir").val().trim(),
+            comments: $("#comments").val().trim(),
+            instructor: $("#instructor").val().trim(),
+            student: $("#student").val().trim(),
+            iap: iap,
+            holds: holds,
+            landings: landings,
+            dayLdg: dayLdg,
+            nightLdg: nightLdg,
+            total: total,
+            cxt: cxt,
+            night: night,
+            hood: hood,
+            imc: imc,
+            dualI: dualI,
+            cfi: cfi,
+            sic: sic,
+            pic: pic,
+            solo: solo,
+        })
         .then(function () {
             result =>
                 console.log(result)
             // If there's an error, log the error
         })
         .catch(function (err) {
-            console.log(err.responseJSON.parent)
+            console.log(err)
         });
-
-}
+    }
+    catch(err) {
+        console.error(err.message);
+    }
+};
 
 // function for input boxes for create aircraft section
 function createAircraft() {
@@ -296,7 +308,7 @@ function getFlights(userId) {
 };
 
 // function for displaying all flight times in a table
-function displayFlightTimeTable(flights) {
+async function displayFlightTimeTable(flights) {
     console.log("flights: ", flights) // flights is an array of objects coming back from the db, where each object is 1 flighttime.
     console.log("flights Keys: ", Object.keys(flights[0]))
 
@@ -385,10 +397,10 @@ function editFlightsAPICall(flightId) {
 };
 // Manually putting in each of the flight time values into the input boxes. 
 function editFlightTime(flight){
-    console.log(flight)
-    $('.form-control').each(function(){
-        console.log($(this).attr('id'))
-    })
+    // console.log(flight)
+    // $('.form-control').each(function(){
+    //     console.log($(this).attr('id'))
+    // })
         $("#date").val(flight[0].date);
         $("#tailNumber").val(flight[0].tailNumber);
         $("#aircraftID").val(flight[0].aircraftId);

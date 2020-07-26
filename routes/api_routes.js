@@ -101,7 +101,7 @@ module.exports = function (app) {
     } else {
     db.FlightTime.create(req.body)
       .then(results => res.json(results))
-      .catch(err => res.status(404).json(err));
+      .catch(err => res.status(404).json(err.message));
     };
   });
 
@@ -141,14 +141,20 @@ module.exports = function (app) {
     // if (!req.user) {
     //     res.redirect(307, "/api/login");
     // } else {
-    db.FlightTime.sum(
-      'landings', {
-      where: {
-        UserId: req.params.userId
-      }, 
-      // attributes: ['id',[
-      //   sequelize.fn('sum', sequelize.col('total','landings')), 'total','landings'
-      // ]]
+    db.FlightTime
+      .sum({
+        where: { 
+          UserId: req.params.userId,
+        },
+        // attributes: [
+        //   'UserId',
+        //     [sequelize.fn('sum', sequelize.col('imc')), 'total_imc'],
+        //     [sequelize.fn('sum', sequelize.col('imc')), 'total_imc'],
+        //     [sequelize.fn('sum', sequelize.col('imc')), 'total_imc'],
+        //     [sequelize.fn('sum', sequelize.col('imc')), 'total_imc'],
+        //     [sequelize.fn('sum', sequelize.col('imc')), 'total_imc']
+        // ],
+        // group: ['UserId']
       })
       .then(results => res.json(results))
       .catch(err => res.status(404).json(err));
@@ -225,22 +231,25 @@ module.exports = function (app) {
     };
   });
 
-  app.get("/api/aircraft/:aircraftType", function (req, res) {
-    if (!req.user) {
-      res.redirect(307, "/login");
-    } else {
+  app.get("/api/aircraft/userFind/:aircraftType", function (req, res) {
+    // if (!req.user) {
+    //   res.redirect(307, "/login");
+    // } else {
     db.Aircraft.findAll({
       where:{
-        aircraftType:"C=172"
-      }
-    })
+        aircraftType: req.params.aircraftType
+      },
+      // attributes: {
+      //   exclude: ['class','aircraftType','numEngine','tailWheel','complex','highPerf','turboFan','turboProp','rotorcraft','poweredLift','createdAt','updatedAt']
+      // },
+    }).map(i => i.get('id'))
       .then(results => {
-        console.log('Working')
+        
         res.json(results)
       })
 
       .catch(err => res.status(404).json(err));
-    };
+    // };
   });
   // -----------------------------------------
   // Airport Routes

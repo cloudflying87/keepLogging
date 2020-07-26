@@ -6,6 +6,12 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false
         },
         tailNumber: DataTypes.STRING,
+        // aircraftType: DataTypes.INTEGER,
+        // {
+        //     references: {
+        //         foreignKey: 'AircraftId'
+        //     }
+        // },
         depAir: DataTypes.STRING,
         enrRout: DataTypes.STRING,
         arrAir: DataTypes.STRING,
@@ -41,7 +47,7 @@ module.exports = function(sequelize, DataTypes) {
         FlightTime.belongsTo(models.Aircraft);
         // FlightTime.belongsTo(models.Airport);
     };
-
+    FlightTime.sum()
     return FlightTime;
 };
 
