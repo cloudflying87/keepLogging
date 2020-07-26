@@ -52,8 +52,8 @@ function createFlight() {
     const approachLandingInfo = ['Aproaches and Landings','app', 'Approach', 'Holds', 'Total Landings', 'Day Landing', 'Night Landing']
     createInputLoop(approachLanding, approachLandingInfo)
     // Times
-    const flightTimesIds = [0.00, 'total', 'cxt', 'night', 'hood', 'imc', 'dual', 'cfi', 'sic', 'pic']
-    const flightTimesidsLabel = ['Flight Times','times', 'Total', 'Cross-Country', 'Night', 'Simulated Instrument', 'IMC', 'Dual (Instruction Recieved)', 'CFI (Instructor)', 'SIC (Second in Command)', 'PIC (Pilot in Command)']
+    const flightTimesIds = ['0.00', 'total', 'cxt', 'night', 'hood', 'imc', 'dualI', 'cfi', 'sic', 'pic','solo']
+    const flightTimesidsLabel = ['Flight Times','times', 'Total', 'Cross-Country', 'Night', 'Simulated Instrument', 'IMC', 'Dual (Instruction Recieved)', 'CFI (Instructor)', 'SIC (Second in Command)', 'PIC (Pilot in Command)','Solo']
     createInputLoop(flightTimesIds, flightTimesidsLabel)
 
     const newButton = $("<button>").attr('id', 'createFlightButton').text("Add Flight")
@@ -67,13 +67,18 @@ function createFlight() {
 
 function writeFlightTime(){
     const NULL = null
-   $('.form-control').each(function(){
-        console.log($(this).attr('class'))
-    if ($(this).hasClass('general')) {
-        const generalName = $(this).attr('id')
-    }
-            Error();
-    });
+//    $('.form-control').each(function(){
+//     if ($(this).hasClass('app')) {
+//         let appName = $(this).attr('id')
+//         if ($('#'+appName).val().trim()==''){
+//             appName = 0.00
+//         } else {
+//             appName = $("#imc").val().trim()
+//         };
+//         console.log(appName)
+//     }
+//             Error();
+//     });
 
     if ($("#imc").val().trim()==''){
         imc = 0.00
@@ -89,41 +94,6 @@ function writeFlightTime(){
         holds = 0
     } else {
         holds = $("#holds").val().trim()
-    };
-    if ($("#pic").val().trim()==''){
-        pic = NULL
-    } else {
-        pic = $("#pic").val().trim()
-    };
-    if ($("#sic").val().trim()==''){
-        sic = 0.00
-    } else {
-        sic = $("#sic").val().trim()
-    };
-    if ($("#dual").val().trim()==''){
-        dual = 0.00
-    } else {
-        dual = $("#dual").val().trim()
-    };
-    if ($("#cfi").val().trim()==''){
-        cfi = 0.00
-    } else {
-        cfi = $("#cfi").val().trim()
-    };
-    if ($("#cxt").val().trim()==''){
-        cxt = 0.00
-    } else {
-        cxt = $("#cxt").val().trim()
-    };
-    if ($("#night").val().trim()==''){
-        night = 0.00
-    } else {
-        night = $("#night").val().trim()
-    };
-    if ($("#total").val().trim()==''){
-        total = 0.00
-    } else {
-        total = $("#total").val().trim()
     };
     if ($("#approach").val().trim()==''){
         approach = 0.00
@@ -145,6 +115,48 @@ function writeFlightTime(){
     } else {
         nightLdg = $("#nightLdg").val().trim()
     };
+    if ($("#pic").val().trim()==''){
+        pic = 0.00
+    } else {
+        pic = $("#pic").val().trim()
+    };
+    if ($("#sic").val().trim()==''){
+        sic = 0.00
+    } else {
+        sic = $("#sic").val().trim()
+    };
+    if ($("#dualI").val().trim()==''){
+        dualI = 0.00
+    } else {
+        dualI = $("#dualI").val().trim()
+    };
+    if ($("#cfi").val().trim()==''){
+        cfi = 0.00
+    } else {
+        cfi = $("#cfi").val().trim()
+    };
+    if ($("#solo").val().trim()==''){
+        solo = 0.00
+    } else {
+        solo = $("#solo").val().trim()
+    };
+    if ($("#cxt").val().trim()==''){
+        cxt = 0.00
+    } else {
+        cxt = $("#cxt").val().trim()
+    };
+    if ($("#night").val().trim()==''){
+        night = 0.00
+    } else {
+        night = $("#night").val().trim()
+    };
+    if ($("#total").val().trim()==''){
+        total = 0.00
+    } else {
+        total = $("#total").val().trim()
+    };
+    
+    
     $.post("/api/flight_time", {
         UserId: userData.id,
 
@@ -155,9 +167,9 @@ function writeFlightTime(){
         enrRout: $("#enrRout").val().trim(),
         arrAir: $("#arrAir").val().trim(),
         comments: $("#comments").val().trim(),
-        approach: approach,
+        iap: approach,
         holds: holds,
-        totalLandings: totalLandings,
+        landings: totalLandings,
         dayLdg: dayLdg,
         nightLdg: nightLdg,
         total: total,
@@ -165,10 +177,11 @@ function writeFlightTime(){
         night: night,
         hood: hood,
         imc: imc,
-        dual: dual,
+        dualI: dualI,
         cfi: cfi,
         sic: sic,
         pic: pic,
+        solo: solo,
     })
 
     .then(function() { result =>
@@ -193,7 +206,7 @@ function getFlights(userId) {
 
 // function for displaying all flight times in a table
 function displayFlightTimeTable(flights) {
-    console.log("flights: ", flights) // flights is an array of objects coming back from the db, where each object is 1 flighttime.
+    // console.log("flights: ", flights) // flights is an array of objects coming back from the db, where each object is 1 flighttime.
 
     // creates an array of names from flight_time table to use as table column names
     //doing this in html, but saving the code for potential future refactoring
@@ -227,13 +240,18 @@ function displayFlightTimeTable(flights) {
             //     //
             // };
             // console.log("flights at i .id: ",flights[i].id)
-            $td = $("<td>").text(flights[i][values]); //flights[i] {id:4, date:...}
+            if (flights[i][values] == 0){
+                $td = $("<td>").text('')
+            } else {
+                $td = $("<td>").text(flights[i][values]); //flights[i] {id:4, date:...}
+            }
             $tr.append($td)
         };
         
         let $button = $("<button>")
         .text("Edit")
-        .attr('data-ft-id', flights[i].id);
+        .attr('data-ft-id', flights[i].id)
+        .addClass('editButton');
         $tr.append($button);
         $tbody.append($th, $tr);
 
@@ -246,4 +264,23 @@ function displayFlightTimeTable(flights) {
         // console.log(data[32].id)
         // console.log("Aircraft Values: ", aircraftValues)
     };
+    $('.editButton').click(function (event){
+        event.preventDefault();
+        const flightEditId = $(this).attr('data-ft-id')
+        editFlights(flightEditId)
+
+    })
 };
+
+function editFlights(flightId) {
+    $.ajax({
+        method: "GET",
+        url: `/api/flight_time/${userData.id}/${flightId}`
+    })
+        .then(async flight => await editFlightTime(flight))
+        .catch(err => console.error(err));
+};
+
+function editFlightTime(flight){
+    console.log(flight)
+}

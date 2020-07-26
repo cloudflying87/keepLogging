@@ -1,7 +1,8 @@
 module.exports = function(sequelize, DataTypes) {
-    const FlightTime = sequelize.define("FlightTime", {
+    const FlightTime = sequelize
+        .define("FlightTime", {
         date: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull: false
         },
         tailNumber: DataTypes.STRING,
@@ -18,8 +19,8 @@ module.exports = function(sequelize, DataTypes) {
         holds: DataTypes.INTEGER,
         pic: {
            type: DataTypes.DECIMAL(5, 2),
-           allowNull: true
-        //    default: 
+           allowNull: true,
+           default: null,
         },
         sic: DataTypes.DECIMAL(5, 2),
         cfi: DataTypes.DECIMAL(5, 2),
