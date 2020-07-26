@@ -56,25 +56,32 @@ module.exports = function (app) {
 
   // Routes for flight_time table per user id
   app.get("/api/flight_time/:userId", function (req, res) {
-    // if (!req.user) {
-    //     res.redirect(307, "/api/login");
-    // } else {
+    if (!req.user) {
+        res.redirect(307, "/api/login");
+    } else {
     db.FlightTime.findAll({
       where: {
         UserId: req.params.userId
       },
-      include: db.Aircraft
+      include: [{
+        model: db.Aircraft,
+        attributes: ['aircraftType']
+      }],
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "AircraftId", "UserId"]
+      },
+      raw: true
     })
       .then(results => res.json(results))
       .catch(err => res.status(404).json(err));
-    // };
+    };
   });
 
   // Route for selecting one flight_time
   app.get("/api/flight_time/:userId/:id", function (req, res) {
-    // if (!req.user) {
-    //   res.redirect(307, "/login");
-    // } else {
+    if (!req.user) {
+      res.redirect(307, "/login");
+    } else {
     db.FlightTime.findAll({
       where: {
         UserId: req.params.userId,
@@ -84,25 +91,25 @@ module.exports = function (app) {
     })
       .then(results => res.json(results))
       .catch(err => res.status(404).json(err));
-    // };
+    };
   });
 
   // Route for creating a flight_time
   app.post("/api/flight_time/", function (req, res) {
-    // if (!req.user) {
-    //     res.redirect(307, "/login");
-    // } else {
+    if (!req.user) {
+        res.redirect(307, "/login");
+    } else {
     db.FlightTime.create(req.body)
       .then(results => res.json(results))
       .catch(err => res.status(404).json(err));
-    // };
+    };
   });
 
   // Route for updating a flight_time
   app.post("/api/flight_time/update/:UserId/:id", function (req, res) {
-    // if (!req.user) {
-    //   res.redirect(307, "/api/login");
-    // } else {
+    if (!req.user) {
+      res.redirect(307, "/api/login");
+    } else {
     db.FlightTime.update(req.body, {
       where: {
         UserId: req.params.UserId,
@@ -111,14 +118,14 @@ module.exports = function (app) {
     })
       .then(results => res.json(results))
       .catch(err => res.status(404).json(err));
-    // };
+    };
   });
 
   // Route for deleting a flight_time
   app.delete("/api/flight_time/delete/:UserId/:id", function (req, res) {
-    // if (!req.user) {
-    //   res.redirect(307, "/api/login");
-    // } else {
+    if (!req.user) {
+      res.redirect(307, "/api/login");
+    } else {
     db.FlightTime.destroy({
       where: {
         UserId: req.params.UserId,
@@ -127,7 +134,7 @@ module.exports = function (app) {
     })
       .then(results => res.json(results))
       .catch(err => res.status(400).json(err));
-    // };
+    };
   });
 
   //-----------------------------------------------------------------------------------------------------------------------
@@ -136,20 +143,20 @@ module.exports = function (app) {
 
   // Routes for flight_time table per user id
   app.get("/api/aircraft/", function (req, res) {
-    // if (!req.user) {
-    //     res.redirect(307, "/api/login");
-    // } else {
+    if (!req.user) {
+        res.redirect(307, "/api/login");
+    } else {
     db.Aircraft.findAll()
       .then(results => res.json(results))
       .catch(err => res.status(404).json(err));
-    // };
+    };
   });
 
   // Route for selecting one flight_time
   app.get("/api/aircraft/:id", function (req, res) {
-    // if (!req.user) {
-    //   res.redirect(307, "/login");
-    // } else {
+    if (!req.user) {
+      res.redirect(307, "/login");
+    } else {
     db.Aircraft.findAll({
       where: {
         id: req.params.id
@@ -157,25 +164,25 @@ module.exports = function (app) {
     })
       .then(results => res.json(results))
       .catch(err => res.status(404).json(err));
-    // };
+    };
   });
 
   // Route for creating a flight_time
   app.post("/api/aircraft/", function (req, res) {
-    // if (!req.user) {
-    //     res.redirect(307, "/login");
-    // } else {
+    if (!req.user) {
+        res.redirect(307, "/login");
+    } else {
     db.Aircraft.create(req.body)
       .then(results => res.json(results))
       .catch(err => res.status(404).json(err));
-    // };
+    };
   });
 
   // Route for updating a flight_time
   app.post("/api/aircraft/update/:id", function (req, res) {
-    // if (!req.user) {
-    //   res.redirect(307, "/api/login");
-    // } else {
+    if (!req.user) {
+      res.redirect(307, "/api/login");
+    } else {
     db.Aircraft.update(req.body, {
       where: {
         id: req.params.id
@@ -183,14 +190,14 @@ module.exports = function (app) {
     })
       .then(results => res.json(results))
       .catch(err => res.status(404).json(err));
-    // };
+    };
   });
 
   // Route for deleting a flight_time
   app.delete("/api/aircraft/delete/:id", function (req, res) {
-    // if (!req.user) {
-    //   res.redirect(307, "/api/login");
-    // } else {
+    if (!req.user) {
+      res.redirect(307, "/api/login");
+    } else {
     db.Aircraft.destroy({
       where: {
         id: req.params.id
@@ -198,13 +205,13 @@ module.exports = function (app) {
     })
       .then(results => res.json(results))
       .catch(err => res.status(400).json(err));
-    // };
+    };
   });
 
   app.get("/api/aircraft/:aircraftType", function (req, res) {
-    // if (!req.user) {
-    //   res.redirect(307, "/login");
-    // } else {
+    if (!req.user) {
+      res.redirect(307, "/login");
+    } else {
     db.Aircraft.findAll({
       where:{
         aircraftType:"C=172"
@@ -214,9 +221,9 @@ module.exports = function (app) {
         console.log('Working')
         res.json(results)
       })
-        
+
       .catch(err => res.status(404).json(err));
-    // };
+    };
   });
   // -----------------------------------------
   // Airport Routes

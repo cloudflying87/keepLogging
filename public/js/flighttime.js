@@ -19,6 +19,9 @@ $(document).ready(async function () {
 
 $("#create-flight").on("click", function (e) {
     e.preventDefault();
+    // if ($(".collapse show")) {
+        //     e.stopPropagation();
+        // }
     $accordian.empty();
     createFlight();
 });
@@ -26,13 +29,16 @@ $("#create-flight").on("click", function (e) {
 
 $('#create-aircraft').on('click', function (e) {
     e.preventDefault();
+    // if ($(".collapse show")) {
+    //     e.stopPropagation();
+    // }
     $accordian.empty();
     createAircraft();
-})
+});
 
 
 function createInputLoop(arr1, arr2) {
-    $accordian.append('<p>', arr2[0])
+    $accordian.append(arr2[0], '<hr>')
     for (let i = 1; i < arr1.length; i++) {
         const $input = $('<input class=form-control>');
         const $label = $("<label>");
@@ -45,9 +51,9 @@ function createInputLoop(arr1, arr2) {
 };
 
 function createInputLoopCheckboxes(arr1, arr2) {
-    $accordian.append('<p>', arr2[0])
+    $accordian.append(arr2[0], '<hr>')
     for (let i = 1; i < arr1.length; i++) {
-        const $input = $('<input type=check-box>');
+        const $input = $('<input type=checkbox value=0 class=aircraft-chkbx>');
         const $label = $("<label>");
         $input.attr('id', arr1[i]);
         $input.addClass(arr2[1]);
@@ -221,18 +227,25 @@ function createAircraft() {
 
     createInputLoop(generalAircraft, generalAircraftLabels);
 
-    const generalAircraftBoolean = ['', 'tailWheel', 'complex', 'highPerf', 'turboFan', 'turboProp', 'rototcraft', 'poweredLift'];
+    const generalAircraftBoolean = ['', 'tailWheel', 'complex', 'highPerf', 'turboFan', 'turboProp', 'rotorcraft', 'poweredLift'];
 
-    const generalAircraftBooleanLabels = ['', 'general', 'Tail Wheel', 'Complex', 'High Perf', 'Turbo Fan', 'Turbo Prop', 'Rotocraft', 'Powered Lift'];
+    const generalAircraftBooleanLabels = ['', 'general', 'Tail Wheel', 'Complex', 'High Perf', 'Turbo Fan', 'Turbo Prop', 'Rotorcraft', 'Powered Lift'];
 
     createInputLoopCheckboxes(generalAircraftBoolean, generalAircraftBooleanLabels);
 
     const newButton = $("<button>").attr('id', 'create-aircraft-button').text("Add Aircraft")
     $accordian.append(newButton)
 
+    // changes value of checkbox to 1 if it is checked
+    $('.aircraft-chkbx').change(function() {
+        const checkbox = $(this);
+        if (checkbox.prop('checked', 'true')) {
+            checkbox.val(1);
+        };
+    });
+
     $('#create-aircraft-button').on('click', function (e) {
         e.preventDefault();
-        console.log("working");
         writeAircraft();
     })
 };
@@ -258,7 +271,7 @@ function writeAircraft() {
         highPerf: $("#highPerf").val(),
         turboFan: $("#turboFan").val(),
         turboProp: $("#turboProp").val(),
-        rotocraft: $("#rotocraft").val(),
+        rotorcraft: $("#rotorcraft").val(),
         poweredLift: $("#poweredLift").val()
     })
         .then(result => console.log(result))
@@ -278,6 +291,7 @@ function getFlights(userId) {
 // function for displaying all flight times in a table
 function displayFlightTimeTable(flights) {
     console.log("flights: ", flights) // flights is an array of objects coming back from the db, where each object is 1 flighttime.
+    console.log("flights Keys: ", Object.keys(flights[0]))
 
     // creates an array of names from flight_time table to use as table column names
     //doing this in html, but saving the code for potential future refactoring
