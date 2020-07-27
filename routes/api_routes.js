@@ -149,13 +149,23 @@ module.exports = function (app) {
           [sequelize.fn('sum', sequelize.col('hood')), 'hood'],
           [sequelize.fn('sum', sequelize.col('iap')), 'iap'],
           [sequelize.fn('sum', sequelize.col('holds')), 'holds'],
+          [sequelize.fn('sum', sequelize.col('cxt')), 'cxt'],
+          [sequelize.fn('sum', sequelize.col('landings')), 'landings'],
+          [sequelize.fn('sum', sequelize.col('dayLdg')), 'dayLdg'],
+          [sequelize.fn('sum', sequelize.col('nightLdg')), 'nightLdg'],
           [sequelize.fn('sum', sequelize.col('pic')), 'pic'],
           [sequelize.fn('sum', sequelize.col('sic')), 'sic'],
           [sequelize.fn('sum', sequelize.col('cfi')), 'cfi'],
           [sequelize.fn('sum', sequelize.col('dualI')), 'dualI'],
-          [sequelize.fn('sum', sequelize.col('cxt')), 'cxt'],
           [sequelize.fn('sum', sequelize.col('solo')), 'solo'],
-        ]
+          
+          [sequelize.fn('sum', sequelize.col('total')), 'total'],
+          
+          [sequelize.fn('sum', sequelize.col('night')), 'night'],
+          
+        ],
+        
+        raw: true
       })
       .then(sum => res.json(sum))
       .catch(err => res.status(404).json(err));
