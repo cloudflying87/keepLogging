@@ -387,23 +387,24 @@ function displayFlights_FLEX(raw_flights) {
         row.append($button, $delBtn);
         TABLE.append(row);
 
-        // delete button event listener
-        $('.delete-flight').click(function (event) {
-            const flightDeleteId = $(this).attr('data-ft-id')
-            deleteFlights(flightDeleteId)
-        })
-
-        // edit button event listener
-        $('.editButton').click(function (event) {
-            event.preventDefault();
-            const flightEditId = $(this).attr('data-ft-id')
-            $accordian.empty();
-            $('#create').collapse('toggle')
-            createFlight()
-            editFlightsAPICall(flightEditId)
-
-        })
     };
+    
+    // delete button event listener
+    $('.delete-flight').click(function (event) {
+        const flightDeleteId = $(this).attr('data-ft-id')
+        deleteFlights(flightDeleteId)
+    })
+
+    // edit button event listener
+    $('.editButton').click(function (event) {
+        event.preventDefault();
+        const flightEditId = $(this).attr('data-ft-id')
+        $accordian.empty();
+        $('#create').collapse('toggle')
+        createFlight()
+        editFlightsAPICall(flightEditId)
+
+    })
 };
 
 function clickFlightRow() {
