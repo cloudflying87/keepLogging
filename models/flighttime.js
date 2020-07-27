@@ -47,7 +47,8 @@ module.exports = function(sequelize, DataTypes) {
         FlightTime.belongsTo(models.Aircraft);
         // FlightTime.belongsTo(models.Airport);
     };
-    FlightTime.sum()
+    
+
     return FlightTime;
 };
 
