@@ -1,6 +1,10 @@
 const $div = $("<div>");
 const $accordian = $("#dyn-form");
 let userData = {};
+let toggle = {
+    tab: "",
+    value: false
+};
 
 // onload, make an api call to /api/user_data that will return a json object with their email and id. store this as a global object. then call getFlights()
 $(document).ready(async function () {
@@ -14,31 +18,67 @@ $(document).ready(async function () {
         })
         .catch(err => console.error(err));
 
-    await getFlights(userData.id);
+    getFlights(userData.id);
 });
 
 $("#create-flight").on("click", function (e) {
     e.preventDefault();
-    // if ($(".collapse show")) {
-    //     e.stopPropagation();
-    // }
     $accordian.empty();
-    createFlight();
+    // 3 cases
+        // not active, not clicked => click it
+        // not active, has been clicked => click it
+            // make active and show
+        // active, has been clicked =>  click it
+            // close and hide
+
+    if (!toggle.value && toggle.tab !== "CREATE_FLIGHT" || toggle.value && toggle.tab !== "CREATE_FLIGHT") {
+        createFlight();
+        $accordian.show();
+        toggle.tab = "CREATE_FLIGHT";
+        toggle.value = true;
+
+    } else if (toggle.value && toggle.tab === "CREATE_FLIGHT") {
+        $accordian.empty();
+        $accordian.hide();
+        toggle.tab = "";
+        toggle.value = false;
+    };
 });
 
 $("#show-totals").on("click", function (e) {
     e.preventDefault();
     $accordian.empty();
-    callTotals();
+
+    if (!toggle.value && toggle.tab !== "CALL_TOTALS" || toggle.value && toggle.tab !== "CALL_TOTALS") {
+        callTotals();
+        $accordian.show();
+        toggle.tab = "CALL_TOTALS";
+        toggle.value = true;
+
+    } else if (toggle.value && toggle.tab === "CALL_TOTALS") {
+        $accordian.empty();
+        $accordian.hide();
+        toggle.tab = "";
+        toggle.value = false;
+    };
 });
 
 $('#create-aircraft').on('click', function (e) {
     e.preventDefault();
-    // if ($(".collapse show")) {
-    //     e.stopPropagation();
-    // }
     $accordian.empty();
-    createAircraft();
+
+    if (!toggle.value && toggle.tab !== "CREATE_AIRCRAFT" || toggle.value && toggle.tab !== "CREATE_AIRCRAFT") {
+        createAircraft();
+        $accordian.show();
+        toggle.tab = "CREATE_AIRCRAFT";
+        toggle.value = true;
+
+    } else if (toggle.value && toggle.tab === "CREATE_AIRCRAFT") {
+        $accordian.empty();
+        $accordian.hide();
+        toggle.tab = "";
+        toggle.value = false;
+    };
 });
 
 
@@ -72,7 +112,7 @@ function createInputLoopCheckboxes(arr1, arr2) {
 function createFlight() {
     //General Flight Info
     const generalFlight = ['', 'date', 'tailNumber', 'aircraftID', 'depAir', 'enrRout', 'arrAir', 'comments', 'instructor', 'student']
-    const generalFlightInfo = ['General Flight Information', 'general', 'Date', 'Tail Number', 'Aircraft Type', 'Departure Airport', 'Enroute Airports', 'ArrivalAirports', 'Comments', 'Instructor', 'Student']
+    const generalFlightInfo = ['General Flight Information', 'general', 'Date', 'Tail Number', 'Aircraft Type', 'Departure Airport', 'Enroute Airports', 'Arrival Airports', 'Comments', 'Instructor', 'Student']
     createInputLoop(generalFlight, generalFlightInfo)
 
     // Landings and Approaches
@@ -320,8 +360,8 @@ function displayFlights_FLEX(raw_flights) {
         'Enroute Airport(s)': f.enrRout,
         'Arrival Airport': f.arrAir,
         'Flight Number': f.flightNum,
-        'Departure Time': moment(f.depTime).format("hh:mm A"),
-        'Arrival Time': moment(f.arrTime).format("hh:mm A"),
+        // 'Departure Time': moment(f.depTime).format("hh:mm A"),
+        // 'Arrival Time': moment(f.arrTime).format("hh:mm A"),
         Landings: f.landings,
         'IMC': f.imc,
         Hood: f.hood,
@@ -388,7 +428,7 @@ function displayFlights_FLEX(raw_flights) {
         TABLE.append(row);
 
     };
-    
+
     // delete button event listener
     $('.delete-flight').click(function (event) {
         const flightDeleteId = $(this).attr('data-ft-id')
