@@ -138,9 +138,9 @@ module.exports = function (app) {
   });
   // I cant get this call to work if I use flight_time. I think it is calling the get request above that has two // after flight times. I am sure I am doing something wrong I just dont know what it is. 
   app.get("/api/flight_times/totals/:userId/", function (req, res) {
-    // if (!req.user) {
-    //     res.redirect(307, "/api/login");
-    // } else {
+    if (!req.user) {
+        res.redirect(307, "/api/login");
+    } else {
     db.FlightTime
       .findAll({
         where: {UserId: req.params.userId},
@@ -158,18 +158,15 @@ module.exports = function (app) {
           [sequelize.fn('sum', sequelize.col('cfi')), 'cfi'],
           [sequelize.fn('sum', sequelize.col('dualI')), 'dualI'],
           [sequelize.fn('sum', sequelize.col('solo')), 'solo'],
-          
           [sequelize.fn('sum', sequelize.col('total')), 'total'],
-          
           [sequelize.fn('sum', sequelize.col('night')), 'night'],
-          
         ],
         
         raw: true
       })
       .then(sum => res.json(sum))
       .catch(err => res.status(404).json(err));
-    // };
+    };
   });
   // ----------------------------------------------------------
   // aircraft routes begin here
@@ -177,13 +174,19 @@ module.exports = function (app) {
 
   // Routes for flight_time table per user id
   app.get("/api/aircraft/", function (req, res) {
-    if (!req.user) {
-        res.redirect(307, "/api/login");
-    } else {
-    db.Aircraft.findAll()
+    // if (!req.user) {
+    //     res.redirect(307, "/api/login");
+    // } else {
+    db.Aircraft.findAll({
+      attributes:{
+        // name:'aircraftType',
+        exclude:['id']
+      }
+      
+    })
       .then(results => res.json(results))
       .catch(err => res.status(404).json(err));
-    };
+    // };
   });
 
   // Route for selecting one flight_time

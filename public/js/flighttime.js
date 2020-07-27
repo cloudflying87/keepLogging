@@ -10,7 +10,7 @@ $(document).ready(async function () {
     })
         .then(result => {
             userData = result;
-            console.log(userData)
+            // console.log(userData)
         })
         .catch(err => console.error(err));
 
@@ -193,7 +193,7 @@ async function writeFlightTime() {
         })
             .then(aircraftId => aircraftFind = aircraftId[0])
             .catch(err => console.error(err.message))
-        console.log(aircraftFind)
+        
         await $.post("/api/flight_time", {
 
             UserId: userData.id,
@@ -223,11 +223,6 @@ async function writeFlightTime() {
             pic: pic,
             solo: solo,
         })
-            .then(function () {
-                result =>
-                    console.log(result)
-                // If there's an error, log the error
-            })
             .catch(function (err) {
                 console.log(err)
             });
@@ -235,6 +230,10 @@ async function writeFlightTime() {
     catch (err) {
         console.error(err.message);
     }
+    $accordian.empty();
+    $('#flextest').empty();
+    getFlights(userData.id)
+    createFlight();
 };
 
 // function for input boxes for create aircraft section
@@ -320,8 +319,8 @@ function displayFlights_FLEX(raw_flights) {
         'Enroute Airport(s)': f.enrRout,
         'Arrival Airport': f.arrAir,
         'Flight Number': f.flightNum,
-        'Departure Time': moment(f.depTime).format("hh:mm A"),
-        'Arrival Time': moment(f.arrTime).format("hh:mm A"),
+        // 'Departure Time': moment(f.depTime).format("hh:mm A"),
+        // 'Arrival Time': moment(f.arrTime).format("hh:mm A"),
         Landings: f.landings,
         'IMC': f.imc,
         Hood: f.hood,
