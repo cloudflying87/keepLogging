@@ -182,7 +182,7 @@ async function writeFlightTime(action) {
             await $.post("/api/flight_time",flightData)
             .catch(console.error)
         } else {
-            await $.post(`/api/flight_time/update/${userData.id}/${flightEditId}`,flightData)
+            await $.post(`/api/flight_time/update/${userData.id}/${flightId}`,flightData)
             .catch(console.error)
         }
             
