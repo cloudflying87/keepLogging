@@ -5,6 +5,7 @@ let toggle = {
     tab: "",
     value: false
 };
+let aircraftDropDownValues = [];
 
 // onload, make an api call to /api/user_data that will return a json object with their email and id. store this as a global object. then call getFlights()
 $(document).ready(async function () {
@@ -81,17 +82,35 @@ $('#create-aircraft').on('click', function (e) {
     };
 });
 
+function getAircraftTypes () {
+        $.ajax({
+            method: "GET",
+            url: `/api/aircraftTypes`
+        })
+            .then(air => air.map(a => aircraftDropDownValues.push(a)))
+            .catch(err => console.error(err));
+    };
 
 function createInputLoop(arr1, arr2) {
     $accordian.append(arr2[0], '<hr>')
     for (let i = 1; i < arr1.length; i++) {
-        const $input = $('<input class=form-control>');
-        const $label = $("<label>");
-        $input.attr('id', arr1[i]);
-        $input.attr('placeholder', arr1[0]);
-        $input.addClass(arr2[1]);
-        $label.text(arr2[i + 1]);
-        $accordian.append($label, $input);
+        if (arr1[i]=='aircraftID'){
+            getAircraftTypes ()
+            const $dropdown = $('<select>')
+            $dropdown.attr('id', arr1[i]);
+            const $label = $("<label>");
+            $dropdown.addClass(arr2[1]);
+            $label.text(arr2[i + 1]);
+            $accordian.append($label, $dropdown);
+        } else {
+            const $input = $('<input class=form-control>');
+            const $label = $("<label>");
+            $input.attr('id', arr1[i]);
+            $input.attr('placeholder', arr1[0]);
+            $input.addClass(arr2[1]);
+            $label.text(arr2[i + 1]);
+            $accordian.append($label, $input);
+        }
     };
 };
 
@@ -131,6 +150,25 @@ function createFlight() {
         event.preventDefault();
         writeFlightTime();
     })
+    for (let i = 0; i < aircraftDropDownValues.length; i++) {
+        let options = $('<option>').text(aircraftDropDownValues[i]).attr('value', aircraftDropDownValues[i])
+        $('#aircraftID').append(options)
+    }
+    // try {
+    //    var aircraftDropDown = new SlimSelect({
+    //         select: '#aircraftID',
+    //         // select: '#single',
+    //         // data: [{text:'option1'},{text:'option2'}]
+    //         // data: [
+    //         //     {
+    //         //         options: aircraftDropDownValues
+    //         //     }
+    //         // ]
+    //     });
+        console.log(aircraftDropDownValues)
+        // aircraftDropDown.set(aircraftDropDownValues)
+        
+    // } catch (error) {console.error};
 };
 
 async function writeFlightTime() {

@@ -2,6 +2,7 @@
 var db = require("../models");
 var passport = require("../config/passport");
 const sequelize = require("sequelize");
+const { col } = require("sequelize");
 
 // exporting this as a function to use in server.js
 module.exports = function (app) {
@@ -177,13 +178,7 @@ module.exports = function (app) {
     // if (!req.user) {
     //     res.redirect(307, "/api/login");
     // } else {
-    db.Aircraft.findAll({
-      attributes:{
-        // name:'aircraftType',
-        exclude:['id']
-      }
-      
-    })
+    db.Aircraft.findAll({})
       .then(results => res.json(results))
       .catch(err => res.status(404).json(err));
     // };
@@ -265,6 +260,27 @@ module.exports = function (app) {
       .catch(err => res.status(404).json(err));
     // };
   });
+
+  app.get("/api/aircraftTypes/", function (req, res) {
+    // if (!req.user) {
+    //     res.redirect(307, "/api/login");
+    // } else {
+    db.Aircraft.findAll({
+      attributes:['aircraftType'], 
+      raw: true
+    })
+      .then(results => {
+        let airCraft = []
+        for (let i = 0; i < results.length; i++) {
+          for (const value in results[i])
+            // airCraft.push({'text':results[i][value]})
+            airCraft.push(results[i][value])
+        }
+        res.json(airCraft)})
+      .catch(err => res.status(404).json(err));
+    // };
+  });
+
   // -----------------------------------------
   // Airport Routes
 
