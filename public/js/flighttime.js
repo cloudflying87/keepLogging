@@ -15,6 +15,7 @@ $(document).ready(async function () {
     })
         .then(result => {
             userData = result;
+            getAircraftTypes ();
             // console.log(userData)
         })
         .catch(err => console.error(err));
@@ -87,7 +88,9 @@ function getAircraftTypes () {
             method: "GET",
             url: `/api/aircraftTypes`
         })
-            .then(air => air.map(a => aircraftDropDownValues.push(a)))
+            .then(air => air.map(a => {
+                aircraftDropDownValues.push(a)
+            }))
             .catch(err => console.error(err));
     };
 
@@ -95,12 +98,15 @@ function createInputLoop(arr1, arr2) {
     $accordian.append(arr2[0], '<hr>')
     for (let i = 1; i < arr1.length; i++) {
         if (arr1[i]=='aircraftID'){
-            getAircraftTypes ()
             const $dropdown = $('<select>')
             $dropdown.attr('id', arr1[i]);
             const $label = $("<label>");
+            const $newAir = $('<a href =#>');
+            $newAir.attr('id','addAircraftShortcut')
+            $newAir.text(' :Add Aircraft')
             $dropdown.addClass(arr2[1]);
             $label.text(arr2[i + 1]);
+            $label.append($newAir)
             $accordian.append($label, $dropdown);
         } else {
             const $input = $('<input class=form-control>');
@@ -113,12 +119,12 @@ function createInputLoop(arr1, arr2) {
         }
     };
 };
-
+// Input boxes for the create aircraft menu
 function createInputLoopCheckboxes(arr1, arr2) {
     $accordian.append(arr2[0], '<hr>')
     for (let i = 1; i < arr1.length; i++) {
         const $input = $('<input type=checkbox value=0 class=aircraft-chkbx>');
-        const $label = $("<label>");
+        const $label = $('<label>');
         $input.attr('id', arr1[i]);
         $input.addClass(arr2[1]);
         $label.text(arr2[i + 1]);
@@ -127,6 +133,7 @@ function createInputLoopCheckboxes(arr1, arr2) {
         $accordian.append($label, $input);
     };
 };
+
 // Used to make all of the input boxes for the create flight section
 function createFlight() {
     //General Flight Info
@@ -150,27 +157,27 @@ function createFlight() {
         event.preventDefault();
         writeFlightTime();
     })
-    for (let i = 0; i < aircraftDropDownValues.length; i++) {
-        let options = $('<option>').text(aircraftDropDownValues[i]).attr('value', aircraftDropDownValues[i])
-        $('#aircraftID').append(options)
-    }
-    // try {
-    //    var aircraftDropDown = new SlimSelect({
-    //         select: '#aircraftID',
-    //         // select: '#single',
-    //         // data: [{text:'option1'},{text:'option2'}]
-    //         // data: [
-    //         //     {
-    //         //         options: aircraftDropDownValues
-    //         //     }
-    //         // ]
-    //     });
-        console.log(aircraftDropDownValues)
+    
+    $("#addAircraftShortcut").click(function (event) {
+        event.preventDefault();
+        $('#dyn-form').empty();
+        createAircraft();
+    })
+
+    try {
+        for (let i = 0; i < aircraftDropDownValues.length; i++) {
+            let options = $('<option>').text(aircraftDropDownValues[i]).attr('value', aircraftDropDownValues[i])
+            $('#aircraftID').append(options)
+        }
+       var aircraftDropDown = new SlimSelect({
+            select: '#aircraftID',
+        });
         // aircraftDropDown.set(aircraftDropDownValues)
         
-    // } catch (error) {console.error};
+    } catch (error) {console.error};
 };
 
+// The post route to create a new flight record. Reading from the input boxes and then sending to the database. Converting the aircraftID to a number with a get route. 
 async function writeFlightTime() {
     const NULL = null
     //    $('.form-control').each(function(){
@@ -319,7 +326,7 @@ function createAircraft() {
 
     const generalAircraft = ['', 'aircraftType', 'class', 'numEngine'];
 
-    const generalAircraftLabels = ['General Aircraft Information', 'general', 'Aircraft Type', 'Class', 'Number of Engines'];
+    const generalAircraftLabels = ['General Aircraft Information', 'general', 'Aircraft Type', 'Class (Land or Sea)', 'Number of Engines'];
 
     createInputLoop(generalAircraft, generalAircraftLabels);
 
@@ -349,7 +356,7 @@ function createAircraft() {
 // function for writing create aircraft fields to the db
 function writeAircraft() {
     $('.form-control').each(function () {
-        console.log($(this).attr('class'))
+        // console.log($(this).attr('class'))
         if ($(this).hasClass('general')) {
             const generalName = $(this).attr('id')
         } else {
@@ -370,7 +377,11 @@ function writeAircraft() {
         rotorcraft: $("#rotorcraft").val(),
         poweredLift: $("#poweredLift").val()
     })
-        .then(result => console.log(result))
+        .then(result => {
+            // console.log(result)
+            $('#dyn-form').empty()
+            createAircraft()
+        })
         .catch(err => console.error(err.responseJSON.parent));
 
 }
@@ -617,7 +628,7 @@ function editFlightTime(flight) {
 
 // To delete flights function
 function deleteFlights(deleteId) {
-    $("#body").empty();
+    $("#flextest").empty();
     $.ajax({
         method: "DELETE",
         url: `/api/flight_time/delete/${userData.id}/${deleteId}`
