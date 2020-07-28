@@ -23,10 +23,10 @@ app.use(passport.session());
 
 // Requiring our routes
 require("./routes/htmlRoutes.js")(app);
-require("./routes/aircraftRoutes.js")(app);
-require("./routes/airportsRoutes.js")(app);
-require("./routes/flightTimeRoutes.js")(app);
 require("./routes/userRoutes.js")(app);
+require("./routes/flightTimeRoutes.js")(app);
+require("./routes/aircraftRoutes.js")(app);
+require("./routes/airportRoutes.js")(app);
 // require("./routes/api_routes.js")(app);
 
 // Syncing our database and logging a message to the user upon success
