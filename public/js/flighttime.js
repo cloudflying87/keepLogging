@@ -26,11 +26,11 @@ $("#create-flight").on("click", function (e) {
     e.preventDefault();
     $accordian.empty();
     // 3 cases
-        // not active, not clicked => click it
-        // not active, has been clicked => click it
-            // make active and show
-        // active, has been clicked =>  click it
-            // close and hide
+    // not active, not clicked => click it
+    // not active, has been clicked => click it
+    // make active and show
+    // active, has been clicked =>  click it
+    // close and hide
 
     if (!toggle.value && toggle.tab !== "CREATE_FLIGHT" || toggle.value && toggle.tab !== "CREATE_FLIGHT") {
         createFlight();
@@ -333,8 +333,8 @@ function createAircraft() {
     $accordian.append(newButton)
 
     // changes value of checkbox to 1 if it is checked
+    const checkbox = $(this);
     $('.aircraft-chkbx').change(function () {
-        const checkbox = $(this);
         if (checkbox.prop('checked', 'true')) {
             checkbox.val(1);
         };
@@ -386,9 +386,10 @@ function getFlights(userId) {
 };
 
 function displayFlights_FLEX(raw_flights) {
-    console.log(raw_flights);
+    // console.log(raw_flights);
     const TABLE = $("#flextest");
 
+    // map raw_flights data into flights object for column headers and appropriate order
     const flights = raw_flights.map(f => ({
         Date: moment(f.date).format("MM/DD/YY"),
         Aircraft: f['Aircraft.aircraftType'],
@@ -418,41 +419,50 @@ function displayFlights_FLEX(raw_flights) {
         Student: f.student
     }));
 
-    const header = $("<div>").addClass('row');
-    const index = $("<div>").addClass("col").text("#");
-    header.append(index);
+    // column headers
+    const header = $("<div>").addClass('table-row table-header');
+    const stickyHeader = $("<div>").addClass('table-row table-header').attr('id', 'sticky').hide();
+    // const index = $("<div>").addClass("col").text("#");
+    // header.append(index);
+    // extract keys from flights as header names
     const headers = Object.keys(flights[0]);
     for (var i = 0; i < headers.length; i++) {
-        const key = $("<div>").addClass("col").text(headers[i])
-        header.append(key);
+        // create column, add text for our table headers
+        const key = $("<div>").addClass("table-col").text(headers[i]);
+        const stickyKeys = $("<div>").addClass('table-col').text(headers[i]);
+        stickyHeader.append(stickyKeys);
+        header.append(key);;
     };
-    TABLE.append(header);
+    TABLE.append(header, stickyHeader);
 
     for (let i = 0; i < flights.length; i++) {
-        const row = $("<div>").addClass('row');
+        const row = $("<div>").addClass('table-row');
         row.data("flight", raw_flights[i].id);
-        row.click(clickFlightRow);
+        // row.click(clickFlightRow);
 
-        const index = $("<div>").addClass("col").text(i + 1);
-        row.append(index);
+        // const index = $("<div>").addClass("col").text(i + 1);
+        // row.append(index);
 
         const keys = Object.keys(flights[0]);
         for (let j = 0; j < keys.length; j++) {
 
-            const col = $("<div>").addClass("col");
+            let col = $("<div>").addClass("table-col");
             const value = flights[i][keys[j]];
-            col.text(value);
-
+            if (value == 0) {
+                col = $("<div>").addClass('table-col').text('...')
+            } else {
+                col = $("<div>").addClass('table-col').text(value); //flights[i] {id:4, date:...}
+            };
             row.append(col);
         };
         TABLE.append(row);
 
-        const hiddenRow = $("<div>").addClass('row hidden-row').css("display", "none").data("flight", raw_flights[i].id);
-        const comments = $("<div>").addClass('col').text("Comments:");
-        const _comments = $("<div>").addClass('col').text(raw_flights[i].comments);
+        // const hiddenRow = $("<div>").addClass('row hidden-row').css("display", "none").data("flight", raw_flights[i].id);
+        // const comments = $("<div>").addClass('col').text("Comments:");
+        // const _comments = $("<div>").addClass('col').text(raw_flights[i].comments);
 
-        hiddenRow.append(comments, _comments);
-        TABLE.append(hiddenRow);
+        // hiddenRow.append(comments, _comments);
+        // TABLE.append(hiddenRow);
 
         // edit and delte buttons
         let $button = $("<button>")
@@ -463,8 +473,9 @@ function displayFlights_FLEX(raw_flights) {
             .attr('data-ft-id', raw_flights[i].id)
         row.append($button, $delBtn);
         TABLE.append(row);
-
     };
+
+
 
     // delete button event listener
     $('.delete-flight').click(function (event) {
@@ -477,25 +488,25 @@ function displayFlights_FLEX(raw_flights) {
         event.preventDefault();
         const flightEditId = $(this).attr('data-ft-id')
         $accordian.empty();
-        $('#create').collapse('toggle')
+        // $('#create').collapse('toggle')
         createFlight()
         editFlightsAPICall(flightEditId)
 
     })
 };
 
-function clickFlightRow() {
-    const id = $(this).data("flight");
-    $(".hidden-row").each(function (i, element) {
-        if (id === $(element).data("flight")) {
-            // $(this).show();
-            $(this).toggle();
-        }
-        //  else {
-        //     $(this).hide();
-        // };
-    });
-};
+// function clickFlightRow() {
+//     const id = $(this).data("flight");
+//     $(".hidden-row").each(function (i, element) {
+//         if (id === $(element).data("flight")) {
+//             // $(this).show();
+//             $(this).toggle();
+//         }
+//         //  else {
+//         //     $(this).hide();
+//         // };
+//     });
+// };
 
 // function for displaying all flight times in a table
 // function displayFlightTimeTable(flights) {
@@ -568,7 +579,7 @@ function editFlightsAPICall(flightId) {
         method: "GET",
         url: `/api/flight_time/${userData.id}/${flightId}`
     })
-        .then(flight =>editFlightTime(flight))
+        .then(flight => editFlightTime(flight))
         .catch(err => console.error(err));
 };
 // Manually putting in each of the flight time values into the input boxes.

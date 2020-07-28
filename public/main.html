@@ -5,21 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- CSS only -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" /> -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.26.0/slimselect.min.css" rel="stylesheet"></link>
     <link rel="stylesheet" href="./stylesheets/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./stylesheets/css/style.css">
     <title>Logbook | Home</title>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg">
-        <a href="main.html" class="navbar-brand nav-style">Logbook</a>
-        <button class="navbar-toggler navbar-toggler-custom" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContet" aria-expanded="false" aria-label="Toggle-navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+        <a href="/main" class="navbar-brand nav-style"><span id="nav"><strong>Logbook</strong></span></a>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <!-- <button class="navbar-toggler navbar-toggler-custom" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContet" aria-expanded="false" aria-label="Toggle-navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button> -->
+
+        <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a href="/main" class="nav-link">My Flights <span class="sr-only"></span></a>
@@ -28,10 +31,11 @@
                     <a href="/main" class="nav-link">My Aircrafts <span class="sr-only"></span></a>
                 </li>
             </ul>
-        </div>
+        </div> -->
     </nav>
 
-    <div class="row">
+    <!-- <div class="row"> -->
+        <div>
         <button class="btn btn-primary" type="button" id="create-flight">Create Flight</button>
         <button class="btn btn-primary" type="button" id="create-aircraft">Create Aircraft</button>
         <button class="btn btn-primary" type="button" id="show-totals">Totals</button>
@@ -46,9 +50,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.26.0/slimselect.min.js"></script>
     <script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script> -->
     <script src="./js/flighttime.js"></script>
+    <script src="./js/stickyTableHeader.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,57 @@
+$gainsboro: #DBDBDB;
+$lightGrey: #D1D1D1;
+$lightSkyBlue: #85C7F2;
+$dimGrey: #636363;
+$darkGrey: #4C4C4C;
+$fontOne: 'Roboto Mono',
+monospace;
+.totalList {
+  list-style: none;
+  margin: 10px;
+}
+
+form.signup,
+form.login {
+  margin-top: 50px;
+}
+
+#flextest {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+
+.table-header {
+  padding: 20px 15px;
+}
+
+#sticky {
+  position: sticky;
+  top:0;
+  background-color: $lightSkyBlue;
+  color: $darkGrey;
+  opacity: 0.8;
+  border-radius: 10px;
+  height: 25px;
+}
+
+
+.table-row {
+  display: grid;
+  grid-template-columns: repeat(26, 1fr);
+  border-top: .5px solid black;
+  font-family: $fontOne;
+  font-size: .8em;
+  padding: 16px 0px;
+}
+
+.table-col {
+  padding-top: 3px;
+  padding: 0 8%;
+}
+
+.table-row:nth-child(even) {
+  background-color: lightgray;
+}
