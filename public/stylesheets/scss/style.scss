@@ -21,11 +21,14 @@ form.login {
 }
 
 #flextest {
-  overflow-x:scroll;
+  // overflow-x:scroll;
   // margin-left: auto;
   // margin-right: auto;
   // padding-left: 15px;
   // padding-right: 15px;
+  // display: grid;
+  // grid-template-columns: 3fr 2fr 2fr 2fr 2fr 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 2fr 2fr 3fr .5fr;
+  // grid-template-rows: repeat(24, 1fr);
 }
 
 
