@@ -7,16 +7,10 @@ form.login {
   margin-top: 50px; }
 
 #flextest {
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 15px;
-  padding-right: 15px; }
+  overflow-x: scroll; }
 
 .table-header {
   background-color: #D1D1D1; }
-  .table-header .table-col {
-    padding-right: 6px;
-    margin-right: 5px; }
 
 #sticky {
   position: sticky;
@@ -29,7 +23,8 @@ form.login {
 
 .table-row {
   display: grid;
-  grid-template-columns: repeat(26, 1fr);
+  grid-template-columns: 3fr 2fr 2fr 2fr 2fr 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 2fr 2fr 3fr .5fr;
+  grid-template-rows: auto max-content;
   border-top: .5px solid black;
   font-family: "Roboto Mono", monospace;
   font-size: .8em;
@@ -60,7 +55,16 @@ button {
 .btn-wrapper {
   text-align: center; }
 
+.table-row .editButton {
+  width: 48px; }
+
 .form-control {
   height: 16px;
   width: 26px;
   margin: 3px; }
+
+@media screen and (max-width: 576px) {
+  .table-row {
+    display: grid;
+    grid-template-columns: repeat(26, auto);
+    border-top: .2px solid black; } }

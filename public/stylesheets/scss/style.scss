@@ -5,6 +5,11 @@ $dimGrey: #636363;
 $darkGrey: #4C4C4C;
 $fontOne: 'Roboto Mono',
 monospace;
+// screen size or larger
+$breakpoint-xs-phone: 576px;
+$breakpoint-sm-phone: 768px;
+$breakpoint-tablet: 992px;
+$breakpoint-desktop: 1200px;
 .totalList {
   list-style: none;
   margin: 10px;
@@ -16,20 +21,21 @@ form.login {
 }
 
 #flextest {
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 15px;
-  padding-right: 15px;
+  overflow-x:scroll;
+  // margin-left: auto;
+  // margin-right: auto;
+  // padding-left: 15px;
+  // padding-right: 15px;
 }
 
 
 .table-header {
   background-color: $lightGrey;
-  .table-col {
-
-    padding-right: 6px;
-    margin-right: 5px;
-  }
+  // .table-col {
+    // grid-column-gap: none;
+    // padding-right: 6px;
+    // margin-right: 5px;
+  // }
 }
 
 #sticky {
@@ -43,14 +49,18 @@ form.login {
 }
 
 
+
 .table-row {
   display: grid;
-  grid-template-columns: repeat(26, 1fr);
+  grid-template-columns: 3fr 2fr 2fr 2fr 2fr 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 2fr 2fr 3fr .5fr;
+  grid-template-rows: auto max-content;
+  // grid-column-gap: 5px;
   border-top: .5px solid black;
   font-family: $fontOne;
   font-size: .8em;
   padding: 8px 3%;
   // padding-right: 8%;
+
 }
 
 .table-col {
@@ -84,12 +94,35 @@ button {
   text-align: center;
 }
 
-#dyn-form {
+.table-row {
+  .editButton {
+    //   display: flex;
+    // justify-content: flex-end;
+    width: 48px;
 
+  }
+}
+
+.delete-flight {
+  // display: flex;
+  // justify-content: flex-end;
 }
 
 .form-control {
   height: 16px;
   width: 26px;
   margin: 3px
+}
+
+@media screen and (max-width: $breakpoint-xs-phone) {
+
+  .table-row {
+    display: grid;
+    grid-template-columns: repeat(26, auto);
+    border-top: .2px solid black;
+  //   font-family: $fontOne;
+    // font-size: .8em;
+    // padding: 16px 0px;
+  }
+
 }
