@@ -1,6 +1,7 @@
 // Requiring our models and passport as we've configured it
 var db = require("../models");
 const sequelize = require("sequelize");
+var passport = require("../config/passport");
 const { col } = require("sequelize");
 
 // exporting this as a function to use in server.js
