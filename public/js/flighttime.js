@@ -1,5 +1,6 @@
 const $div = $("<div>");
 const $accordian = $("#dyn-form");
+var aircraftDropDown;
 let userData = {};
 let toggle = {
     tab: "",
@@ -169,7 +170,7 @@ function createFlight() {
             let options = $('<option>').text(aircraftDropDownValues[i]).attr('value', aircraftDropDownValues[i])
             $('#aircraftID').append(options)
         }
-       var aircraftDropDown = new SlimSelect({
+       aircraftDropDown = new SlimSelect({
             select: '#aircraftID',
         });
         // aircraftDropDown.set(aircraftDropDownValues)
@@ -590,9 +591,13 @@ function editFlightsAPICall(flightId) {
         method: "GET",
         url: `/api/flight_time/${userData.id}/${flightId}`
     })
-        .then(flight => editFlightTime(flight))
+        .then(flight => {
+            console.log(flight)
+            editFlightTime(flight)})
         .catch(err => console.error(err));
 };
+
+
 // Manually putting in each of the flight time values into the input boxes.
 function editFlightTime(flight) {
     // console.log(flight)
@@ -601,7 +606,10 @@ function editFlightTime(flight) {
     // })
     $("#date").val(flight[0].date);
     $("#tailNumber").val(flight[0].tailNumber);
-    $("#aircraftID").val(flight[0].aircraftId);
+    console.log(flight[0].Aircraft.aircraftType)
+    aircraftDropDown.set(flight[0].Aircraft.aircraftType)
+    // $("#aircraftID").val(flight[0].Aircraft);
+    $("#aircraftID").val('TEst');
     $("#depAir").val(flight[0].depAir);
     $("#enrRout").val(flight[0].enrRout);
     $("#arrAir").val(flight[0].arrAir);
