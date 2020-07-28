@@ -10,6 +10,9 @@ async function getFlights(userId) {
 };
 
 function displayFlights_FLEX(raw_flights) {
+    let $editButton;
+    let $deleteButton;
+    let tippyDiv;
     // console.log(raw_flights);
     const TABLE = $("#flextest");
 
@@ -89,36 +92,70 @@ function displayFlights_FLEX(raw_flights) {
         // TABLE.append(hiddenRow);
 
         // edit and delte buttons
-        let $button = $("<button>")
-            .text("Edit")
+        // let $button = $("<button>")
+        //     .text("Edit")
+        //     .attr('data-ft-id', raw_flights[i].id)
+        //     .addClass('editButton');
+        // const $delBtn = $("<i class='fas fa-trash-alt float-right text-danger delete-flight'>")
+        //     .attr('data-ft-id', raw_flights[i].id)
+        // row.append($button, $delBtn);
+        let $img = $('<img>').attr('src','../assets/MenuChevron.png')
             .attr('data-ft-id', raw_flights[i].id)
-            .addClass('editButton');
-        const $delBtn = $("<i class='fas fa-trash-alt float-right text-danger delete-flight'>")
-            .attr('data-ft-id', raw_flights[i].id)
-        row.append($button, $delBtn);
+            .addClass('tippy')
+        row.append($img)
         TABLE.append(row);
     };
 
+    
+    $('.tippy').mouseover(function (event){
+        flightId = $(this).attr('data-ft-id')
+    });
 
+    tippy('.tippy', {
+        content: '<button id ="editFlight">Edit Flight</button><br><button id ="deleteFlight">Delete Flight</button>',
+        interactive: true,
+        allowHTML: true,
+        placement: 'left',
+        // duration:[0,15000],
+            onShown: () => {
+                document.getElementById('deleteFlight').addEventListener('click',function (event) {
+                    event.preventDefault();
+                    windowScroll =  window.scrollY || window.scrollTop || document.getElementsByTagName("html")[0].scrollTop;
+                    deleteFlights(flightId)
+                });
+                document.getElementById('editFlight').addEventListener('click',function (event) {
+                    event.preventDefault();
+                    flightEditId = $(this).attr('data-ft-id')
+                    $accordian.empty();
+                    // $('#create').collapse('toggle')
+                    createFlight()
+                    editFlightsAPICall(flightId)
+                    window.scrollTo(0,0)
+            
+                });
+            }
+      }); 
+      
 
     // delete button event listener
-    $('.delete-flight').click(function (event) {
-        const flightDeleteId = $(this).attr('data-ft-id')
-        windowScroll =  window.scrollY || window.scrollTop || document.getElementsByTagName("html")[0].scrollTop;
-        deleteFlights(flightDeleteId)
-    })
+    // $('#deleteFlight').click(function (event) {
+    //     const flightDeleteId = $(this).attr('data-ft-id')
+    //     windowScroll =  window.scrollY || window.scrollTop || document.getElementsByTagName("html")[0].scrollTop;
+    //     deleteFlights(flightDeleteId)
+    // })
 
-    // edit button event listener
-    $('.editButton').click(function (event) {
-        event.preventDefault();
-        flightEditId = $(this).attr('data-ft-id')
-        $accordian.empty();
-        // $('#create').collapse('toggle')
-        createFlight()
-        editFlightsAPICall(flightEditId)
-        window.scrollTo(0,0)
 
-    })
+    // // edit button event listener
+    // $('#editFlight').click(function (event) {
+    //     event.preventDefault();
+    //     flightEditId = $(this).attr('data-ft-id')
+    //     $accordian.empty();
+    //     // $('#create').collapse('toggle')
+    //     createFlight()
+    //     editFlightsAPICall(flightEditId)
+    //     window.scrollTo(0,0)
+
+    // })
     window.scrollTo(0,windowScroll)
     windowScroll=0
 };

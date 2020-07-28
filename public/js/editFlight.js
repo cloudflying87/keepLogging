@@ -17,7 +17,6 @@ function insertFlightTimetoEdit(flight) {
     $("#date").val(flight[0].date);
     $("#tailNumber").val(flight[0].tailNumber);
     aircraftDropDown.set(flight[0].Aircraft.aircraftType)
-    $("#aircraftID").val('TEst');
     $("#depAir").val(flight[0].depAir);
     $("#enrRout").val(flight[0].enrRout);
     $("#arrAir").val(flight[0].arrAir);
@@ -40,5 +39,5 @@ function insertFlightTimetoEdit(flight) {
     $("#sic").val(flight[0].sic)
     $("#solo").val(flight[0].solo)
 
-    $('#createFlightButton').text('Edit Flight')
+    $('#createFlightButton').text('Update Flight')
 };
