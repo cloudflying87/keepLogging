@@ -88,6 +88,10 @@ module.exports = function (app) {
         UserId: req.params.userId,
         id: req.params.id
       },
+      include: [{
+        model: db.Aircraft,
+        attributes: ['aircraftType']
+      }],
       // include: [db.Aircraft, db.Airport.icao]
     })
       .then(results => res.json(results))
