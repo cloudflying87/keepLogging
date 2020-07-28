@@ -68,8 +68,8 @@ $('#create-aircraft').on('click', function (e) {
     $accordian.empty();
 
     if (!toggle.value && toggle.tab !== "CREATE_AIRCRAFT" || toggle.value && toggle.tab !== "CREATE_AIRCRAFT") {
-        createAircraft();
         $accordian.show();
+        createAircraft();
         toggle.tab = "CREATE_AIRCRAFT";
         toggle.value = true;
 
@@ -356,11 +356,11 @@ function displayFlights_FLEX(raw_flights) {
     const flights = raw_flights.map(f => ({
         Date: moment(f.date).format("MM/DD/YY"),
         Aircraft: f['Aircraft.aircraftType'],
-        'Tail Number': f.tailNumber,
-        'Departure Airport': f.depAir,
-        'Enroute Airport(s)': f.enrRout,
-        'Arrival Airport': f.arrAir,
-        'Flight Number': f.flightNum,
+        'Tail #': f.tailNumber,
+        'Dep Air': f.depAir,
+        'Enr Air': f.enrRout,
+        'Arr Air': f.arrAir,
+        'Flight #': f.flightNum,
         // 'Departure Time': moment(f.depTime).format("hh:mm A"),
         // 'Arrival Time': moment(f.arrTime).format("hh:mm A"),
         Landings: f.landings,
@@ -394,7 +394,7 @@ function displayFlights_FLEX(raw_flights) {
         const key = $("<div>").addClass("table-col").text(headers[i]);
         const stickyKeys = $("<div>").addClass('table-col').text(headers[i]);
         stickyHeader.append(stickyKeys);
-        header.append(key);;
+        header.append(key);
     };
     TABLE.append(header, stickyHeader);
 

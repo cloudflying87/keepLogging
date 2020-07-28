@@ -13,7 +13,10 @@ form.login {
   padding-right: 15px; }
 
 .table-header {
-  padding: 20px 15px; }
+  background-color: #D1D1D1; }
+  .table-header .table-col {
+    padding-right: 6px;
+    margin-right: 5px; }
 
 #sticky {
   position: sticky;
@@ -22,7 +25,7 @@ form.login {
   color: #4C4C4C;
   opacity: 0.8;
   border-radius: 10px;
-  height: 25px; }
+  height: 28px; }
 
 .table-row {
   display: grid;
@@ -30,11 +33,34 @@ form.login {
   border-top: .5px solid black;
   font-family: "Roboto Mono", monospace;
   font-size: .8em;
-  padding: 16px 0px; }
+  padding: 8px 3%; }
 
 .table-col {
-  padding-top: 3px;
-  padding: 0 8%; }
+  margin-right: 6.1px; }
 
 .table-row:nth-child(even) {
   background-color: lightgray; }
+
+button {
+  background-color: #4C4C4C;
+  color: #85C7F2;
+  text-shadow: 0.2px 1px #636363;
+  height: 35px;
+  padding: auto;
+  width: auto;
+  border-right: 3px solid #DBDBDB;
+  border-bottom: 3px solid #D1D1D1;
+  border-top: 3px solid #636363;
+  border-left: 3px solid #383838;
+  font-family: "Roboto Mono", monospace; }
+
+.btn {
+  margin-bottom: 10px; }
+
+.btn-wrapper {
+  text-align: center; }
+
+.form-control {
+  height: 16px;
+  width: 26px;
+  margin: 3px; }

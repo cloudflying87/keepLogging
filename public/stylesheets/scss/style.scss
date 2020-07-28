@@ -24,7 +24,12 @@ form.login {
 
 
 .table-header {
-  padding: 20px 15px;
+  background-color: $lightGrey;
+  .table-col {
+
+    padding-right: 6px;
+    margin-right: 5px;
+  }
 }
 
 #sticky {
@@ -34,7 +39,7 @@ form.login {
   color: $darkGrey;
   opacity: 0.8;
   border-radius: 10px;
-  height: 25px;
+  height: 28px;
 }
 
 
@@ -44,14 +49,47 @@ form.login {
   border-top: .5px solid black;
   font-family: $fontOne;
   font-size: .8em;
-  padding: 16px 0px;
+  padding: 8px 3%;
+  // padding-right: 8%;
 }
 
 .table-col {
-  padding-top: 3px;
-  padding: 0 8%;
+  margin-right: 6.1px;
+  // padding-top: 1px;
 }
 
 .table-row:nth-child(even) {
   background-color: lightgray;
+}
+
+button {
+  background-color: $darkGrey;
+  color: $lightSkyBlue;
+  text-shadow: .2px 1px $dimGrey ;
+  height: 35px;
+  padding: auto;
+  width: auto;
+  border-right: 3px solid $gainsboro;
+  border-bottom: 3px solid $lightGrey;
+  border-top: 3px solid $dimGrey;
+  border-left: 3px solid #383838;
+  font-family: $fontOne;
+}
+
+.btn {
+  margin-bottom: 10px;
+}
+
+.btn-wrapper {
+  text-align: center;
+}
+
+#dyn-form {
+
+}
+
+.form-control {
+  height: 16px;
+  width: 26px;
+  margin: 3px
 }
