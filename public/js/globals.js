@@ -2,8 +2,8 @@
 const $div = $("<div>");
 const $accordian = $("#dyn-form");
 var aircraftDropDown;
-let flightEditId = 0;
 let userData = {};
+let flightId = 0;
 let toggle = {
     tab: "",
     value: false
