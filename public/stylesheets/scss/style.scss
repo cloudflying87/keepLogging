@@ -25,6 +25,7 @@ form.login {
 
 .table-header {
   padding: 20px 15px;
+  background-color: $lightGrey;
 }
 
 #sticky {
@@ -54,4 +55,24 @@ form.login {
 
 .table-row:nth-child(even) {
   background-color: lightgray;
+}
+
+button {
+  background-color: $darkGrey;
+  color: $lightSkyBlue;
+  text-shadow: .2px 1px $dimGrey ;
+  height: 35px;
+  padding: auto;
+  width: auto;
+  border-right: 3px solid $gainsboro;
+  border-bottom: 3px solid $lightGrey;
+  border-top: 3px solid $dimGrey;
+  border-left: 3px solid #383838;
+  font-family: $fontOne;
+}
+.btn {
+  margin-bottom: 10px;
+}
+.btn-wrapper {
+  text-align: center;
 }
