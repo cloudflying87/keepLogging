@@ -383,20 +383,23 @@ function displayFlights_FLEX(raw_flights) {
     }));
 
     // column headers
-    const header = $("<div>").addClass('row table-header');
+    const header = $("<div>").addClass('table-row table-header');
+    const stickyHeader = $("<div>").addClass('table-row table-header').attr('id', 'sticky').hide();
     // const index = $("<div>").addClass("col").text("#");
     // header.append(index);
     // extract keys from flights as header names
     const headers = Object.keys(flights[0]);
     for (var i = 0; i < headers.length; i++) {
         // create column, add text for our table headers
-        const key = $("<div>").addClass("col").text(headers[i])
-        header.append(key);
+        const key = $("<div>").addClass("table-col").text(headers[i]);
+        const stickyKeys = $("<div>").addClass('table-col').text(headers[i]);
+        stickyHeader.append(stickyKeys);
+        header.append(key);;
     };
-    TABLE.append(header);
+    TABLE.append(header, stickyHeader);
 
     for (let i = 0; i < flights.length; i++) {
-        const row = $("<div>").addClass('row');
+        const row = $("<div>").addClass('table-row');
         row.data("flight", raw_flights[i].id);
         // row.click(clickFlightRow);
 
@@ -406,12 +409,12 @@ function displayFlights_FLEX(raw_flights) {
         const keys = Object.keys(flights[0]);
         for (let j = 0; j < keys.length; j++) {
 
-            let col = $("<div>").addClass("col");
+            let col = $("<div>").addClass("table-col");
             const value = flights[i][keys[j]];
             if (value == 0) {
-                col = $("<div>").addClass('col').text('')
+                col = $("<div>").addClass('table-col').text('...')
             } else {
-                col = $("<div>").addClass('col').text(value); //flights[i] {id:4, date:...}
+                col = $("<div>").addClass('table-col').text(value); //flights[i] {id:4, date:...}
             };
             row.append(col);
         };
