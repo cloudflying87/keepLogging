@@ -1,4 +1,4 @@
-$(window).scroll(function () {
+window.addEventListener('scroll', function () {
     const distanceFromTop = $(document).scrollTop();
 
     if (distanceFromTop >= $('.table-header').height()) {
@@ -6,4 +6,4 @@ $(window).scroll(function () {
     } else {
         $('#sticky').hide();
     };
-});
+}, {passive: true});
