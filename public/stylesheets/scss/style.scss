@@ -6,6 +6,8 @@ $darkGrey: #4C4C4C;
 $fontOne: 'Roboto Mono',
 monospace;
 
+@import "./modal.scss";
+
 #logo{
   display: flex;
   justify-content: center;
@@ -108,7 +110,7 @@ button {
   //  "to cx ni si im di"
   //  "cf si pi so .  . "
   //  ".  .  btn .  .  ."
-  
+
   .ss-open {
     overflow: auto;
     flex-flow: column wrap;
