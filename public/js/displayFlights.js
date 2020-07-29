@@ -126,12 +126,13 @@ async function displayFlights_FLEX(raw_flights) {
                 });
                 document.getElementById('editFlight').addEventListener('click',function (event) {
                     event.preventDefault();
-                    flightEditId = $(this).attr('data-ft-id')
+                    flightEditId = $(this).attr('data-ft-id');
                     $accordian.empty();
+                    $accordian.show();
                     // $('#create').collapse('toggle')
-                    createFlight()
-                    editFlightsAPICall(flightId)
-                    window.scrollTo(0,0)
+                    createFlight();
+                    editFlightsAPICall(flightId);
+                    window.scrollTo(0,0);
 
                 });
             }
