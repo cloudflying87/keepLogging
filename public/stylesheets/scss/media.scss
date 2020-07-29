@@ -48,6 +48,36 @@ $darkGrey: #4C4C4C;
         }
       }
 
+      #logo {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        flex-shrink: 5;
+      }
+
+      .main {
+        display: flex;
+        justify-content: center;
+      }
+
+      .signContainer {
+        display: flex;
+        justify-content: center;
+        padding-bottom: 0;
+        margin: 0;
+        top: 5px;
+      }
+
+      .signText {
+        display: none;
+      }
 
 
   }
+
+  // @media screen and (max-width: $breakpoint-tablet) {
+
+  //   .signText {
+  //     display: block;
+  //   }
+  // }
