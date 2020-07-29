@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "watch": "nodemon server.js",
-    "scss": "node-sass --watch ./public/stylesheets/scss -o ./public/stylesheets/css"
+    "scss": "node-sass --watch ./public/stylesheets/scss -o ./public/stylesheets/css",
+    "seed": "node importCSV.js"
   },
   "keywords": [],
   "author": "",

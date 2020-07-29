@@ -15,8 +15,16 @@
 </head>
 
 <body>
+    <div id="modal">
+        <div id="modal-content">
+            <button id="closeModal">x</button>
+            <h1>Welcome to Keep_Logging!</h1>
+            <p>Add an aircraft then enter your first flight to begin.</p>
+        </div>
+    </div>
+
     <div id="logo">
-        <img src="./assets/logoSmall.png" alt="keep logging logo" >
+        <img src="./assets/logoSmall.png" alt="keep logging logo">
     </div>
     <nav class="navbar navbar-expand-lg">
         <!-- <a href="/main" class="navbar-brand nav-style"><span id="nav"><strong>Logbook</strong></span></a> -->
@@ -41,19 +49,21 @@
     </nav>
 
     <!-- <div class="row"> -->
-        <div class='btn-wrapper'>
+    <div class='btn-wrapper'>
         <button class="btn btn-primary" type="button" id="create-flight">Create Flight</button>
         <button class="btn btn-primary" type="button" id="create-aircraft">Create Aircraft</button>
         <button class="btn btn-primary" type="button" id="show-totals">Totals</button>
         <button class="btn btn-primary" type="button" id="logout">Logout</button>
     </div>
 
-        <div class="card card-body" id="dyn-form"></div>
+    <div class="card card-body" id="dyn-form"></div>
 
 
-        <div class="table-wrapper">
-            <div id="flextest"></div>
-        </div>
+    <div class="table-wrapper">
+        <div id="flextest"></div>
+    </div>
+
+
 
 
     <!-- JS, Popper.js, and jQuery -->
@@ -64,6 +74,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script> -->
+    <script src="./js/modal.js"></script>
     <script src="./js/globals.js"></script>
     <script src="./js/userData.js"></script>
     <script src="./js/accordion.js"></script>

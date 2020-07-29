@@ -6,7 +6,7 @@ async function getFlights(userId) {
     })
         .then(async flights => {
             if (flights.length === 0){
-                console.log('flights:', typeof flights);
+                openModal();
             } else {
                 await displayFlights_FLEX(flights);
             }
