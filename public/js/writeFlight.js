@@ -7,7 +7,7 @@ function createFlight() {
 
     // Landings and Approaches
     const approachLanding = [0, 'iap', 'holds', 'landings', 'dayLdg', 'nightLdg']
-    const approachLandingInfo = ['Aproaches and Landings', 'app', 'Approach', 'Holds', 'Total Landings', 'Day Landing', 'Night Landing']
+    const approachLandingInfo = ['Approaches and Landings', 'app', 'Approach', 'Holds', 'Total Landings', 'Day Landing', 'Night Landing']
     createInputLoop(approachLanding, approachLandingInfo)
     // Times
     const flightTimesIds = ['0.00', 'total', 'cxt', 'night', 'hood', 'imc', 'dualI', 'cfi', 'sic', 'pic', 'solo']
@@ -19,15 +19,15 @@ function createFlight() {
 
     $("#createFlightButton").click(function (event) {
         event.preventDefault();
-        
+
         if ($('#createFlightButton').text() == 'Add Flight') {
             writeFlightTime('create');
         } else {
             writeFlightTime('edit');
         }
-        
+
     })
-    
+
     $("#addAircraftShortcut").click(function (event) {
         event.preventDefault();
         $('#dyn-form').empty();
@@ -43,11 +43,11 @@ function createFlight() {
             select: '#aircraftID',
         });
         // aircraftDropDown.set(aircraftDropDownValues)
-        
+
     } catch (error) {console.error};
 };
 
-// The post route to create a new flight record. Reading from the input boxes and then sending to the database. Converting the aircraftID to a number with a get route. 
+// The post route to create a new flight record. Reading from the input boxes and then sending to the database. Converting the aircraftID to a number with a get route.
 async function writeFlightTime(action) {
     // let writeFlightArray =[]
     //    $('.form-control').each(function(){
@@ -149,7 +149,7 @@ async function writeFlightTime(action) {
         })
             .then(aircraftId => aircraftFind = aircraftId[0])
             .catch(err => console.error(err.message))
-            
+
         const flightData = {
             UserId: userData.id,
 
@@ -185,7 +185,7 @@ async function writeFlightTime(action) {
             await $.post(`/api/flight_time/update/${userData.id}/${flightId}`,flightData)
             .catch(console.error)
         }
-            
+
     }
     catch (err) {
         console.error(err.message);

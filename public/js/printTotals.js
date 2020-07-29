@@ -29,7 +29,7 @@ function printTotals(raw_totals) {
     }));
 
     const totalRow1 = $("<div>").addClass('row');
-    const totalRow2 = $("<div>").addClass('row');
+    // const totalRow2 = $("<div>").addClass('row');
     const headers = Object.keys(totals[0]);
     const values = Object.values(totals[0])
     for (var i = 0; i < headers.length; i++) {
@@ -37,16 +37,17 @@ function printTotals(raw_totals) {
         const key = $('<li>').addClass('totalList').text(headers[i])
         const valueRow = $('<li>').addClass('totalList').text(values[i])
         divCont.append(key, valueRow)
-        if (i < 8) {
+        // if (i < 8) {
             // key.append(valueRow)
             // totalRow1.append(key,valueRow)
             totalRow1.append(divCont)
-        } else {
+        // } else {
             // key.append(valueRow)
             // totalRow2.append(key)
-            totalRow2.append(divCont)
-        }
+            // totalRow2.append(divCont)
+        // }
         ;
     };
-    TABLE.append(totalRow1, totalRow2);
+    // TABLE.append(totalRow1, totalRow2);
+    TABLE.append(totalRow1);
 };

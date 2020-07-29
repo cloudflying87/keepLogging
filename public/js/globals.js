@@ -1,5 +1,4 @@
 // const util = require("util");
-const $div = $("<div>");
 const $accordian = $("#dyn-form");
 var aircraftDropDown;
 let userData = {};
