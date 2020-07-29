@@ -4,20 +4,21 @@ async function getFlights(userId) {
         method: "GET",
         url: `/api/flight_time/${userId}`
     })
-        // .then(async flights => await displayFlightTimeTable(flights))
-        .then(async flights => await displayFlights_FLEX(flights))
+        .then(async flights => {
+            if (flights.length === 0){
+                console.log('flights:', typeof flights);
+            } else {
+                await displayFlights_FLEX(flights);
+            }
+        })
         .catch(err => console.error(err));
 };
 
-function displayFlights_FLEX(raw_flights) {
-    let $editButton;
-    let $deleteButton;
-    let tippyDiv;
-    // console.log(raw_flights);
+async function displayFlights_FLEX(raw_flights) {
     const TABLE = $("#flextest");
 
     // map raw_flights data into flights object for column headers and appropriate order
-    const flights = raw_flights.map(f => ({
+    const flights = await raw_flights.map(f => ({
         Date: moment(f.date).format("MM/DD/YY"),
         Aircraft: f['Aircraft.aircraftType'],
         'Tail Number': f.tailNumber,

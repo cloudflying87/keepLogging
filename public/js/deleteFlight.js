@@ -5,6 +5,6 @@ async function deleteFlights(deleteId) {
         method: "DELETE",
         url: `/api/flight_time/delete/${userData.id}/${deleteId}`
     })
-        .then(await getFlights(userData.id))
-        .catch(err => console.error(err));
+    .then(await getFlights(userData.id))
+    .catch(err => console.error(err));
 };
