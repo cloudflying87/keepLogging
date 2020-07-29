@@ -1,9 +1,17 @@
-$(document).ready(function() {
+$(window).on('load',function() {
   // Getting references to our form and input
-  var signUpForm = $("form.signup");
+  var signUpForm = $('form.signup')
   var emailInput = $("input#email-input");
   var passwordInput = $("input#password-input");
 
+  
+  $('.slickCarousel').slick({
+      dots: true,
+      infinite: true,
+      speed: 300,
+      slidesToShow: 1,
+      adaptiveHeight: true
+    });
   // When the signup button is clicked, we validate the email and password are not blank
   signUpForm.on("submit", function(event) {
     event.preventDefault();
@@ -39,4 +47,7 @@ $(document).ready(function() {
     $("#alert .msg").text(err.statusText + ": Account already exists for this email address");
     $("#alert").fadeIn(500);
   }
+
 });
+
+//Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
