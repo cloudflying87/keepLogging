@@ -15,7 +15,8 @@ $(window).on('load',async function () {
 });
 
 $("#logout").on('click', function (event) {
+    event.preventDefault();
     $.ajax({method: "GET", url: "/logout"})
-    .then(console.log('GoodBye'))
-    .catch(console.error)
+    .then(location.reload())
+    .catch(error => console.error(error))
 })

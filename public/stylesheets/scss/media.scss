@@ -29,4 +29,25 @@ $darkGrey: #4C4C4C;
         background-color: lightgray;
       }
 
+      .btn-wrapper {
+        display: flex;
+        flex-flow: row wrap;
+      }
+
+      .btn-primary {
+        width: 25%;
+        height: auto;
+      }
+
+      #dyn-form {
+        display: flex;
+        flex-flow: column wrap;
+
+        .row {
+          flex-flow: row wrap;
+        }
+      }
+
+
+
   }

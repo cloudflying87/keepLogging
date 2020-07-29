@@ -10,4 +10,15 @@
     height: auto;
     color: #4C4C4C; }
   .table-col:nth-child() {
-    background-color: lightgray; } }
+    background-color: lightgray; }
+  .btn-wrapper {
+    display: flex;
+    flex-flow: row wrap; }
+  .btn-primary {
+    width: 25%;
+    height: auto; }
+  #dyn-form {
+    display: flex;
+    flex-flow: column wrap; }
+    #dyn-form .row {
+      flex-flow: row wrap; } }
