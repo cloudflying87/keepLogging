@@ -13,3 +13,9 @@ $(window).on('load',async function () {
 
     getFlights(userData.id);
 });
+
+$("#logout").on('click', function (event) {
+    $.ajax({method: "GET", url: "/logout"})
+    .then(console.log('GoodBye'))
+    .catch(console.error)
+})

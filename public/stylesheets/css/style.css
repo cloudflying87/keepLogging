@@ -120,3 +120,8 @@ button {
     display: flex;
     flex-direction: row wrap;
     justify-content: center; }
+
+    #logo{
+      position: relative;
+      margin: 0 38%;
+  }
