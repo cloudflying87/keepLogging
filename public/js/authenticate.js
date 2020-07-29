@@ -1,4 +1,3 @@
-
 $(window).on('load', function () {
   // Getting references to our form and input
   var signUpForm = $('form.signup')
@@ -8,6 +7,8 @@ $(window).on('load', function () {
 
   $('.slickCarousel').slick({
     dots: true,
+    arrows: false,
+    dots: false,
     infinite: true,
     speed: 100,
     slidesToShow: 1,
@@ -77,7 +78,7 @@ $(window).on('load', function () {
   function handleLoginErr(err) {
     $("#alert .msg").text(err.statusText + ": Account already exists for this email address. Please Login.");
     $("#alert").fadeIn(500);
-    setTimeout(function () { 
+    setTimeout(function () {
       currentButton = "login"
       $("#alert").fadeOut(200)
       switchButtonNames()

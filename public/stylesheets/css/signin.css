@@ -1,68 +1,58 @@
-body{
-    /* background-image: url("../../assets/background.jpg");
+body {
+  /* background-image: url("../../assets/background.jpg");
     background-repeat: no-repeat;
     background-size: cover ; */
-    
-    background-color: #e0eef898;
-}
-.main{
-    position: relative;
-}
-.slickCarousel{
-    width:90%;
-    margin: 50px auto;
-    z-index: 1;
-  }
+  background-color: #e0eef898; }
+
+.main {
+  position: relative; }
+
+.slickCarousel {
+  width: 96.5%;
+  margin: 10px auto;
+  z-index: 1; }
 
 .signContainer {
-    background: #e0eef898;
-    width:250px;
-    margin-right: 10%;
-	padding: 0px 40px 50px 40px;
-    border-radius: 4px;
-    float:right;
-    position: absolute;
-    top: 100px;
-    right:50px;
-    z-index: 10;
-}
-#logo{
-    position: absolute;
-    margin-left: 35%;
-    margin-top: -50px;
-    z-index: 2;
-}
-#signUp{
-    float: left;
-    margin-left: -40px;
-    margin-bottom: 20px;
-    width:72%;
-}
+  background: #e0eef898;
+  width: 250px;
+  margin-right: 10%;
+  padding: 0px 40px 50px 40px;
+  border-radius: 4px;
+  float: right;
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  z-index: 10;
+  display: flex;
+  flex-flow: row wrap;
+  flex-shrink: 2; }
 
-#login{
-    float: right;
-    margin-right: -40px;
-    margin-bottom: 20px;
-    width:72%;
-}
+#logo {
+  display: flex;
+  justify-content: center; }
 
-#actionButton{
-    margin-left:45px;
-    margin-top: 35px;
-}
+#signUp {
+  display: inline; }
+
+#login {
+  display: block; }
+
+#actionButton {
+  margin-left: 45px;
+  margin-top: 35px; }
+
 button {
-    background-color: #4C4C4C;
-    color: #85c7f2;
-    text-shadow: 0.2px 1px #636363;
-    height: 35px;
-    padding: 5px 10px 10px 10px;
-    width: auto;
-    border-right: 3px solid #DBDBDB;
-    border-bottom: 3px solid #D1D1D1;
-    border-top: 3px solid #636363;
-    border-left: 3px solid #383838;
-    font-family: "Roboto Mono", monospace; }
+  background-color: #4C4C4C;
+  color: #85c7f2;
+  text-shadow: 0.2px 1px #636363;
+  height: 35px;
+  padding: 5px 10px 10px 10px;
+  width: auto;
+  border-right: 3px solid #DBDBDB;
+  border-bottom: 3px solid #D1D1D1;
+  border-top: 3px solid #636363;
+  border-left: 3px solid #383838;
+  font-family: "Roboto Mono", monospace; }
 
 .activeButton {
-    background-color: #271f1f; 
-}
+  background-color: #271f1f; }

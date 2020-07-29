@@ -21,4 +21,20 @@
     display: flex;
     flex-flow: column wrap; }
     #dyn-form .row {
-      flex-flow: row wrap; } }
+      flex-flow: row wrap; }
+  #logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-shrink: 5; }
+  .main {
+    display: flex;
+    justify-content: center; }
+  .signContainer {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 0;
+    margin: 0;
+    top: 5px; }
+  .signText {
+    display: none; } }
