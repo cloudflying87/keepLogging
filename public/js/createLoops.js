@@ -1,18 +1,18 @@
 // functions for dynamically creating forms
 function createInputLoop(arr1, arr2) {
     $generalFlightInfo = $('<div>').addClass('title').text(arr2[0]);
-    $accordian.append($generalFlightInfo)
+    $accordian.append($generalFlightInfo);
     for (let i = 1; i < arr1.length; i++) {
         if (arr1[i] === 'aircraftID') {
-            const $dropdown = $('<select>')
+            const $dropdown = $('<select>');
             $dropdown.attr('id', arr1[i]);
             const $label = $("<label>");
             const $newAir = $('<a href =#>');
-            $newAir.attr('id', 'addAircraftShortcut')
-            $newAir.text(' :Add Aircraft')
+            $newAir.attr('id', 'addAircraftShortcut');
+            $newAir.text(' :Add Aircraft');
             $dropdown.addClass(arr2[1]);
             $label.text(arr2[i + 1]);
-            $label.append($newAir)
+            $label.append($newAir);
             const $formDiv = $('<div>').addClass(`form-div-${arr1[i]}`);
             $formDiv.append($label, $dropdown);
             $accordian.append($formDiv);

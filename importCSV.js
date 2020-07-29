@@ -3,7 +3,8 @@ const mysql = require('mysql2');
 const csv = require('fast-csv');
 var importing
 require('dotenv').config();
-    let host = process.env.HOST_LOCAL
+    
+    let host = process.env.HOST_LOCAL 
     let port = process.env.PORT_LOCAL
     let user = process.env.USER_LOCAL
     let password = process.env.PASS_LOCAL
@@ -16,6 +17,7 @@ for (let i = 0; i < importFile.length; i++) {
     importing = true
     let stream = fs.createReadStream(importFile[i]);
     let myData = [];
+    
     let csvStream = csv
         .parse()
         .on("data", function (data) {
@@ -23,13 +25,18 @@ for (let i = 0; i < importFile.length; i++) {
         })
         .on("end", function () {
             myData.shift();
-            const connection = mysql.createConnection({
+        let connection
+          if  (process.env.JAWSDB_URL){
+            connection = mysql.createConnection(process.env.JAWSDB_URL);
+          } else {
+            connection = mysql.createConnection({
                 host: host,
                 port: port,
                 user: user,
                 password: password,
                 database: database,
             });
+            };   
 
             connection.connect((error) => {
                 if (error) {
