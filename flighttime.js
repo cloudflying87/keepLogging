@@ -158,15 +158,15 @@ function createFlight() {
 
     $("#createFlightButton").click(function (event) {
         event.preventDefault();
-        
+
         if ($('#createFlightButton').text() == 'Add Flight') {
             writeFlightTime('create');
         } else {
             writeFlightTime('edit');
         }
-        
+
     })
-    
+
     $("#addAircraftShortcut").click(function (event) {
         event.preventDefault();
         $('#dyn-form').empty();
@@ -182,11 +182,11 @@ function createFlight() {
             select: '#aircraftID',
         });
         // aircraftDropDown.set(aircraftDropDownValues)
-        
+
     } catch (error) {console.error};
 };
 
-// The post route to create a new flight record. Reading from the input boxes and then sending to the database. Converting the aircraftID to a number with a get route. 
+// The post route to create a new flight record. Reading from the input boxes and then sending to the database. Converting the aircraftID to a number with a get route.
 async function writeFlightTime(action) {
     // let writeFlightArray =[]
     //    $('.form-control').each(function(){
@@ -288,7 +288,7 @@ async function writeFlightTime(action) {
         })
             .then(aircraftId => aircraftFind = aircraftId[0])
             .catch(err => console.error(err.message))
-            
+
         const flightData = {
             UserId: userData.id,
 
@@ -324,7 +324,7 @@ async function writeFlightTime(action) {
             await $.post(`/api/flight_time/update/${userData.id}/${flightEditId}`,flightData)
             .catch(console.error)
         }
-            
+
     }
     catch (err) {
         console.error(err.message);

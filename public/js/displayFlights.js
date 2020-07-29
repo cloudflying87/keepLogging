@@ -106,7 +106,7 @@ function displayFlights_FLEX(raw_flights) {
         TABLE.append(row);
     };
 
-    
+
     $('.tippy').mouseover(function (event){
         flightId = $(this).attr('data-ft-id')
     });
@@ -131,11 +131,11 @@ function displayFlights_FLEX(raw_flights) {
                     createFlight()
                     editFlightsAPICall(flightId)
                     window.scrollTo(0,0)
-            
+
                 });
             }
-      }); 
-      
+      });
+
 
     // delete button event listener
     // $('#deleteFlight').click(function (event) {
