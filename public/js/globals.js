@@ -9,3 +9,4 @@ let toggle = {
 };
 let aircraftDropDownValues = [];
 var windowScroll;
+let currentButton = '';

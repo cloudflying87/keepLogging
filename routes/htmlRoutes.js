@@ -15,7 +15,7 @@ module.exports = function(app) {
       res.redirect("/main");
     }
     // if user does not have an account, send them to the signup page
-    res.sendFile(path.join(__dirname, "../public/signup.html"));
+    res.sendFile(path.join(__dirname, "../public/authenticate.html"));
   });
 
   // retrieves the login.html page
@@ -25,7 +25,7 @@ module.exports = function(app) {
       res.redirect("/main");
     }
     // if the user has an account and is not logged in, send them to login.html.
-    res.sendFile(path.join(__dirname, "../public/login.html"));
+    res.sendFile(path.join(__dirname, "../public/authenticate.html"));
   });
 
   // Here we've add our isAuthenticated middleware to this route.
