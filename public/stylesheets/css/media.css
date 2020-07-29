@@ -1,0 +1,13 @@
+@media screen and (max-width: 768px) {
+  .table-row {
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    border-top: .2px solid black; }
+  #sticky {
+    position: sticky;
+    top: 0;
+    height: auto;
+    color: #4C4C4C; }
+  .table-col:nth-child() {
+    background-color: lightgray; } }
