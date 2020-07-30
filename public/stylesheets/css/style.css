@@ -90,7 +90,7 @@ button {
   font-family: "Roboto Mono", monospace;
   font-size: .8em;
   display: grid;
-  grid-template-rows: repeat(10, 1fr);
+  grid-template-rows: repeat(8, 1fr);
   grid-template-columns: repeat(10, 1fr); }
   #dyn-form .flex {
     display: inline-flex;
