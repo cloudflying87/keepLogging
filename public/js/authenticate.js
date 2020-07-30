@@ -30,6 +30,7 @@ $(window).on('load', function () {
       $('#signUp').addClass('activeButton')
       $('#login').removeClass('activeButton')
       $('#actionButton').text('Sign Up')
+      $("#alert").fadeOut(500)
     } else {
       $('.signText').text('Login')
       $('#actionButton').text('Login')
