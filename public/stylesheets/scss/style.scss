@@ -98,7 +98,7 @@ button {
   font-family: $fontOne;
   font-size: .8em;
   display: grid;
-  grid-template-rows: repeat(10, 1fr);
+  grid-template-rows: repeat(8, 1fr);
   grid-template-columns: repeat(10, 1fr);
   // grid-template-areas:
   //  "gf gf gf gf gf gf"
