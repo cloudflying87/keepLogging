@@ -23,7 +23,7 @@ function createInputLoop(arr1, arr2) {
             $input.attr('placeholder', arr1[0]);
             $input.addClass(arr2[1]);
             $label.text(arr2[i + 1]);
-            const $formDiv = $('<div>').addClass(`form-div-${arr1[i]}`);
+            const $formDiv = $('<div>').addClass(`form-div-${arr1[i]} flex`);
             $formDiv.append($label, $input);
             $accordian.append($formDiv);
 
