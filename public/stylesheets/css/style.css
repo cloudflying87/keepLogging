@@ -21,10 +21,15 @@
 #closeModal {
   float: right; }
 
+body {
+  margin: 0; }
+
 #logo {
   display: flex;
   justify-content: center;
   margin-bottom: 14px;
+  width: 100%;
+  background-color: #528DC9;
   /* position: relative; */
   /* margin: 0 38%; */ }
 
@@ -93,31 +98,52 @@ button {
   grid-template-rows: repeat(8, 1fr);
   grid-template-columns: repeat(10, 1fr); }
   #dyn-form .flex {
-    display: inline-flex;
-    justify-content: center; }
+    display: flex;
+    justify-content: center;
+    flex-flow: column wrap;
+    align-items: center;
+    text-align: center; }
+    #dyn-form .flex label {
+      height: auto; }
   #dyn-form input {
     padding: 5px;
     height: 10px;
     width: 35px;
     margin-bottom: 5px;
     margin-right: 6px; }
-  #dyn-form label {
-    text-align: left;
-    margin-right: 5px;
-    height: 89%; }
   #dyn-form .title {
-    grid-column: 1 /-1;
-    font-weight: bold; }
+    grid-column: 5 /-1;
+    font-weight: bold;
+    font-size: 1.3em; }
+  #dyn-form .form-div-date {
+    margin-left: 8px; }
+    #dyn-form .form-div-date label {
+      height: auto; }
   #dyn-form #date {
     width: 100px; }
   #dyn-form #comments {
     grid-row: 4;
-    grid-column: 7; }
+    grid-column: 7;
+    width: 250px;
+    height: auto;
+    resize: both;
+    overflow: auto; }
   #dyn-form .form-div-aircraftID {
     grid-column: 2 / 3;
     grid-row: 2 / 4;
     margin-right: 6px;
+    margin-top: 16px;
     width: 300px; }
+  #dyn-form .form-div-iap {
+    grid-column: 3; }
+  #dyn-form .form-div-holds {
+    grid-column: 4; }
+  #dyn-form .form-div-landings {
+    grid-column: 5; }
+  #dyn-form .form-div-dayLdg {
+    grid-column: 6; }
+  #dyn-form .form-div-nightLdg {
+    grid-column: 7; }
   #dyn-form .form-div-tailWheel {
     grid-row: 3;
     grid-column: 3; }
