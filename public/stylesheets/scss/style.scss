@@ -37,6 +37,9 @@ form.login {
 .table-header {
   padding: 20px 15px;
   background-color: $lightGrey;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   // font-family: $fontOne;
   // font-size: .79em;
 }
@@ -61,6 +64,7 @@ form.login {
   font-family: $fontOne;
   font-size: .8em;
   padding: 8px 3%;
+  margin-left: -5px;
   // padding-right: 8%;
 }
 
