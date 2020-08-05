@@ -6,10 +6,10 @@ const FILES_TO_CACHE = [
     '/assets/icons/airplane-icon-72.png',
     '/assets/icons/airplane-icon-96.png',
     '/assets/icons/airplane-icon-256.png',
-    
+    ''
   ];
   
-  const CACHE_NAME = "static-cache-v2";
+  const CACHE_NAME = "static-cache-v1";
   const DATA_CACHE_NAME = "data-cache-v1";
   
   // install
