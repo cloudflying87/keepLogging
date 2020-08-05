@@ -3,12 +3,12 @@ The purpose of this project was to start creating an electronic logbook that pil
 
 
 
-![Application Homepage](./public/assets/2020-07-29-23-08-35.png)
-![Modal for First Time Users](./public/assets/2020-07-29-23-09-49.png)
-![Entry Page for Returning Users](./public/assets/2020-07-29-23-11-23.png)
-![Create Flight Menu](./public/assets/2020-07-29-23-12-10.png)
-![Create Aircraft Menu](./public/assets/2020-07-29-23-12-49.png)
-![Totals Page](./public/assets/2020-07-29-23-13-33.png)
+![Application Homepage](./public/assets/images/2020-07-29-23-08-35.png)
+![Modal for First Time Users](./public/assets/images/2020-07-29-23-09-49.png)
+![Entry Page for Returning Users](./public/assets/images/2020-07-29-23-11-23.png)
+![Create Flight Menu](./public/assets/images/2020-07-29-23-12-10.png)
+![Create Aircraft Menu](./public/assets/images/2020-07-29-23-12-49.png)
+![Totals Page](./public/assets/images/2020-07-29-23-13-33.png)
 
 
 [Github Repository](https://github.com/cloudflying87/keepLogging)

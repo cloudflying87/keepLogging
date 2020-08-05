@@ -100,7 +100,7 @@ async function displayFlights_FLEX(raw_flights) {
         // const $delBtn = $("<i class='fas fa-trash-alt float-right text-danger delete-flight'>")
         //     .attr('data-ft-id', raw_flights[i].id)
         // row.append($button, $delBtn);
-        let $img = $('<img>').attr('src','../assets/MenuChevron.png')
+        let $img = $('<img>').attr('src','../assets/images/MenuChevron.png')
             .attr('data-ft-id', raw_flights[i].id)
             .addClass('tippy')
         row.append($img)
