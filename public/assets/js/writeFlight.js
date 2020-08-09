@@ -10,7 +10,7 @@ function createFlight() {
     createInputLoop(approachLanding, approachLandingInfo);
     // Times
     const flightTimesIds = ['0.00', 'total', 'cxt', 'night', 'hood', 'imc', 'dualI', 'cfi', 'sic', 'pic', 'solo'];
-    const flightTimesidsLabel = ['Flight Times', 'times', 'Total', 'Cross-Country', 'Night', 'Simulated Instrument', 'IMC', 'Dual (Instruction Recieved)', 'CFI (Instructor)', 'SIC (Second in Command)', 'PIC (Pilot in Command)', 'Solo'];
+    const flightTimesidsLabel = ['Flight Times', 'times', 'Total', 'Cross-Country', 'Night', 'Simulated Instrument', 'IMC', 'Dual I', 'CFI', 'SIC', 'PIC', 'Solo'];
     createInputLoop(flightTimesIds, flightTimesidsLabel);
     const newButton = $("<button>").attr('id', 'createFlightButton').text("Add Flight");
     $accordian.append(newButton);

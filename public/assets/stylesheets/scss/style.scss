@@ -3,13 +3,21 @@ $lightGrey: #D1D1D1;
 $lightSkyBlue: #85c7f2;
 $dimGrey: #636363;
 $darkGrey: #4C4C4C;
+$logoColor: #528DC9;
 $fontOne: 'Roboto Mono',
 monospace;
 @import "./modal.scss";
+
+body {
+  margin: 0;
+}
+
 #logo {
   display: flex;
   justify-content: center;
   margin-bottom: 14px;
+  width: 100%;
+  background-color: $logoColor;
   /* position: relative; */
   /* margin: 0 38%; */
 }
@@ -29,6 +37,9 @@ form.login {
 .table-header {
   padding: 20px 15px;
   background-color: $lightGrey;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   // font-family: $fontOne;
   // font-size: .79em;
 }
@@ -53,6 +64,7 @@ form.login {
   font-family: $fontOne;
   font-size: .8em;
   padding: 8px 3%;
+  margin-left: -5px;
   // padding-right: 8%;
 }
 
@@ -112,8 +124,14 @@ button {
   //   justify-content: flex-start;
   // }
   .flex {
-    display: inline-flex;
+    display: flex;
     justify-content: center;
+    flex-flow: column wrap;
+    align-items: center;
+    text-align: center;
+    label {
+      height: auto;
+    }
   }
 
   input {
@@ -123,14 +141,20 @@ button {
     margin-bottom: 5px;
     margin-right: 6px;
   }
-  label {
-    text-align: left;
-    margin-right: 5px;
-    height: 89%;
-  }
+
   .title {
-    grid-column: 1 /-1;
+    grid-column: 5 /-1;
     font-weight: bold;
+    font-size: 1.3em;
+  }
+  .form-div-date {
+    // display: flex;
+    // flex-flow: column wrap;
+    // justify-content: center;
+    margin-left: 8px;
+    label {
+      height: auto;
+    }
   }
   #date {
     width: 100px;
@@ -138,13 +162,35 @@ button {
   #comments {
     grid-row: 4;
     grid-column: 7;
+    width: 250px;
+    height: auto;
+    resize: both;
+    overflow: auto;
   }
   .form-div-aircraftID {
     grid-column: 2 / 3;
     grid-row: 2 / 4;
     margin-right: 6px;
+    margin-top:16px;
     width: 300px;
   }
+
+  .form-div-iap {
+    grid-column: 3;
+  }
+  .form-div-holds {
+    grid-column: 4;
+  }
+  .form-div-landings {
+    grid-column: 5;
+  }
+  .form-div-dayLdg {
+    grid-column: 6;
+  }
+  .form-div-nightLdg {
+    grid-column: 7;
+  }
+
   .form-div-tailWheel {
     grid-row: 3;
     grid-column: 3;
