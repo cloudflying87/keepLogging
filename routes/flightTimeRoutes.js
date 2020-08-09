@@ -1,5 +1,7 @@
 var db = require("../models");
 const sequelize = require("sequelize");
+const util = require("util");
+const WorkingFlightTime = require("../util/flightTimeWorking.js")
 const { col } = require("sequelize");
 
 module.exports = function(app) {
@@ -49,13 +51,14 @@ app.get("/api/flight_time/:userId/:id", function (req, res) {
 });
 
 // Route for creating a flight_time
-app.post("/api/flight_time/", function (req, res) {
+app.post("/api/flight_time/", async function (req, res) {
   if (!req.user) {
       res.redirect(307, "/login");
   } else {
-  db.FlightTime.create(req.body)
+  const flightData = await WorkingFlightTime(req.body)
+    await (db.FlightTime.create(flightData))
     .then(results => res.json(results))
-    .catch(err => res.status(404).json(err.message));
+    .catch(err => res.status(404).json(err.message))
   };
 });
 
