@@ -1,10 +1,16 @@
 // Used to make all of the input boxes for the create flight section
 // Distance calculation used from https://github.com/mwgg/GreatCircle
+
 function createFlightWorking() {
     //General Flight Info
     const generalFlight = ['', 'date', 'tailNumber', 'aircraftID', 'route', 'deptTime', 'arrTime', 'comments', 'instructor', 'student'];
     const generalFlightInfo = ['General Flight Information', 'general', 'Date', 'Tail Number', 'Aircraft Type', 'Route', 'Departure Time', 'Arrival Time', 'Comments', 'Instructor', 'Student'];
     createInputLoop(generalFlight, generalFlightInfo);
+    // -----------------------------------------------
+    
+
+
+    //----------------------------------------
     // Landings and Approaches
     const approachLanding = [0, 'iap', 'holds', 'landings', 'dayLdg', 'nightLdg'];
     const approachLandingInfo = ['Approaches and Landings', 'app', 'Approach', 'Holds', 'Total Landings', 'Day Landing', 'Night Landing'];
@@ -18,29 +24,41 @@ function createFlightWorking() {
     newButton = $("<button>").attr('id', 'createFlightButton').text("Add Flight");
     $accordian.append(newButton);
 // --------------------------------------
+// Sets the current date into the date box, can be changed by the user but gives them a place to start. 
+const setDate = new Date()
+    const currentDateSet = (setDate.getMonth()+1)+'/'+setDate.getDate()+'/'+setDate.getFullYear()
+    document.getElementById('date').value = currentDateSet
+
 let airportLoc = []
 let distNum = []
+let crossCountry = false
+// This starts the async function for finding the lat/long for the airports and starts calculating the times. 
     $("#calcTimes").click(async function (event) {
         event.preventDefault();
+        // if (document.getElementById('route').value === '') {
+        //     alert("Enter Route before calculating times")
+        //     return
+        // }
         airportLoc = []
         distNum = []
         await workingTimes();
         await findDistance();
+        await calcTime();
         
     });
-
+// Here we split the route box up into as many airports as there are there. We then run a loop to get lat/long for each one of them with a API call to our airport database. 
 async function workingTimes() {
     const route = document.getElementById('route').value
     let eachAirport = route.split(' ')
     for (let i = 0; i < eachAirport.length; i++) {
         await getLatLong(eachAirport[i])
     }
-    // return airportLoc
 }
 
+// Calculates the distance between the airports from above. Will calculate all of the distances and sets Cross country to true if it is over 50nm. 
 async function findDistance() {
     let y = 0;
-    let crossCountry = false
+    
     for(let i=0; i<airportLoc.length/2; i+=2 ){
         y++
         distance(airportLoc[i],airportLoc[i+1],airportLoc[i+2],airportLoc[i+3])
@@ -49,10 +67,7 @@ async function findDistance() {
             crossCountry = true
         }   
     }
-    console.log(crossCountry)
-    console.log(distNum)
 }
-
 async function getLatLong(icao) {
         await $.ajax({
         method: "GET",
@@ -75,6 +90,70 @@ async function distance(lat1, lon1, lat2, lon2) {
     var b = Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lonDelta);
     var angle = Math.atan2(Math.sqrt(a) , b);
     distNum.push(angle * r)
+}
+
+// Calculates total time from the clock times that are input in the time boxes. If no date is entered than todays date is assumed. 
+async function calcTime (){
+    let departTimeDateAdd = false
+    let arrTimeDateAdd = false
+    const userDate = new Date((document.getElementById('date').value));
+    let departTimeDate = '';
+    let arrTimeDate = '';
+    const departTime = (document.getElementById('deptTime').value);
+    const arrTime = (document.getElementById('arrTime').value);
+    
+    
+    if (new Date(departTime)=='Invalid Date'){
+        departTimeDate = new Date((userDate.getMonth()+1)+'/'+userDate.getDate()+'/'+userDate.getFullYear()+' '+departTime+":00")
+        departTimeDateAdd = true
+    }else {
+        departTimeDate = new Date(departTime+':00')
+    }
+    
+    if (new Date(arrTime)=='Invalid Date'){
+        arrTimeDate = new Date((userDate.getMonth()+1)+'/'+userDate.getDate()+'/'+userDate.getFullYear()+' '+arrTime+":00")
+        arrTimeDateAdd = true
+    }else {
+        arrTimeDate = new Date(arrTime+':00')
+    }
+
+    var diff = arrTimeDate.getTime()-departTimeDate.getTime()
+    
+    var msec = diff;
+    var hh = Math.floor(msec / 1000 / 60 / 60);
+    msec -= hh * 1000 * 60 * 60;
+    var mm = (msec / 1000 / 60 / 60);
+    msec -= mm * 1000 * 60;
+    var ss = Math.floor(msec / 1000);
+    msec -= ss * 1000;
+    
+    let timeCalc = (hh+mm).toFixed(2)
+    
+    document.getElementById('total').value = timeCalc
+    if (crossCountry === true){
+        document.getElementById('cxt').value = timeCalc
+    }
+    if (departTimeDateAdd){
+        (document.getElementById('deptTime').value) = (departTimeDate.getMonth()+1)+'/'+departTimeDate.getDate()+'/'+departTimeDate.getFullYear()+' '+departTime
+    }
+    if (arrTimeDateAdd){
+        (document.getElementById('arrTime').value) = (arrTimeDate.getMonth()+1)+'/'+arrTimeDate.getDate()+'/'+arrTimeDate.getFullYear()+' '+arrTime
+    }
+    nighttimeCalc(departTimeDate,arrTimeDate)
+    console.log(timeCalc)
+}
+function nighttimeCalc(depart, arrive){
+    const departSunTimes = sunTimes(depart,airportLoc[0],airportLoc[1])
+    console.log(departSunTimes)
+}
+async function sunTimes(date,lat,long){
+    await $.ajax({
+        method: "GET",
+        url: `/api/nighttime?date=${date}&lat=${lat}&long=${long}`
+    })
+    .then( ({sunrise,sunset, dawn,dusk}) => {
+        console.log(sunrise)
+        return sunrise,sunset,dawk,dusk})
 }
 // --------------------------------------
     $("#createFlightButton").click(function (event) {
@@ -147,26 +226,3 @@ async function writeFlightTime(action) {
     createFlight();
 };
 
-/*
-async function findDistance(){
-    try {
-      const airportLatsnLongs = await workingTimes()
-      const calcDistance = await findDistance()
-    } catch{
-        console.error
-    }
-}
-let distanceP = new Promise((resolve,reject) =>{
-    const route = document.getElementById('route').value
-    let eachAirport = route.split(' ')
-
-})
-async function workingTimes() {
-    
-    for (let i = 0; i < eachAirport.length; i++) {
-        getLatLong(eachAirport[i])
-    }
-    return airportLoc
-}
-
-*/

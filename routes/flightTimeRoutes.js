@@ -1,6 +1,7 @@
 var db = require("../models");
 const sequelize = require("sequelize");
 const util = require("util");
+var SunCalc = require('suncalc');
 const WorkingFlightTime = require("../util/flightTimeWorking.js")
 const { col } = require("sequelize");
 
@@ -125,6 +126,12 @@ app.get("/api/flight_times/totals/:userId/", function (req, res) {
     .catch(err => res.status(404).json(err));
   };
 });
+app.get("/api/nighttime?", function (req, res) {
+  // const sunTime = SunCalc.getTimes(req.params.date,
+  //     req.query.lat,req.query.long)
+   const sunTime = SunCalc.getTimes(new Date(),req.query.lat,req.query.long)    
+  res.json(sunTime)
+})
 
 }
  
