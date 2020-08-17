@@ -37,7 +37,7 @@ module.exports = function(app) {
         // };
       });
     
-      app.post("/api/airports/update/:id", function (req, res) {
+      app.put("/api/airports/update/:id", function (req, res) {
         // if (!req.user) {
         //   res.redirect(307, "/api/login");
         // } else {
