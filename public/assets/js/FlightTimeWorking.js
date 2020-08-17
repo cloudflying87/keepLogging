@@ -57,17 +57,17 @@ async function workingTimes() {
 
 // Calculates the distance between the airports from above. Will calculate all of the distances and sets Cross country to true if it is over 50nm. 
 async function findDistance() {
-    let y = 0;
+    let y = -1;
     
     for(let i=0; i<airportLoc.length/2; i+=2 ){
         y++
         distance(airportLoc[i],airportLoc[i+1],airportLoc[i+2],airportLoc[i+3])
-        
         if (distNum[y]>50){
             crossCountry = true
         }   
     }
 }
+// This is our API call from our aiports table
 async function getLatLong(icao) {
         await $.ajax({
         method: "GET",
@@ -79,6 +79,7 @@ async function getLatLong(icao) {
         })
     })
 }
+// we do all the math for the distance calculation between two points
 async function distance(lat1, lon1, lat2, lon2) {
     var r = 3440.070
     lat1 *= Math.PI / 180;
@@ -102,7 +103,7 @@ async function calcTime (){
     const departTime = (document.getElementById('deptTime').value);
     const arrTime = (document.getElementById('arrTime').value);
     
-    
+    // Here we are checking if the user just input a time. If that is true then we take the date from the date box and put it in from of the time. We are using the newDate to format it as a date correctly to work with. 
     if (new Date(departTime)=='Invalid Date'){
         departTimeDate = new Date((userDate.getMonth()+1)+'/'+userDate.getDate()+'/'+userDate.getFullYear()+' '+departTime+":00")
         departTimeDateAdd = true
@@ -116,9 +117,9 @@ async function calcTime (){
     }else {
         arrTimeDate = new Date(arrTime+':00')
     }
-
+// Subtracting the times in milliseconds. 
     var diff = arrTimeDate.getTime()-departTimeDate.getTime()
-    
+// Converting the time back to hours and minutes in a decimal form. 
     var msec = diff;
     var hh = Math.floor(msec / 1000 / 60 / 60);
     msec -= hh * 1000 * 60 * 60;
@@ -126,34 +127,40 @@ async function calcTime (){
     msec -= mm * 1000 * 60;
     var ss = Math.floor(msec / 1000);
     msec -= ss * 1000;
-    
+    // Limiting it to 2 decimal places. 
     let timeCalc = (hh+mm).toFixed(2)
     
+    // Auto filling times. Will add more as we have user preferences. 
     document.getElementById('total').value = timeCalc
     if (crossCountry === true){
         document.getElementById('cxt').value = timeCalc
     }
+    // Filling the departure box back in so the user can see what date was used from their calculations
     if (departTimeDateAdd){
         (document.getElementById('deptTime').value) = (departTimeDate.getMonth()+1)+'/'+departTimeDate.getDate()+'/'+departTimeDate.getFullYear()+' '+departTime
     }
+    // filling the arrival time back in
     if (arrTimeDateAdd){
         (document.getElementById('arrTime').value) = (arrTimeDate.getMonth()+1)+'/'+arrTimeDate.getDate()+'/'+arrTimeDate.getFullYear()+' '+arrTime
     }
-    nighttimeCalc(departTimeDate,arrTimeDate)
-    console.log(timeCalc)
+    nighttimeGather(departTimeDate,arrTimeDate)
+    
 }
-function nighttimeCalc(depart, arrive){
-    const departSunTimes = sunTimes(depart,airportLoc[0],airportLoc[1])
-    console.log(departSunTimes)
+let sunTimesArr = []
+async function nighttimeGather (depart, arrive){
+    // Getting the departure airport suntimes dawn, sunrise, sunset, dusk pushing them into an array.
+    // always going to take the first airport and the last airport. Getting the last airport by finding the length of the array and taking the last two items. 
+    const numofAirport = airportLoc.length
+    await sunTimes(depart,airportLoc[0],airportLoc[1])
+    await sunTimes(arrive,airportLoc[numofAirport-2],airportLoc[numofAirport-1])
+    console.log(sunTimesArr)
 }
 async function sunTimes(date,lat,long){
     await $.ajax({
         method: "GET",
         url: `/api/nighttime?date=${date}&lat=${lat}&long=${long}`
     })
-    .then( ({sunrise,sunset, dawn,dusk}) => {
-        console.log(sunrise)
-        return sunrise,sunset,dawk,dusk})
+    .then( ({sunrise,sunset, dawn,dusk}) => sunTimesArr.push(dawn,sunrise,sunset,dusk))
 }
 // --------------------------------------
     $("#createFlightButton").click(function (event) {
