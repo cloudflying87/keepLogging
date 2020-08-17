@@ -24,10 +24,31 @@ export default {
     },
     // translate aircraft type into id
     getAircraftId: function(aircraftType) {
-        axios.get('/api/aircraft/userFind/'+aircraftType);
+        return axios.get('/api/aircraft/userFind/'+aircraftType);
     },
     // putting aircraft types in a list for our dropdown menu
     getAircraftTypes: function() {
-        axios.get('api/aircraftTypes');
-    }
+        return axios.get('api/aircraftTypes');
+    },
+    // airport routes --------------------------------------------------------
+    // all airports
+    getAirports: function() {
+        return axios.get('/api/airports/');
+    },
+    // get airport by id
+    getOneAirport: function(id) {
+        return axios.get('/api/airports/'+id);
+    },
+    // create an airport
+    createAirport: function() {
+        return axios.post('/api/airport');
+    },
+    // update airport
+    updateAirport: function(id) {
+        return axios.put('/api/airports/'+id);
+    },
+    deleteAirport: function(id) {
+        return axios.delete('/api/airports/delete/'+id);
+    },
+    
 };
