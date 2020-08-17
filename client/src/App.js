@@ -1,12 +1,15 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Signup from './pages/Signup'
+import Nav from './components/Nav/index';
+import Signup from './pages/Signup';
+import './style.css'
 
 
 function App() {
   return (
     <Router>
       <div>
+        <Nav />
         <Switch>
           <Route exact path='/' component={Signup} />
         </Switch>
