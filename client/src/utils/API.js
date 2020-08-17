@@ -50,5 +50,29 @@ export default {
     deleteAirport: function(id) {
         return axios.delete('/api/airports/delete/'+id);
     },
-    
+    // flight_time routes ----------------------------------------------------------------
+    // get all flight_times for the user
+    getFlights: function(userId) {
+        return axios.get('/api/flight_time/'+userId);
+    },
+    // select one flight_time
+    getOneFlight: function(userId, id) {
+        return axios.get(`/api/flight_time/${userId}/${id}`);
+    },
+    // create a flight_time
+    createFlight: function() {
+        return axios.post('/api/flight_time/');
+    },
+    // update a flight_time
+    updateFlight: function(userId, id) {
+        return axios.put(`/api/flight_time/update/${userId}/${id}`);
+    },
+    // delete a flight_time
+    deleteFlight: function(userId, id) {
+        return axios.put(`/api/flight_time/delete/${userId}/${id}`);
+    },
+    // get flight_time totals
+    getFlightTotals: function(userId) {
+        return axios.get('/api/flight_times/totals/'+userId);
+    }
 };
