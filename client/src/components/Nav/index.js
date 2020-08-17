@@ -11,30 +11,34 @@ const Nav = () => {
     });
 
     useEffect(() => {
+        // set width function
         function setWidth() {
             setState(state => ({
                 ...state,
                 width: window.innerWidth
             }))
         }
-
+        // sets width when window is resized
         window.addEventListener('resize', setWidth);
 
+        // clean up dependencies
         return _ => {
             window.removeEventListener('resize', setWidth);
         }
+        // keep sate.width and state.open updated
     }, [state.width, state.open])
 
+    // on click for hamburger menu
     const toggleNav = () => {
         setState(state => ({
             ...state,
             open: !state.open
         }))
-        console.log("state.open: ", state.open)
-        console.log('width: ', state.width)
         const burger = document.querySelector('i');
         const navList = document.querySelector('ul');
+        // show nav list
         navList.classList.toggle('navActive')
+        // toggle between hamburger menu bars and X
         burger.classList.toggle('fa-times');
         burger.classList.toggle('fa-bars');
     }
