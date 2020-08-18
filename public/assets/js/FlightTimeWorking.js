@@ -108,7 +108,7 @@ async function calcTime (){
     
     // Here we are checking if the user just input a time. If that is true then we take the date from the date box and put it in from of the time. We are using the newDate to format it as a date correctly to work with. 
     if (new Date(departTime)=='Invalid Date'){
-        departTimeDate = new Date(((userDate.getUTCMonth()+1)+'/'+userDate.getUTCDate()+'/'+userDate.getUTCFullYear()+' '+departTime+":00Z"))
+        departTimeDate = new Date((userDate.getUTCMonth()+1)+'/'+userDate.getUTCDate()+'/'+userDate.getUTCFullYear()+' '+departTime+":00Z")
         departTimeDateAdd = true
     }else {
         departTimeDate = new Date(departTime+':00Z')
@@ -121,17 +121,7 @@ async function calcTime (){
         arrTimeDate = new Date(arrTime+':00Z')
     }
 // Subtracting the times in milliseconds. 
-    var diff = arrTimeDate.getTime()-departTimeDate.getTime()
-// Converting the time back to hours and minutes in a decimal form. 
-    var msec = diff;
-    var hh = Math.floor(msec / 1000 / 60 / 60);
-    msec -= hh * 1000 * 60 * 60;
-    var mm = (msec / 1000 / 60 / 60);
-    msec -= mm * 1000 * 60;
-    var ss = Math.floor(msec / 1000);
-    msec -= ss * 1000;
-    // Limiting it to 2 decimal places. 
-    timeCalc = (hh+mm).toFixed(2)
+    timeCalc = convertToHoursMM(arrTimeDate.getTime()-departTimeDate.getTime())
     
     // Auto filling times. Will add more as we have user preferences. 
     document.getElementById('total').value = timeCalc
@@ -153,26 +143,82 @@ async function nighttimeGather (depart, arrive){
     let nightTime
     // Getting the departure airport suntimes dawn, sunrise, sunset, dusk pushing them into an array.
     // always going to take the first airport and the last airport. Getting the last airport by finding the length of the array and taking the last two items. 
+    // all calculations are done on sunrise and sunset times. Carrying dawn times but not using them for anything right now. 
     const numofAirport = airportLoc.length
     await sunTimes(depart,airportLoc[0],airportLoc[1])
     await sunTimes(arrive,airportLoc[numofAirport-2],airportLoc[numofAirport-1])
-    
-    if (depart.toISOString()<sunTimesArr[1]&&arrive.toISOString()<sunTimesArr[5]|| depart.toISOString()>sunTimesArr[2]&&arrive.toISOString()>sunTimesArr[6]){
+    let depRise = sunTimesArr[1]
+    let depSet = sunTimesArr[2]
+    let arrRise = sunTimesArr[5]
+    let arrSet = sunTimesArr[6]
+
+    if (depart<depRise&&arrive<arrRise|| depart>depSet&&arrive>arrSet){
+        // this is for an all night flight before sunrise or after sunset
         nightTime = timeCalc
+    }else if (depart<depRise&&arrive>arrRise){ 
+        //this is for an early morning departure before the sunrises
+        nightTime = convertToHoursMM(depRise-depart)
+    }else if (depart<depSet&&arrive>arrSet){
+        // evening flight departure before sunset and landing after sunset
+        nightTime = convertToHoursMM(arrive-arrSet)
     } else {
         nightTime = 0
     }
+
     document.getElementById('night').value = nightTime
-    console.log(sunTimesArr[1]-depart.toISOString())
-    console.log(nightTime)
-    console.log(sunTimesArr)
 }
 async function sunTimes(date,lat,long){
     await $.ajax({
         method: "GET",
         url: `/api/nighttime?date=${date}&lat=${lat}&long=${long}`
     })
-    .then( ({sunrise,sunset, dawn,dusk}) => sunTimesArr.push(dawn,sunrise,sunset,dusk))
+    .then( ({sunrise,sunset, dawn,dusk}) => {
+        let dawnCalc = moment.utc(dawn)
+        let sunriseCalc = moment.utc(sunrise)
+        let sunsetCalc = moment.utc(sunset)
+        let duskCalc = moment.utc(dusk)
+
+        sunTimesArr.push(dawnCalc,sunriseCalc,sunsetCalc,duskCalc)})
+        
+}
+
+function convertToHoursMM (diff){
+    // Converting the time back to hours and minutes in a decimal form. 
+    var msec = diff;
+    var hh = Math.floor(msec / 1000 / 60 / 60);
+    msec -= hh * 1000 * 60 * 60;
+    var mm = (msec / 1000 / 60 / 60);
+    msec -= mm * 1000 * 60;
+    var ss = Math.floor(msec / 1000);
+    msec -= ss * 1000;
+    // Limiting it to 2 decimal places. 
+    return (hh+mm).toFixed(2)
+}
+function convertDateToString (date,time){
+//     console.log(date)
+//     let month = 0
+//     let day = 0
+//     let year = date.getUTCFullYear()
+//     let monthC = date.getUTCMonth()+1
+//     let dayC = date.getUTCDate()
+    
+//     if (monthC <10) {
+//         month = '0'+monthC
+//     } else{
+//         month = monthC
+//     }
+
+//     if(dayC <10) {
+//         day = '0'+dayC
+//     } else {
+//         day = dayC
+//     }
+//     if (!time){
+//         return new Date((year+'-'+month+'-'+day+' '+date.getUTCHours()+':'+date.getUTCMinutes()+":00Z"))
+//     } else {
+//         return new Date((year+'-'+month+'-'+day+' '+time+":00Z"))
+//     }
+    
 }
 // --------------------------------------
     $("#createFlightButton").click(function (event) {
