@@ -31,7 +31,9 @@ const setDate = new Date()
 
 let airportLoc = []
 let distNum = []
+let sunTimesArr = []
 let crossCountry = false
+let timeCalc
 // This starts the async function for finding the lat/long for the airports and starts calculating the times. 
     $("#calcTimes").click(async function (event) {
         event.preventDefault();
@@ -41,6 +43,7 @@ let crossCountry = false
         // }
         airportLoc = []
         distNum = []
+        sunTimesArr = []
         await workingTimes();
         await findDistance();
         await calcTime();
@@ -105,17 +108,17 @@ async function calcTime (){
     
     // Here we are checking if the user just input a time. If that is true then we take the date from the date box and put it in from of the time. We are using the newDate to format it as a date correctly to work with. 
     if (new Date(departTime)=='Invalid Date'){
-        departTimeDate = new Date((userDate.getMonth()+1)+'/'+userDate.getDate()+'/'+userDate.getFullYear()+' '+departTime+":00")
+        departTimeDate = new Date(((userDate.getUTCMonth()+1)+'/'+userDate.getUTCDate()+'/'+userDate.getUTCFullYear()+' '+departTime+":00Z"))
         departTimeDateAdd = true
     }else {
-        departTimeDate = new Date(departTime+':00')
+        departTimeDate = new Date(departTime+':00Z')
     }
     
     if (new Date(arrTime)=='Invalid Date'){
-        arrTimeDate = new Date((userDate.getMonth()+1)+'/'+userDate.getDate()+'/'+userDate.getFullYear()+' '+arrTime+":00")
+        arrTimeDate = new Date(((userDate.getUTCMonth()+1)+'/'+userDate.getUTCDate()+'/'+userDate.getUTCFullYear()+' '+arrTime+":00Z"))
         arrTimeDateAdd = true
     }else {
-        arrTimeDate = new Date(arrTime+':00')
+        arrTimeDate = new Date(arrTime+':00Z')
     }
 // Subtracting the times in milliseconds. 
     var diff = arrTimeDate.getTime()-departTimeDate.getTime()
@@ -128,7 +131,7 @@ async function calcTime (){
     var ss = Math.floor(msec / 1000);
     msec -= ss * 1000;
     // Limiting it to 2 decimal places. 
-    let timeCalc = (hh+mm).toFixed(2)
+    timeCalc = (hh+mm).toFixed(2)
     
     // Auto filling times. Will add more as we have user preferences. 
     document.getElementById('total').value = timeCalc
@@ -137,22 +140,31 @@ async function calcTime (){
     }
     // Filling the departure box back in so the user can see what date was used from their calculations
     if (departTimeDateAdd){
-        (document.getElementById('deptTime').value) = (departTimeDate.getMonth()+1)+'/'+departTimeDate.getDate()+'/'+departTimeDate.getFullYear()+' '+departTime
+        (document.getElementById('deptTime').value) = (departTimeDate.getUTCMonth()+1)+'/'+departTimeDate.getUTCDate()+'/'+departTimeDate.getUTCFullYear()+' '+departTime
     }
     // filling the arrival time back in
     if (arrTimeDateAdd){
-        (document.getElementById('arrTime').value) = (arrTimeDate.getMonth()+1)+'/'+arrTimeDate.getDate()+'/'+arrTimeDate.getFullYear()+' '+arrTime
+        (document.getElementById('arrTime').value) = (arrTimeDate.getUTCMonth()+1)+'/'+arrTimeDate.getUTCDate()+'/'+arrTimeDate.getUTCFullYear()+' '+arrTime
     }
     nighttimeGather(departTimeDate,arrTimeDate)
     
 }
-let sunTimesArr = []
 async function nighttimeGather (depart, arrive){
+    let nightTime
     // Getting the departure airport suntimes dawn, sunrise, sunset, dusk pushing them into an array.
     // always going to take the first airport and the last airport. Getting the last airport by finding the length of the array and taking the last two items. 
     const numofAirport = airportLoc.length
     await sunTimes(depart,airportLoc[0],airportLoc[1])
     await sunTimes(arrive,airportLoc[numofAirport-2],airportLoc[numofAirport-1])
+    
+    if (depart.toISOString()<sunTimesArr[1]&&arrive.toISOString()<sunTimesArr[5]|| depart.toISOString()>sunTimesArr[2]&&arrive.toISOString()>sunTimesArr[6]){
+        nightTime = timeCalc
+    } else {
+        nightTime = 0
+    }
+    document.getElementById('night').value = nightTime
+    console.log(sunTimesArr[1]-depart.toISOString())
+    console.log(nightTime)
     console.log(sunTimesArr)
 }
 async function sunTimes(date,lat,long){
