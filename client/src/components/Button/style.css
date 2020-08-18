@@ -11,3 +11,11 @@ button {
     border-left: 3px solid #383838;
     font-family: "Roboto Mono", monospace; 
 }
+
+label {
+    display: none;
+}
+
+form {
+    display: flex;
+}

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './style.css';
 import logo from '../../logoSmall.png';
 
-const Nav = () => {
+const Nav = ({ children }) => {
 
     const [state, setState] = useState({
         open: false,
@@ -43,6 +43,9 @@ const Nav = () => {
         burger.classList.toggle('fa-bars');
     }
 
+
+    // if (children.location.pathname === '/') 
+    //     return false;
 
     return (
         <nav>
