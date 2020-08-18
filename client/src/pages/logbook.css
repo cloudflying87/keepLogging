@@ -1,0 +1,64 @@
+.menuDiv {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  background-image: linear-gradient(to left, #D1D1D1 10%, #85c7f2, #DBDBDB);
+}
+
+.menuBtn {
+  margin: 5px 5px;
+}
+.header {
+    width: 100%;
+    margin: 0 0 8px;
+    font-family: "Roboto Mono", monospace;
+}
+
+form {
+  display: flex;
+  flex-flow: row wrap;
+  min-height: auto;
+  background-color: lightblue;
+  justify-content: space-evenly;
+}
+textarea{
+    text-align: center;
+}
+input:focus, textarea:focus {
+    text-align: left;
+    transition: text-align 5000ms ease-in;
+}
+input:hover, textarea:hover {
+    cursor: pointer;
+}
+
+.inputDiv {
+    display: flex;
+    justify-content: space-around;
+}
+.commentsDiv{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin: 8px 0;
+}
+
+.appLandDiv {
+    width: 85%;
+    display: flex;
+    justify-content: center;
+}
+.timesDivRow1 {
+    display: flex;
+    justify-content: center;
+}
+.timesDivRow2 {
+    display: flex;
+    justify-content: center;
+}
+
+.btnWrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
