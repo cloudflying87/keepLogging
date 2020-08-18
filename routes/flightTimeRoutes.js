@@ -64,7 +64,7 @@ app.post("/api/flight_time/", async function (req, res) {
 });
 
 // Route for updating a flight_time
-app.post("/api/flight_time/update/:UserId/:id", function (req, res) {
+app.put("/api/flight_time/update/:UserId/:id", function (req, res) {
   if (!req.user) {
     res.redirect(307, "/api/login");
   } else {

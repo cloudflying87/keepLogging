@@ -3,7 +3,7 @@ const sequelize = require("sequelize");
 
 module.exports = function(app) {
 
-    // Routes for flight_time table per user id
+    // Routes for aircraft table per user id
 app.get("/api/aircraft/", function (req, res) {
     // if (!req.user) {
     //     res.redirect(307, "/api/login");
@@ -14,7 +14,7 @@ app.get("/api/aircraft/", function (req, res) {
     // };
   });
 
-  // Route for selecting one flight_time
+  // Route for selecting one aircraft
   app.get("/api/aircraft/:id", function (req, res) {
     if (!req.user) {
       res.redirect(307, "/login");
@@ -29,7 +29,7 @@ app.get("/api/aircraft/", function (req, res) {
     };
   });
 
-  // Route for creating a flight_time
+  // Route for creating an aircraft
   app.post("/api/aircraft/", function (req, res) {
     if (!req.user) {
         res.redirect(307, "/login");
@@ -40,8 +40,8 @@ app.get("/api/aircraft/", function (req, res) {
     };
   });
 
-  // Route for updating a flight_time
-  app.post("/api/aircraft/update/:id", function (req, res) {
+  // Route for updating an aircraft
+  app.put("/api/aircraft/update/:id", function (req, res) {
     if (!req.user) {
       res.redirect(307, "/api/login");
     } else {
@@ -55,7 +55,7 @@ app.get("/api/aircraft/", function (req, res) {
     };
   });
 
-  // Route for deleting a flight_time
+  // Route for deleting an aircraft
   app.delete("/api/aircraft/delete/:id", function (req, res) {
     if (!req.user) {
       res.redirect(307, "/api/login");

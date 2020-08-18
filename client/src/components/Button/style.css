@@ -1,0 +1,13 @@
+button {
+    background-color: #4C4C4C;
+    color: #85c7f2;
+    text-shadow: 0.2px 1px #636363;
+    height: 35px;
+    padding: auto;
+    width: auto;
+    border-right: 3px solid #DBDBDB;
+    border-bottom: 3px solid #D1D1D1;
+    border-top: 3px solid #636363;
+    border-left: 3px solid #383838;
+    font-family: "Roboto Mono", monospace; 
+}
