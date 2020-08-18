@@ -35,7 +35,6 @@ const Signup = () => {
                 placeholder='Username' 
                 handleInputChange={handleInputChange}
                 name='username'
-
                 />
                 <Input
                 label='password'
