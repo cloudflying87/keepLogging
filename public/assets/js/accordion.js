@@ -57,3 +57,21 @@ $('#create-aircraft').on('click', function (e) {
         toggle.value = false;
     };
 });
+
+$('#FlightTimeWorking').on('click', function (e) {
+    e.preventDefault();
+    $accordian.empty();
+
+    if (!toggle.value && toggle.tab !== "createFlightWorking" || toggle.value && toggle.tab !== "createFlightWorking") {
+        createFlightWorking();
+        $accordian.show();
+        toggle.tab = "createFlightWorking";
+        toggle.value = true;
+
+    } else if (toggle.value && toggle.tab === "createFlightWorking") {
+        $accordian.empty();
+        $accordian.hide();
+        toggle.tab = "";
+        toggle.value = false;
+    };
+});

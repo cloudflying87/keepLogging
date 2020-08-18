@@ -59,6 +59,7 @@ async function writeFlightTime(action) {
             };
         };
     });
+
     let aircraftFind;
     try {
         aircraftFind = $("#aircraftID").val()//.trim();
@@ -69,6 +70,7 @@ async function writeFlightTime(action) {
         })
             .then(async aircraftId => flightData["AircraftId"] = await aircraftId[0])
         if (action == 'create') {
+            console.log(flightData)
             await $.post("/api/flight_time", (flightData))
         } else {
             await $.post(`/api/flight_time/update/${userData.id}/${flightId}`, flightData)
