@@ -1,5 +1,8 @@
 var db = require("../models");
 const sequelize = require("sequelize");
+const util = require("util");
+var SunCalc = require('suncalc');
+const WorkingFlightTime = require("../util/flightTimeWorking.js")
 const { col } = require("sequelize");
 
 module.exports = function(app) {
@@ -49,13 +52,14 @@ app.get("/api/flight_time/:userId/:id", function (req, res) {
 });
 
 // Route for creating a flight_time
-app.post("/api/flight_time/", function (req, res) {
+app.post("/api/flight_time/", async function (req, res) {
   if (!req.user) {
       res.redirect(307, "/login");
   } else {
-  db.FlightTime.create(req.body)
+  const flightData = await WorkingFlightTime(req.body)
+    await (db.FlightTime.create(flightData))
     .then(results => res.json(results))
-    .catch(err => res.status(404).json(err.message));
+    .catch(err => res.status(404).json(err.message))
   };
 });
 
@@ -122,6 +126,12 @@ app.get("/api/flight_times/totals/:userId/", function (req, res) {
     .catch(err => res.status(404).json(err));
   };
 });
+app.get("/api/nighttime?", function (req, res) {
+  // const sunTime = SunCalc.getTimes(req.params.date,
+  //     req.query.lat,req.query.long)
+   const sunTime = SunCalc.getTimes(new Date(),req.query.lat,req.query.long)    
+  res.json(sunTime)
+})
 
 }
  

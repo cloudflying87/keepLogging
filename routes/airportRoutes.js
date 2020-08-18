@@ -19,7 +19,7 @@ module.exports = function(app) {
         // } else {
         db.Airport.findAll({
           where: {
-            id: req.params.id
+            icao: req.params.id
           },
         })
           .then(results => res.json(results))
