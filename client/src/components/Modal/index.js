@@ -10,7 +10,7 @@ const Modal = ({ handleClick, results }) => {
         <div className='modal'>
             <div className='modalContent'>
                 <Button
-                    className='modalBtn'
+                    btnClass='modalBtn'
                     btnId='closeModal'
                     text='X'
                     handleClick={handleClick}
@@ -18,7 +18,7 @@ const Modal = ({ handleClick, results }) => {
                 <ul className='modalUl'>
                     <li className='modalLi'><strong>Date:</strong> {results.date}</li>
                     {!!results['Aircraft.aircraftType'] &&
-                        <li className='modalLi'><strong>Aircraft:</strong> {results['Aircraft.aircraftType']}</li>}
+                        <li className='modalLi'><strong>Aircraft:</strong> {results['Aircraft.tailNumber']}</li>}
                     <li className='modalLi'><strong>Tail Number:</strong> {results.tailNumber}</li>
                     {!!results.route && <li className='modalLi'><strong>Route:</strong> {results.route}</li>}
                     {!!results.flightNumber && <li className='modalLi'><strong>Flight Number</strong> {results.flightNum}</li>}

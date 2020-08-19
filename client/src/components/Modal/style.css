@@ -19,7 +19,8 @@
 }
 
 .modalBtn {
-    justify-content: flex-end;
+  float: right;
+  height: 25px;
 }
 
 .modalUl {
