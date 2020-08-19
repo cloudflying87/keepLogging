@@ -16,6 +16,8 @@ const Logbook = () => {
         btnClicked: '',
         fullResults: []
     })
+    const [logbookForm, setlogbookForm] = useState({})
+    
     const [modal, setModal] = useState({
         open: false,
         values: []
