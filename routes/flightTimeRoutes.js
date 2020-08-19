@@ -9,9 +9,9 @@ module.exports = function(app) {
 
   // Routes for flight_time table per user id
  app.get("/api/flight_time/:userId", function (req, res) {
-  if (!req.user) {
-      res.redirect(307, "/api/login");
-  } else {
+  // if (!req.user) {
+      // res.redirect(307, "/api/login");
+  // } else {
   db.FlightTime.findAll({
     where: {
       UserId: req.params.userId
@@ -27,7 +27,7 @@ module.exports = function(app) {
   })
     .then(results => res.json(results))
     .catch(err => res.status(404).json(err));
-  };
+  // };
 });
 
 // Route for selecting one flight_time

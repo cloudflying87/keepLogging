@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../components/Button/index';
 import Nav from '../components/Nav/index';
-import Input from '../components/Input/index';
 import AddFlightForm from '../components/AddFlightForm/index';
+import Table from '../components/Table/index';
+
 import './logbook.css'
 
 const Logbook = () => {
@@ -114,6 +115,7 @@ const Logbook = () => {
                 }
             </div>
             <main>
+                <Table />
                 {/* Modal for popping out table. maybe a 'view' button opens and closes it */}
                 {/* The table will live here. Might try to do an actual table first, then will try grid or flexbox. */}
 
