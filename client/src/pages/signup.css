@@ -1,0 +1,33 @@
+/* .signupWrapper {
+    display: flex;
+    justify-content: center;
+} */
+
+.signupForm {
+    height: 200px;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    min-width: 100vw;
+}
+
+.formDiv1 {
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+    flex-flow: column nowrap;
+    margin: 16px auto;
+}
+.inputBox {
+    display: flex;
+}
+
+.formDiv2 {
+    display: flex;
+    justify-content: center;
+    flex-flow: row nowrap
+}
+.authBtn {
+ margin-right: 19px;
+ margin-left: 19px;
+}
