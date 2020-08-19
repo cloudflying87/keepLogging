@@ -5,7 +5,13 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.DATEONLY,
             allowNull: false
         },
-        tailNumber: DataTypes.STRING,
+        // tailNumber: {
+        //   type: DataTypes.INTEGER,
+        //   references:{
+        //       model:"aircraft",
+        //       key:"id"
+        //   }
+        // },
         route: DataTypes.STRING,
         flightNum: DataTypes.STRING,
         depTime: DataTypes.TIME,

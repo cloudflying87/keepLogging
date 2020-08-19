@@ -44,7 +44,7 @@ for (let i = 0; i < importFile.length; i++) {
                     
                     console.error(error);
                 } else if (importFile[i] == './db/sampledata.csv') {
-                    let query = 'INSERT INTO flighttimes (id,UserId,date,tailnumber,route,flightNum,depTime,arrTime,landings,imc,hood,iap,holds,pic,sic,cfi,dualI,cxt,solo,total,dayLdg,night,nightLdg,comments,instructor,student,createdAt,updatedAt) VALUES ?';
+                    let query = 'INSERT INTO flighttimes (id,UserId,date,AircraftId,route,flightNum,depTime,arrTime,landings,imc,hood,iap,holds,pic,sic,cfi,dualI,cxt,solo,total,dayLdg,night,nightLdg,comments,instructor,student,createdAt,updatedAt) VALUES ?';
                     connection.query(query, [myData], (error, response) => {
                         console.log(error || response);
                     });
@@ -75,7 +75,7 @@ for (let i = 0; i < importFile.length; i++) {
                 
                 } else if (importFile[i] == './db/aircraft.csv') {  
                     console.log("aircraft")
-                    let query = 'INSERT INTO aircraft (id,tail_number,modelID,avionics,createdAt,updatedAt) VALUES ?'
+                    let query = 'INSERT INTO aircraft (id,tailNumber,AircraftModelId,avionics,createdAt,updatedAt) VALUES ?'
                     connection.query(query, [myData], (error, response) => {
                         console.log(error || response);
                     })

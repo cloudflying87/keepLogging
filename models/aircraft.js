@@ -1,18 +1,19 @@
-// const airport = require("./airport");
+// const AircraftModels = require("./airport");
 
 module.exports = function (sequelize, DataTypes) {
     const Aircraft = sequelize.define("Aircraft", {
-        tail_number: {
+        tailNumber: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        modelID: DataTypes.INTEGER,
         avionics: DataTypes.STRING,
         
         
     });
-    // Aircraft.associate = function (models) {
-    //     Aircraft.hasOne(models.AircraftModels);
-    // };
+
+    Aircraft.associate = function (models) {
+        Aircraft.belongsTo(models.AircraftModels)
+    }
+    
     return Aircraft;
 };
