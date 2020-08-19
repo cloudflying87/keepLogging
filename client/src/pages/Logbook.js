@@ -36,7 +36,7 @@ const Logbook = () => {
                 // }))
             })
             .catch(err => console.log(err))
-
+            
     }, [])
 
     const handleInputChange = ({ target: { value, name } }) => {
@@ -47,8 +47,8 @@ const Logbook = () => {
     };
     
     const handleFormInput = ({ target: { value, name } }) => {
-        setlogbookForm(state => ({
-            ...state,
+        setlogbookForm(logbookForm => ({
+            ...logbookForm,
             [name]: value
         }))
         
@@ -57,16 +57,37 @@ const Logbook = () => {
     const dateSet = () => {
         const dateWorking = new Date()
         let dateCur = (dateWorking.getMonth()+1) +'/'+dateWorking.getDate()+'/'+dateWorking.getFullYear()
-        console.log("Test ", dateCur)
-        // console.log(document.getElementById('dateInput').value)
-        document.getElementById('dateInput').value = dateCur
-        // return dateCur
+        return dateCur
     }
 
-    const displayState = (e) => {
+    const logFlight = (e) => {
         e.preventDefault()
-        console.log(logbookForm)
-        API.createFlight({logbookForm})
+        // console.log(logbookForm)
+        API.createFlight({
+            date: logbookForm.date,
+            route: logbookForm.route,
+            comments: logbookForm.comments,
+            flightNum: logbookForm.flightNumber,
+            depTime: logbookForm.departureTime,
+            arrTime: logbookForm.arrivalTime,
+            landings: logbookForm.landings,
+            approach: logbookForm.approach,
+            hold: logbookForm.hold,
+            dayLandings: logbookForm.dayLandings,
+            nightLandings: logbookForm.nightLandings,
+            total: logbookForm.total,
+            crossCountry: logbookForm.crossCountry,
+            night: logbookForm.night,
+            imc: logbookForm.imc,
+            hood: logbookForm.hood,
+            pic: logbookForm.pic,
+            sic: logbookForm.sic,
+            cfi: logbookForm.cfi,
+            dual: logbookForm.dual,
+            solo: logbookForm.solo,
+        })
+        .then((data) => console.log('Success'))
+        .catch(console.error)
     }
     const switchFunc = arg => {
         switch (arg) {
@@ -75,7 +96,7 @@ const Logbook = () => {
                 <>
                 <AddFlightForm 
                     handleFormInput={handleFormInput}
-                    handleAddFlight={displayState}
+                    handleAddFlight={logFlight}
                 />
                 </>
                 )

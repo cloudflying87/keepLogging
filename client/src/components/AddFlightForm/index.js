@@ -5,8 +5,12 @@ import './style.css'
 
 
 const AddFlightForm = ({ handleFormInput, handleAddFlight }) => {
-    
-   
+    const dateSet = () => {
+        const dateWorking = new Date()
+        let dateCur = (dateWorking.getFullYear()+'-'+(dateWorking.getMonth()+1) +'-'+dateWorking.getDate())
+        return dateCur
+        
+    }
     return (
         <div>
             <form>

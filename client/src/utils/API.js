@@ -60,8 +60,8 @@ export default {
         return axios.get(`/api/flight_time/${userId}/${id}`);
     },
     // create a flight_time
-    createFlight: function() {
-        return axios.post('/api/flight_time/');
+    createFlight: function(flightData) {
+        return axios.post('/api/flight_time/',(flightData));
     },
     // update a flight_time
     updateFlight: function(userId, id) {
