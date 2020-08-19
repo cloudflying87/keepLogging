@@ -1,0 +1,37 @@
+.modal {
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, .5);
+  text-align: center;
+}
+
+.modalContent {
+  margin: 15% auto;
+  padding: 20px;
+  max-height: 100vh;
+  background-image: linear-gradient(to left, #D1D1D1 20%, #85c7f2 60%, #DBDBDB);
+  border: 1px solid #636363;
+}
+
+.modalBtn {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+.modalUl {
+    list-style: none;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+}
+
+.modalLi {
+    margin-right: auto;
+
+}
