@@ -1,4 +1,4 @@
-﻿id,tail_num,modelID,avionics,createdAt,updatedAt
+﻿id,tailNumber,AircraftModelId,avionics,createdAt,updatedAt
 1,N35LU,733,,2020-08-18 10:25:00,2020-08-18 10:25:00
 2,N36LU,733,,2020-08-18 10:25:00,2020-08-18 10:25:00
 3,Skyhawk,735,,2020-08-18 10:25:00,2020-08-18 10:25:00

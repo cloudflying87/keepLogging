@@ -16,10 +16,10 @@ module.exports = function(app) {
     where: {
       UserId: req.params.userId
     },
-    // include: [{
-    //   model: db.Aircraft,
-    //   attributes: ['aircraftType']
-    // }],
+    include: [{
+      model: db.Aircraft,
+      attributes: ['tailNumber']
+    }],
     attributes: {
       exclude: ["createdAt", "updatedAt", "AircraftId", "UserId"]
     },
@@ -53,14 +53,14 @@ app.get("/api/flight_time/:userId/:id", function (req, res) {
 
 // Route for creating a flight_time
 app.post("/api/flight_time/", async function (req, res) {
-  if (!req.user) {
-      res.redirect(307, "/login");
-  } else {
+  // if (!req.user) {
+  //     res.redirect(307, "/login");
+  // } else {
   const flightData = await WorkingFlightTime(req.body)
     await (db.FlightTime.create(flightData))
     .then(results => res.json(results))
     .catch(err => res.status(404).json(err.message))
-  };
+  // };
 });
 
 // Route for updating a flight_time
