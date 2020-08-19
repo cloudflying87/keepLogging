@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import API from '../../utils/API';
 import './style.css'
 
-const Table = () => {
+const Table = ({ openModal }) => {
 
     const [state, setState] = useState();
     const [mobileTable, setMobileTable] = useState({
         results: []
     });
-    const [modal, setModal] = useState();
 
     useEffect(() => {
         API.getFlights(1)
@@ -19,7 +18,8 @@ const Table = () => {
                     Aircraft: x['Aircraft.tailNumber'],
                     Route: x.route,
                     Comments: x.comments,
-                    Total: x.total
+                    Total: x.total,
+                    id: x.id
                 }))
                 setMobileTable(state => ({
                     ...state,
@@ -29,9 +29,6 @@ const Table = () => {
             .catch(err => console.log(err))
 
     }, [])
-
-    const mobileTableRender = () => {
-    }
 
     return (
         <div>
@@ -45,12 +42,12 @@ const Table = () => {
                 <div className='tableBody'>
                     {
                         !!mobileTable.results.length &&
-                        mobileTable.results.map((x, i) => <div key={i + '-row'} className='tableCol'>
-                            <div className='dateCol'>{x.Date}</div>
-                            <div className='aircraftCol'>{x.Aircraft}</div>
-                            <div className='routeCol'>{x.Route}</div>
-                            <div className='commentsCol'>{x.Comments}</div>
-                            <div className='totalCol'>{x.Total}</div>
+                        mobileTable.results.map((x, i) => <div key={i + '-row'} id={x.id} className='tableCol' onClick={openModal}>
+                            <div className='dateCol' id={x.id}>{x.Date}</div>
+                            <div className='aircraftCol' id={x.id}>{x.Aircraft}</div>
+                            <div className='routeCol' id={x.id}>{x.Route}</div>
+                            <div className='commentsCol' id={x.id}>{x.Comments}</div>
+                            <div className='totalCol' id={x.id}>{x.Total}</div>
                         </div>)
                     }
                 </div>
