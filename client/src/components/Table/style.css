@@ -1,0 +1,43 @@
+/* thead {
+    font-size: .8em;
+}
+
+tbody {
+    font-size: .6em;
+} */
+body{
+    font-size: .8em;
+}
+.tableHeader {
+    display: flex;
+    flex-flow: row nowrap;
+}
+.col0, .dateCol {
+    margin-left: 0;
+    margin-right: 10px;
+}
+.col1, .aircraftCol {
+    margin-left: 0;
+    margin-right: 10px;
+}
+.col2, .routeCol {
+    margin-left: 0;
+    margin-right: 5px;
+}
+.col3, .commentsCol {
+    margin-left: 10px;
+    overflow-y: scroll;
+}
+.col4, .totalCol {
+    margin-left: auto;
+    margin-right: 10px;
+}
+.tableCol {
+    display: flex;
+    flex-flow: row nowrap;
+    height: 50px;
+}
+
+.tableCol:nth-child(even) {
+    background-color: lightgrey;
+}

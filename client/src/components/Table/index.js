@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import API from '../../utils/API';
+import './style.css'
 
 const Table = () => {
 
@@ -33,16 +34,39 @@ const Table = () => {
 
     return (
         <div>
+            <div className='table'>
+                <div className='tableHeader'>
+                    {
+                        !!mobileTable.results.length &&
+                        Object.keys(mobileTable.results[0]).map((x, i) => <h5 key={i} className={'col'+ i} name={x}>{x}</h5>)
+                    }
+                </div>
+                <div className='tableBody'>
+                    {
+                        !!mobileTable.results.length &&
+                        mobileTable.results.map((x, i) => <div key={i + '-row'} className='tableCol'>
+                            <div className='dateCol'>{x.Date}</div>
+                            <div className='aircraftCol'>{x.Aircraft}</div>
+                            <div className='routeCol'>{x.Route}</div>
+                            <div className='commentsCol'>{x.Comments}</div>
+                            <div className='totalCol'>{x.Total}</div>
+                        </div>)
+                    }
+                </div>
+
+            </div>
+
+
+
+{/* 
             <table>
                 <thead>
-                        <tr>
-                            {
-                                !!mobileTable.results.length &&
-                                Object.keys(mobileTable.results[0]).map((x, i) => <th key={i} name={x}>{x}</th>)
-                            }
-                        </tr>
+                    <tr>
+                    </tr>
                 </thead>
-            </table>
+                <tbody>
+                </tbody>
+            </table> */}
         </div>
     )
 }
