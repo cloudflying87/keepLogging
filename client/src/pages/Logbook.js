@@ -3,6 +3,7 @@ import Button from '../components/Button/index';
 import Nav from '../components/Nav/index';
 import AddFlightForm from '../components/AddFlightForm/index';
 import Table from '../components/Table/index';
+import API from '../utils/API'
 
 import './logbook.css'
 
@@ -12,7 +13,7 @@ const Logbook = () => {
         open: false,
         btnClicked: '',
     })
-
+    const [logbookForm, setlogbookForm] = useState({})
     // useEffect(() => {
 
     // }, [state.btnClicked])
@@ -22,13 +23,41 @@ const Logbook = () => {
             ...state,
             [name]: value
         }))
-        console.log(state)
+    };
+    
+    const handleFormInput = ({ target: { value, name } }) => {
+        setlogbookForm(state => ({
+            ...state,
+            [name]: value
+        }))
+        
     };
 
+    const dateSet = () => {
+        const dateWorking = new Date()
+        let dateCur = (dateWorking.getMonth()+1) +'/'+dateWorking.getDate()+'/'+dateWorking.getFullYear()
+        console.log("Test ", dateCur)
+        // console.log(document.getElementById('dateInput').value)
+        document.getElementById('dateInput').value = dateCur
+        // return dateCur
+    }
+
+    const displayState = (e) => {
+        e.preventDefault()
+        console.log(logbookForm)
+        API.createFlight({logbookForm})
+    }
     const switchFunc = arg => {
         switch (arg) {
             case 'addFlightBtn':
-                return <AddFlightForm />
+                return (
+                <>
+                <AddFlightForm 
+                    handleFormInput={handleFormInput}
+                    handleAddFlight={displayState}
+                />
+                </>
+                )
                 break;
             default:
                 return null;
@@ -53,7 +82,7 @@ const Logbook = () => {
                             open: !state.open,
                             btnClicked: target.id
                         })
-                        console.log(state.btnClicked)
+                        console.log(state)
                     }}
                 />
                 <Button
@@ -117,7 +146,6 @@ const Logbook = () => {
                 <Table />
                 {/* Modal for popping out table. maybe a 'view' button opens and closes it */}
                 {/* The table will live here. Might try to do an actual table first, then will try grid or flexbox. */}
-
             </main>
 
         </div>

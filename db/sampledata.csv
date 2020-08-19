@@ -1,4 +1,4 @@
-﻿id,userId,date,aircraftId,depAir,flightNum,depTime,arrTime,landings,imc,hood,iap,holds,pic,sic,cfi,dualI,cxt,Solo,Total,dayLdg,night,nightLdg,Remarks,Instructor/Captain/FO,Student/FA,createdAt,updatedAt
+﻿id,userId,date,AircraftId,depAir,flightNum,depTime,arrTime,landings,imc,hood,iap,holds,pic,sic,cfi,dualI,cxt,Solo,Total,dayLdg,night,nightLdg,Remarks,Instructor/Captain/FO,Student/FA,createdAt,updatedAt
 1,1,2008-01-24,1,KGGG  KGGG,0,0,0,1,0,0,0,0,0,0,0,1.1,0,0,1.1,1,0,0,"Constant airspeed climb/descent, level turns, use of flaps, normal t/o and lnd, primary and secondary effects",Caleb Brown,,2020-08-18 10:00:00,2020-08-19 10:00:00
 2,1,2008-01-29,1,KGGG 3F4 KGGG,0,0,0,2,0,0,0,0,0,0,0,1.4,0,0,1.4,1,0.7,1,"Worked on straight and level flight, correcting for wind, Flight to Vivan and back",Caleb Brown,,2020-08-18 10:00:00,2020-08-19 10:00:00
 3,1,2008-02-04,2,KGGG KTYR KGGG,0,0,0,2,0,0,0,0,0,0,0,1.4,0,0,1.4,2,0,0,"Climbs turns and descents with and without Flaps, Flight to Tyler",Caleb Brown,,2020-08-18 10:00:00,2020-08-19 10:00:00
