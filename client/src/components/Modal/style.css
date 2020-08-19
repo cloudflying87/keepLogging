@@ -24,14 +24,14 @@
     left: 0;
 }
 
-ul {
+.modalUl {
     list-style: none;
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
 }
 
-li {
+.modalLi {
     margin-right: auto;
 
 }
