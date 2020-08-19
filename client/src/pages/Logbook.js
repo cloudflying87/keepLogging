@@ -110,7 +110,6 @@ const Logbook = () => {
                         ? null
                         : (
                             switchFunc(state.btnClicked)
-                            // <form></form>
                         )
                 }
             </div>

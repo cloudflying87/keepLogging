@@ -8,6 +8,7 @@ const Table = () => {
     const [mobileTable, setMobileTable] = useState({
         results: []
     });
+    const [modal, setModal] = useState();
 
     useEffect(() => {
         API.getFlights(1)
@@ -16,7 +17,7 @@ const Table = () => {
                 const mapped = await data.map(x => ({
                     Date: x.date,
                     Aircraft: x['Aircraft.aircraftType'],
-                    Route: `${x.depAir} ${x.arrAir}`,
+                    Route: `${x.depAir} \n ${x.arrAir}`,
                     Comments: x.comments,
                     Total: x.total
                 }))
