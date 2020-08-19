@@ -58,22 +58,12 @@ const Logbook = () => {
 
     const openModal = e => {
         const { target } = e;
-        console.log(target)
-        console.log(target.id)
         e.preventDefault();
         setModal(prevModal => ({
             ...prevModal,
             open: !modal.open,
             values: state.fullResults.find(x => parseInt(x.id) === parseInt(target.id))
         }))
-        console.log(modal.open)
-        console.log('full results', state.fullResults)
-        console.log('modal.values: ',modal.values)
-    }
-
-    const renderModal = () => {
-
-
     }
 
     return (
@@ -105,10 +95,11 @@ const Logbook = () => {
                         const { target } = e
                         e.preventDefault()
                         console.log("add flight")
-                        setState({
+                        setState(state=> ({
+                            ...state,
                             open: !state.open,
                             btnClicked: target.id
-                        })
+                        }))
                         console.log(state.btnClicked)
                     }}
                 />

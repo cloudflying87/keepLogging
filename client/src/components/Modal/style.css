@@ -13,11 +13,25 @@
 .modalContent {
   margin: 15% auto;
   padding: 20px;
-  width: 50%;
-  background-image: linear-gradient(to left, #D1D1D1 20%, #85c7f2, #DBDBDB);
+  max-height: 100vh;
+  background-image: linear-gradient(to left, #D1D1D1 20%, #85c7f2 60%, #DBDBDB);
   border: 1px solid #636363;
 }
 
-.closeModal {
-    float: right;
+.modalBtn {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+ul {
+    list-style: none;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+}
+
+li {
+    margin-right: auto;
+
 }
