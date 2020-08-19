@@ -6,15 +6,7 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false
         },
         tailNumber: DataTypes.STRING,
-        // aircraftType: DataTypes.INTEGER,
-        // {
-        //     references: {
-        //         foreignKey: 'AircraftId'
-        //     }
-        // },
-        depAir: DataTypes.STRING,
-        enrRout: DataTypes.STRING,
-        arrAir: DataTypes.STRING,
+        route: DataTypes.STRING,
         flightNum: DataTypes.STRING,
         depTime: DataTypes.TIME,
         arrTime: DataTypes.TIME,
@@ -39,7 +31,9 @@ module.exports = function(sequelize, DataTypes) {
         nightLdg: DataTypes.INTEGER,
         comments: DataTypes.STRING,
         instructor: DataTypes.STRING,
+        instructorID: DataTypes.INTEGER,
         student: DataTypes.STRING,
+        studentID: DataTypes.INTEGER,
     });
 
     FlightTime.associate = function(models) {
