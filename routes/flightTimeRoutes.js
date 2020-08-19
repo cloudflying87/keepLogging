@@ -16,10 +16,10 @@ module.exports = function(app) {
     where: {
       UserId: req.params.userId
     },
-    include: [{
-      model: db.Aircraft,
-      attributes: ['aircraftType']
-    }],
+    // include: [{
+    //   model: db.Aircraft,
+    //   attributes: ['aircraftType']
+    // }],
     attributes: {
       exclude: ["createdAt", "updatedAt", "AircraftId", "UserId"]
     },

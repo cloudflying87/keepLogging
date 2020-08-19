@@ -16,7 +16,7 @@ const Table = ({ openModal }) => {
                 const mapped = await data.map(x => ({
                     Date: x.date,
                     Aircraft: x['Aircraft.aircraftType'],
-                    Route: `${x.depAir} \n ${x.arrAir}`,
+                    Route: x.route,
                     Comments: x.comments,
                     Total: x.total,
                     id: x.id
