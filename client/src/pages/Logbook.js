@@ -37,7 +37,7 @@ const Logbook = () => {
                 console.log(err)
                 window.location.href = '/'
             })
-            
+
     }, [])
 
     const handleInputChange = ({ target: { value, name } }) => {
@@ -71,20 +71,18 @@ const Logbook = () => {
     };
 
     const getTotals = () => {
+
         API.getFlightTotals()
             .then(({ data }) => {
                 setState(state => ({
                     ...state,
-                    totals: data[0]
+                    totals: data[0],
                 }))
             })
             .catch(err => console.error(err))
-            return(
-                <TotalsDisplay 
-                    totals={state.totals}
-                />
-            )
+
     }
+
     const switchFunc = arg => {
         switch (arg) {
             case 'addFlightBtn':
@@ -99,11 +97,11 @@ const Logbook = () => {
                 break;
             case 'totalsBtn':
                 // console.log('totals', state.totals)
-                
+                // getTotals()
                 return (
-                    <>
-                        {getTotals()}
-                    </>
+                    <TotalsDisplay
+                        totals={state.totals}
+                    />
                 )
                 break;
             default:
@@ -189,6 +187,7 @@ const Logbook = () => {
                             open: !state.open,
                             btnClicked: target.id
                         }))
+                        getTotals();
                         console.log(state.btnClicked)
                     }}
                 />

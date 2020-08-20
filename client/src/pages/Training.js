@@ -20,7 +20,7 @@ const Training = () => {
         try {
             const result = await fetch('/api/verifyAccount', {
                 method: "POST",
-                body: `{"studentEmail":"${studentEmail}"}`
+                body: studentEmail
             });
             console.log(result);
         } catch (error) {
@@ -37,7 +37,7 @@ const Training = () => {
                     id="student-email-input"
                     placeholder="Student Email"
                     label="Student Email"
-                    onChange={({ target: { value }}) => setStudentEmail(value)}
+                    handleInputChange={({ target: { value }}) => setStudentEmail(value)}
                 />
                 <button id='add-student' type="submit" >
                     Add Student

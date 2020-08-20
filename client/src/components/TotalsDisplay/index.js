@@ -1,40 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import API from '../../utils/API';
+import './style.css'
 
 const TotalsDisplay = ({totals}) => {
 
-    // useEffect(() => {
-    //     API.getFlightTotals()
-    //         .then(({ data }) => {
-    //             const mapped = data.map(x => ({
-    //                 'Cross Country': x.cxt,
-    //                 Night: x.night,
-    //                 'IMC': x.imc,
-    //                 'Simulated Instrument': x.hood,
-    //                 'Instrument Approaches': x.iap,
-    //                 Holds: x.holds,
-    //                 'Day Landings': x.dayLdg,
-    //                 'Night Landing': x.nightLdg,
-    //                 Solo: x.solo,
-    //                 Dual: x.dualI,
-    //                 PIC: x.pic,
-    //                 SIC: x.sic,
-    //                 CFI: x.cfi,
-    //                 Total: x.total,
-    //             }))
-    //             setState({
-    //                 ...state,
-    //                 results: mapped
-    //             })
-    //         })
-    //         .then(console.log(state.results))
-    //         .catch(err => console.error(err))
-    // }, [])
-
     return (
-        <div>
+        <div className='totalsList'>
             {
-                <ul>
+                <ul >
                     {!!totals.cxt &&
                         <li><strong>Cross Country</strong> {totals.cxt}</li>}
                     {!!totals.night &&
