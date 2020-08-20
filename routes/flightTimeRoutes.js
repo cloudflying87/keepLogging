@@ -9,16 +9,16 @@ module.exports = function(app) {
 
   // Routes for flight_time table per user id
  app.get("/api/flight_time/:userId", function (req, res) {
-  if (!req.user) {
-      res.redirect(307, "/api/login");
-  } else {
+  // if (!req.user) {
+      // res.redirect(307, "/api/login");
+  // } else {
   db.FlightTime.findAll({
     where: {
       UserId: req.params.userId
     },
     include: [{
       model: db.Aircraft,
-      attributes: ['aircraftType']
+      attributes: ['tailNumber']
     }],
     attributes: {
       exclude: ["createdAt", "updatedAt", "AircraftId", "UserId"]
@@ -27,7 +27,7 @@ module.exports = function(app) {
   })
     .then(results => res.json(results))
     .catch(err => res.status(404).json(err));
-  };
+  // };
 });
 
 // Route for selecting one flight_time
@@ -53,14 +53,14 @@ app.get("/api/flight_time/:userId/:id", function (req, res) {
 
 // Route for creating a flight_time
 app.post("/api/flight_time/", async function (req, res) {
-  if (!req.user) {
-      res.redirect(307, "/login");
-  } else {
+  // if (!req.user) {
+  //     res.redirect(307, "/login");
+  // } else {
   const flightData = await WorkingFlightTime(req.body)
     await (db.FlightTime.create(flightData))
     .then(results => res.json(results))
     .catch(err => res.status(404).json(err.message))
-  };
+  // };
 });
 
 // Route for updating a flight_time

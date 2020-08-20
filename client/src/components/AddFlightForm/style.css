@@ -1,0 +1,80 @@
+  .header {
+    width: 100%;
+    margin: 0 2% 8px;
+    font-family: "Roboto Mono", monospace;
+  }
+  
+  form {
+    display: flex;
+    flex-flow: row wrap;
+    min-height: auto;
+    background-color: lightblue;
+    justify-content: space-evenly;
+  }
+  
+  textarea {
+    text-align: center;
+  }
+  
+  input:focus,
+  textarea:focus {
+    text-align: left;
+  }
+  
+  input:hover,
+  textarea:hover {
+    cursor: pointer;
+  }
+  
+  .inputDiv {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+  }
+  
+  .commentsDiv {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin: 8px 0;
+  }
+  
+  .appLandDiv {
+    width: 85%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .timesDivRow1 {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .timesDivRow2 {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .btnWrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  @media screen and (max-width: 320px) {
+      #dateInput {
+          margin-right: 0;
+      }
+
+      #commentsInput {
+          width: 300px;
+      }
+
+      .menuBtn {
+          font-size: .74312em;
+      }
+
+      body, html {
+          overflow-y: scroll;
+      }
+  }
