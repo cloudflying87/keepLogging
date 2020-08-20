@@ -5,7 +5,6 @@ import AddFlightForm from '../components/AddFlightForm/index';
 import Table from '../components/Table/index';
 import Modal from '../components/Modal/index';
 import API from '../utils/API';
-import User from '../utils/User';
 
 import './logbook.css'
 
