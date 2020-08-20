@@ -72,8 +72,8 @@ export default {
         return axios.put(`/api/flight_time/delete/${userId}/${id}`);
     },
     // get flight_time totals
-    getFlightTotals: function(userId) {
-        return axios.get('/api/flight_times/totals/'+userId);
+    getFlightTotals: function() {
+        return axios.get('/api/flight_times/totals/');
     },
 
     // -------------------------------------------------------------------------------

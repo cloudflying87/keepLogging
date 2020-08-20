@@ -12,7 +12,6 @@ const Signup = props => {
     });
 
     useEffect(() => {
-        console.log("signup props: ",props)
     }, [])
 
 
@@ -57,7 +56,7 @@ const Signup = props => {
             ...state,
             [name]: value
         }))
-        // console.log(state)
+        console.log(state)
     };
 
 
