@@ -5,38 +5,37 @@ import AddFlightForm from '../components/AddFlightForm/index';
 import Table from '../components/Table/index';
 import Modal from '../components/Modal/index';
 import API from '../utils/API';
+import User from '../utils/User';
 
 import './logbook.css'
 
 
 const Logbook = () => {
-
+    
     const [state, setState] = useState({
         open: false,
         btnClicked: '',
         fullResults: []
     })
     const [logbookForm, setlogbookForm] = useState({})
-    
     const [modal, setModal] = useState({
         open: false,
         values: []
     });
-
+    
     useEffect(() => {
-        API.getFlights(1)
-            .then(({ data }) => {
-                setState(state => ({
+        API.getFlights()
+            .then((res) => {
+                console.log(res)
+                setState(({
                     ...state,
-                    fullResults: data
+                    fullResults: res.data
                 }))
-                // setModal(state => ({
-                //     ...state,
-                //     values: data
-                // }))
             })
-            .catch(err => console.log(err))
-
+            .catch(err => {
+                console.log(err)
+                    window.location.href ='/'
+            })
     }, [])
 
     const handleInputChange = ({ target: { value, name } }) => {
@@ -83,8 +82,8 @@ const Logbook = () => {
             default:
                 return null;
                 break;
-        }
-    }
+        };
+    };
 
     const openModal = e => {
         const { target } = e;
@@ -94,7 +93,9 @@ const Logbook = () => {
             open: !modal.open,
             values: state.fullResults.find(x => parseInt(x.id) === parseInt(target.id))
         }))
-    }
+        console.log(modal)
+        console.log(state)
+    };
 
     return (
         <div>
@@ -178,6 +179,20 @@ const Logbook = () => {
                             btnClicked: target.id
                         }))
                         console.log(state.btnClicked)
+                    }}
+                />
+                <Button
+                    text='Logout'
+                    btnId='logout'
+                    btnClass='menuBtn'
+                    handleClick={(e) => {
+                        const { target } = e
+                        e.preventDefault()
+                        console.log("logout")
+                        console.log(state.btnClicked)
+                        API.userLogOut()
+                            .then(window.location.href="/")
+                            .catch(err=> console.error(err))
                     }}
                 />
             </div>
