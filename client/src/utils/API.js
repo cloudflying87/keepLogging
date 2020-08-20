@@ -52,8 +52,8 @@ export default {
     },
     // flight_time routes ----------------------------------------------------------------
     // get all flight_times for the user
-    getFlights: function(userId) {
-        return axios.get('/api/flight_time/'+userId);
+    getFlights: function() {
+        return axios.get('/api/flight_time/');
     },
     // select one flight_time
     getOneFlight: function(userId, id) {
@@ -75,4 +75,23 @@ export default {
     getFlightTotals: function(userId) {
         return axios.get('/api/flight_times/totals/'+userId);
     },
+
+    // -------------------------------------------------------------------------------
+    // user login routes
+    //login user
+    userLogin: function(userData) {
+        return axios.post('/api/login', userData);
+    },
+    // sign up a user
+    userSignUp: function(userData) {
+        return axios.post('/api/signup', userData);
+    },
+    // log out a user
+    userLogOut: function() {
+        return axios.get('/logout');
+    },
+    // getting user data to be used client side
+    userData: function() {
+        return axios.get('/api/user_data');
+    }
 };
