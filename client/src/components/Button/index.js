@@ -1,13 +1,13 @@
 import React from 'react';
 import './style.css'
 
-const Button = ({ text, handleInputChange, btnId, btnClass }) => {
+const Button = ({ text, handleClick, btnId, btnClass }) => {
 
 
 
     return (
         <button
-        onClick={handleInputChange}
+        onClick={handleClick}
         id={btnId}
         className={btnClass}
         >
