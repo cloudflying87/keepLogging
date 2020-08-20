@@ -4,13 +4,14 @@ import Nav from '../components/Nav/index';
 import AddFlightForm from '../components/AddFlightForm/index';
 import Table from '../components/Table/index';
 import Modal from '../components/Modal/index';
+import TotalsDisplay from '../components/TotalsDisplay/index';
 import API from '../utils/API';
 
 import './logbook.css'
 
 
 const Logbook = () => {
-    
+
     const [state, setState] = useState({
         open: false,
         btnClicked: '',
@@ -21,7 +22,7 @@ const Logbook = () => {
         open: false,
         values: []
     });
-    
+
     useEffect(() => {
         API.getFlights()
             .then((res) => {
@@ -33,7 +34,7 @@ const Logbook = () => {
             })
             .catch(err => {
                 console.log(err)
-                    window.location.href ='/'
+                window.location.href = '/'
             })
     }, [])
 
@@ -43,18 +44,18 @@ const Logbook = () => {
             [name]: value
         }))
     };
-    
+
     const handleFormInput = ({ target: { value, name } }) => {
         setlogbookForm(state => ({
             ...state,
             [name]: value
         }))
-        
+
     };
 
     const dateSet = () => {
         const dateWorking = new Date()
-        let dateCur = (dateWorking.getMonth()+1) +'/'+dateWorking.getDate()+'/'+dateWorking.getFullYear()
+        let dateCur = (dateWorking.getMonth() + 1) + '/' + dateWorking.getDate() + '/' + dateWorking.getFullYear()
         console.log("Test ", dateCur)
         // console.log(document.getElementById('dateInput').value)
         document.getElementById('dateInput').value = dateCur
@@ -64,20 +65,26 @@ const Logbook = () => {
     const displayState = (e) => {
         e.preventDefault()
         console.log(logbookForm)
-        API.createFlight({logbookForm})
+        API.createFlight({ logbookForm })
     }
     const switchFunc = arg => {
         switch (arg) {
             case 'addFlightBtn':
                 return (
-                <>
-                <AddFlightForm 
-                    handleFormInput={handleFormInput}
-                    handleAddFlight={displayState}
-                />
-                </>
+                    <>
+                        <AddFlightForm
+                            handleFormInput={handleFormInput}
+                            handleAddFlight={displayState}
+                        />
+                    </>
                 )
                 break;
+            case 'totalsBtn':
+                return (
+                    <>
+                        <TotalsDisplay />
+                    </>
+                )
             default:
                 return null;
                 break;
@@ -125,7 +132,7 @@ const Logbook = () => {
                         const { target } = e
                         e.preventDefault()
                         console.log("add flight")
-                        setState(state=> ({
+                        setState(state => ({
                             ...state,
                             open: !state.open,
                             btnClicked: target.id
@@ -190,8 +197,8 @@ const Logbook = () => {
                         console.log("logout")
                         console.log(state.btnClicked)
                         API.userLogOut()
-                            .then(window.location.href="/")
-                            .catch(err=> console.error(err))
+                            .then(window.location.href = "/")
+                            .catch(err => console.error(err))
                     }}
                 />
             </div>
