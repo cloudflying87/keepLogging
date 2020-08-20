@@ -75,6 +75,7 @@ export default {
     getFlightTotals: function(userId) {
         return axios.get('/api/flight_times/totals/'+userId);
     },
+
     // -------------------------------------------------------------------------------
     // user login routes
     //login user

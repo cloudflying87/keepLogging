@@ -1,12 +1,14 @@
 DROP DATABASE IF EXISTS logbook_db;
-CREATe DATABASE logbook_db;
+CREATE DATABASE logbook_db;
 
 USE logbook_db;
 
 CREATE TABLE user (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(30) NOT NULL,
-    password VARCHAR(20)
+    password VARCHAR(20),
+    accountAccess VARCHAR(30)
+
 );
 
 CREATE TABLE aircraft (
