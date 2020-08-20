@@ -22,6 +22,10 @@ body{
     margin-left: 0;
     margin-right: 10px;
 }
+.aircraftCol {
+    word-wrap: break-word;
+    width: 50px;
+}
 .col2, .routeCol {
     margin-left: 0;
     margin-right: 30px;
@@ -43,7 +47,7 @@ body{
 .tableCol {
     display: flex;
     flex-flow: row nowrap;
-    height: 50px;
+    height: 65px;
 }
 
 .tableCol:nth-child(even) {

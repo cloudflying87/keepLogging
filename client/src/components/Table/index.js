@@ -36,7 +36,7 @@ const Table = ({ openModal }) => {
                 <div className='tableHeader'>
                     {
                         !!mobileTable.results.length &&
-                        Object.keys(mobileTable.results[0]).map((x, i) => <h5 key={i} className={'col'+ i} name={x}>{x}</h5>)
+                        Object.keys(mobileTable.results[0]).filter(x=> x !== 'id').map((x, i) => <h5 key={i} className={'col'+ i} name={x}>{x}</h5>)
                     }
                 </div>
                 <div className='tableBody'>

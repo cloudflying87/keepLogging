@@ -19,9 +19,8 @@
 }
 
 .modalBtn {
-    position: relative;
-    top: 0;
-    left: 0;
+  float: right;
+  height: 25px;
 }
 
 .modalUl {
