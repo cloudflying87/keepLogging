@@ -4,7 +4,7 @@ import Button from '../Button/index';
 import './style.css'
 
 
-const AddFlightForm = ({ handleFormInput, handleAddFlight }) => {
+const AddFlightForm = ({ handleFormInput, handleAddFlight,workingTimeDistance }) => {
     const dateSet = () => {
         const dateWorking = new Date()
         let dateCur = (dateWorking.getFullYear()+'-'+(dateWorking.getMonth()+1) +'-'+dateWorking.getDate())
@@ -25,6 +25,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight }) => {
                         inputClass='addFlightInput'
                         placeholder='date'
                         handleInputChange={handleFormInput}
+                        // value={logbookForm.date}
                     />
                     <Input
                         labelFor='aircraftType'
@@ -99,10 +100,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight }) => {
                         text='Auto Fill'
                         btnId='autoFill'
                         className='formBtn'
-                        handleClick={(e) => {
-                            e.preventDefault();
-                            console.log('hello')
-                        }}
+                        handleClick={workingTimeDistance}
                     />
                 </div>
                 <h4 className='header'>Approaches and Landings</h4>
