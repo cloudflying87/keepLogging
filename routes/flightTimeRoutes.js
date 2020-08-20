@@ -8,13 +8,14 @@ const { col } = require("sequelize");
 module.exports = function(app) {
 
   // Routes for flight_time table per user id
- app.get("/api/flight_time/:userId", function (req, res) {
-  // if (!req.user) {
-      // res.redirect(307, "/api/login");
-  // } else {
+ app.get("/api/flight_time/", function (req, res) {
+   console.log('req.user: ',req.user)
+  if (!req.user) {
+      res.error(307, "/");
+  } else {
   db.FlightTime.findAll({
     where: {
-      UserId: req.params.userId
+      UserId: req.user.id
     },
     include: [{
       model: db.Aircraft,
@@ -27,7 +28,7 @@ module.exports = function(app) {
   })
     .then(results => res.json(results))
     .catch(err => res.status(404).json(err));
-  // };
+  };
 });
 
 // Route for selecting one flight_time
@@ -95,13 +96,13 @@ app.delete("/api/flight_time/delete/:UserId/:id", function (req, res) {
   };
 });
 // I cant get this call to work if I use flight_time. I think it is calling the get request above that has two // after flight times. I am sure I am doing something wrong I just dont know what it is. 
-app.get("/api/flight_times/totals/:userId/", function (req, res) {
+app.get("/api/flight_times/totals/", function (req, res) {
   if (!req.user) {
       res.redirect(307, "/api/login");
   } else {
   db.FlightTime
     .findAll({
-      where: {UserId: req.params.userId},
+      where: {UserId: req.user.id},
       attributes: [
         [sequelize.fn('sum', sequelize.col('imc')), 'imc'],
         [sequelize.fn('sum', sequelize.col('hood')), 'hood'],

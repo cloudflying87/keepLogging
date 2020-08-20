@@ -4,6 +4,7 @@ import Nav from '../components/Nav/index';
 import AddFlightForm from '../components/AddFlightForm/index';
 import Table from '../components/Table/index';
 import Modal from '../components/Modal/index';
+import TotalsDisplay from '../components/TotalsDisplay/index';
 import API from '../utils/API';
 
 import './logbook.css'
@@ -40,20 +41,19 @@ const Logbook = () => {
     });
 
     useEffect(() => {
-        API.getFlights(1)
-            .then(({ data }) => {
-                setState(state => ({
+        API.getFlights()
+            .then((res) => {
+                console.log(res)
+                setState(({
                     ...state,
-                    fullResults: data
+                    fullResults: res.data
                 }))
-                // setModal(state => ({
-                //     ...state,
-                //     values: data
-                // }))
             })
-            .catch(err => console.log(err))
-
-    }, [logbookForm])
+            .catch(err => {
+                console.log(err)
+                window.location.href = '/'
+            })
+    }, [])
 
     const handleInputChange = ({ target: { value, name } }) => {
         setState(state => ({
@@ -302,15 +302,22 @@ function convertToHoursMM (diff){
                             handleFormInput={handleFormInput}
                             handleAddFlight={logFlight}
                             workingTimeDistance={workingTimeDistance}
+                            handleAddFlight={displayState}
                         />
                     </>
                 )
                 break;
+            case 'totalsBtn':
+                return (
+                    <>
+                        <TotalsDisplay />
+                    </>
+                )
             default:
                 return null;
                 break;
-        }
-    }
+        };
+    };
 
     const openModal = e => {
         const { target } = e;
@@ -320,7 +327,9 @@ function convertToHoursMM (diff){
             open: !modal.open,
             values: state.fullResults.find(x => parseInt(x.id) === parseInt(target.id))
         }))
-    }
+        console.log(modal)
+        console.log(state)
+    };
 
     return (
         <div>
@@ -403,6 +412,20 @@ function convertToHoursMM (diff){
                             btnClicked: target.id
                         }))
                         console.log(state.btnClicked)
+                    }}
+                />
+                <Button
+                    text='Logout'
+                    btnId='logout'
+                    btnClass='menuBtn'
+                    handleClick={(e) => {
+                        const { target } = e
+                        e.preventDefault()
+                        console.log("logout")
+                        console.log(state.btnClicked)
+                        API.userLogOut()
+                            .then(window.location.href = "/")
+                            .catch(err => console.error(err))
                     }}
                 />
             </div>
