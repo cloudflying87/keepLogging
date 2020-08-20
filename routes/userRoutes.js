@@ -54,32 +54,33 @@ module.exports = function (app) {
 
 // -----------------------------------------------------------------------------------------
   app.post("/api/verifyAccount", function (req, res) {
-    console.log(req)
-    if (!req.user) {
-      res.redirect(307, "/api/login");
-    } else {
-      db.user.findAll({
+    // console.log("verifyAccount req.body: ",req.body)
+    // res.send(req.body)
+    // if (!req.user) {
+    //   res.redirect(307, "/api/login");
+    // } else {
+      db.User.findAll({
         where: {
-          username: req.body.studentEmail
+          email: req.body.studentEmail
         },
       })
         .then(results => res.json(results))
         .catch(err => res.status(404).json(err));
-    };
+    // };
   })
 
-  app.put("/api/user/update/:id", function (req, res) {
-    if (!req.user) {
-      res.redirect(307, "/api/login");
-    } else {
-    db.user.update(req.body, {
-      where: {
-        UserId: req.params.UserId,
-        id: req.params.id
-      }
-    })
-      .then(results => res.json(results))
-      .catch(err => res.status(404).json(err));
-    };
-  });
+  // app.put("/api/user/update/:id", function (req, res) {
+  //   if (!req.user) {
+  //     res.redirect(307, "/api/login");
+  //   } else {
+  //   db.user.update(req.body, {
+  //     where: {
+  //       UserId: req.params.UserId,
+  //       id: req.params.id
+  //     }
+  //   })
+  //     .then(results => res.json(results))
+  //     .catch(err => res.status(404).json(err));
+  //   };
+  // });
 }

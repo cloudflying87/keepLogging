@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Input from '../components/Input';
+import API from '../utils/API'
 
 const Training = () => {
 
@@ -18,12 +19,20 @@ const Training = () => {
             return setInvalidSubmission(true); // render an error message
         }
         try {
-            const result = await fetch('/api/verifyAccount', {
-                method: "POST",
-                body: `{"studentEmail":"${studentEmail}"}`
-            });
-            console.log(result);
-        } catch (error) {
+            API.userVerify({
+                studentEmail: studentEmail
+            })
+            .then((result) => console.log(result)
+            // result = await fetch('/api/verifyAccount', {
+            //     method: "POST",
+                
+                // `{"studentEmail":"${studentEmail}"}`
+                // 
+                // `{"studentEmail":"${studentEmail}"}`
+            )
+        }
+            
+         catch (error) {
             console.error(error);
         }
     }
@@ -37,7 +46,7 @@ const Training = () => {
                     id="student-email-input"
                     placeholder="Student Email"
                     label="Student Email"
-                    onChange={({ target: { value }}) => setStudentEmail(value)}
+                    handleInputChange={({ target: { value }}) => setStudentEmail(value)}
                 />
                 <button id='add-student' type="submit" >
                     Add Student
