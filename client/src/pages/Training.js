@@ -1,50 +1,54 @@
-import React, { useState } from 'react';
-import Button from '../components/Button/index';
-import Input from '../components/Input/index';
+import React, { useState, useEffect } from 'react';
+import Input from '../components/Input';
 
 const Training = () => {
 
-    const [state, setState] = useState({
-        emailAddress: '',
-    })
+    const [studentEmail, setStudentEmail] = useState("");
+    const [invalidSubmission, setInvalidSubmission] = useState(false);
 
+    useEffect(() => {
+        if (studentEmail && invalidSubmission) setInvalidSubmission(false);
+    }, [studentEmail])
 
-    const handleClick = e => {
-        e.preventDefault();
-        console.log("clicked " + e.target.id)
-    };
-
-    // takes form data and updates state with appropriate values
-    const handleInputChange = ({ target: { value, name }}) => {
-        setState(state=>({
-            ...state,
-            [name]: value
-        }))
-    };
-
+    const onSubmit = async (event) => {
+        event.preventDefault();
+        console.log(studentEmail)
+        if (!studentEmail) {
+            
+            return setInvalidSubmission(true); // render an error message
+        }
+        try {
+            const result = await fetch('/api/verifyAccount', {
+                method: "POST",
+                body: `{"studentEmail":"${studentEmail}"}`
+            });
+            console.log(result);
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     return (
         <main>
-            <form>
+            <form onSubmit={onSubmit}>
+
                 <Input
-                label='emailAddress'
-                labelFor='emailAddress'
-                type='text'
-                inputId='emailAddress'
-                placeholder='emailAddress' 
-                handleInputChange={handleInputChange}
-                name='emailAddress'
+                    type="text"
+                    id="student-email-input"
+                    placeholder="Student Email"
+                    label="Student Email"
+                    onChange={({ target: { value }}) => setStudentEmail(value)}
                 />
-                
-                <Button
-                    text="Connect"
-                    btnId='Connect'
-                    handleClick={handleClick}
-                />
-                
+                <button id='add-student' type="submit" >
+                    Add Student
+                </button>
             </form>
+            {invalidSubmission && (<div>Please enter a valid email</div>)}
         </main>
     );
+
+    
 };
+
 
 export default Training;

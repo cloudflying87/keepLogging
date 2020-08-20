@@ -17,6 +17,7 @@ $(document).ready(async function () {
         url: "/api/user_data"
     })
         .then(result => {
+            console.log(result)
             userData = result;
             getAircraftTypes ();
             // console.log(userData)
