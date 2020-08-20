@@ -15,7 +15,8 @@ const Logbook = () => {
     const [state, setState] = useState({
         open: false,
         btnClicked: '',
-        fullResults: []
+        fullResults: [],
+        totals: []
     })
     const [logbookForm, setlogbookForm] = useState({})
     const [modal, setModal] = useState({
@@ -36,6 +37,7 @@ const Logbook = () => {
                 console.log(err)
                 window.location.href = '/'
             })
+            
     }, [])
 
     const handleInputChange = ({ target: { value, name } }) => {
@@ -66,6 +68,22 @@ const Logbook = () => {
         e.preventDefault()
         console.log(logbookForm)
         API.createFlight({ logbookForm })
+    };
+
+    const getTotals = () => {
+        API.getFlightTotals()
+            .then(({ data }) => {
+                setState(state => ({
+                    ...state,
+                    totals: data[0]
+                }))
+            })
+            .catch(err => console.error(err))
+            return(
+                <TotalsDisplay 
+                    totals={state.totals}
+                />
+            )
     }
     const switchFunc = arg => {
         switch (arg) {
@@ -80,11 +98,14 @@ const Logbook = () => {
                 )
                 break;
             case 'totalsBtn':
+                // console.log('totals', state.totals)
+                
                 return (
                     <>
-                        <TotalsDisplay />
+                        {getTotals()}
                     </>
                 )
+                break;
             default:
                 return null;
                 break;

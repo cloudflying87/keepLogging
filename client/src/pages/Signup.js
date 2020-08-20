@@ -22,7 +22,7 @@ const Signup = props => {
             email: state.email, 
             password: state.password
         })
-        .then(res => console.log(res))
+        .then(res => props.history.push('/logbook'))
         .catch(err => {
             setState(state=>({
                 ...state,
@@ -56,7 +56,6 @@ const Signup = props => {
             ...state,
             [name]: value
         }))
-        console.log(state)
     };
 
 
