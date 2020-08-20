@@ -4,22 +4,51 @@ import Input from '../components/Input/index';
 import API from '../utils/API';
 import './signup.css'
 
-const Signup = () => {
+const Signup = props => {
 
     const [state, setState] = useState({
-        username: '',
+        email: '',
         password: ''
     });
 
     useEffect(() => {
-
+        console.log("signup props: ",props)
     }, [])
 
 
-    const handleClick = e => {
+    const handleSignup = e => {
         e.preventDefault();
         console.log("clicked " + e.target.id)
-        API.
+        API.userSignUp({
+            email: state.email, 
+            password: state.password
+        })
+        .then(res => console.log(res))
+        .catch(err => {
+            setState(state=>({
+                ...state,
+                error: err
+            }))
+        })
+    };
+
+    const handleLogin = e => {
+        e.preventDefault();
+        console.log("clicked " + e.target.id)
+        API.userLogin({
+            email: state.email, 
+            password: state.password
+        })
+        .then(res =>{
+            console.log(res);
+            props.history.push('/logbook');
+        })
+        .catch(err => {
+            setState(state=>({
+                ...state,
+                error: err
+            }))
+        })
     };
 
     // takes form data and updates state with appropriate values
@@ -28,7 +57,7 @@ const Signup = () => {
             ...state,
             [name]: value
         }))
-        console.log(state)
+        // console.log(state)
     };
 
 
@@ -37,13 +66,13 @@ const Signup = () => {
             <form className='signupForm'>
                 <div className='formDiv1'>
                     <Input
-                        label='username'
-                        labelFor='username'
+                        label='email'
+                        labelFor='email'
                         type='text'
-                        inputId='username'
-                        placeholder='Username'
+                        inputId='email'
+                        placeholder='email'
                         handleInputChange={handleInputChange}
-                        name='username'
+                        name='email'
                         className='inputBox'
                         />
                     <Input
@@ -62,17 +91,20 @@ const Signup = () => {
                         text="Sign up"
                         btnId='signUp'
                         btnClass='authBtn'
-                        handleClick={handleClick}
+                        handleClick={handleSignup}
                     />
                     <Button
                         text="Log in"
                         btnId='logIn'
                         btnClass='authBtn'
-                        handleClick={handleClick}
+                        handleClick={handleLogin}
                     />
                 </div>
 
             </form>
+            {
+                state.error && <h1>{state.error.message}</h1>
+            }
         </main>
     );
 };

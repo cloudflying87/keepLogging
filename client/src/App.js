@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, BrowserRouter } from "react-router-dom";
 import Signup from './pages/Signup';
 import Logbook from './pages/Logbook';
 import './style.css'
@@ -7,12 +7,14 @@ import './style.css'
 
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route exact path='/' component={Signup} />
-        <Route exact path='/logbook' component={Logbook} />
-      </Switch>
-    </Router>
+
+      <Router>
+        <Switch>
+          <Route exact path='/' component={Signup} />
+          <Route exact path='/logbook' component={Logbook} />
+        </Switch>
+      </Router>
+
   );
 }
 

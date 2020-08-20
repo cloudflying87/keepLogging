@@ -78,12 +78,12 @@ export default {
     // -------------------------------------------------------------------------------
     // user login routes
     //login user
-    userLogin: function() {
-        return axios.post('/api/login');
+    userLogin: function(userData) {
+        return axios.post('/api/login', userData);
     },
     // sign up a user
-    userSignUp: function() {
-        return axios.post('/api/signup');
+    userSignUp: function(userData) {
+        return axios.post('/api/signup', userData);
     },
     // log out a user
     userLogOut: function() {
