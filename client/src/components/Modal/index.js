@@ -10,7 +10,7 @@ const Modal = ({ handleClick, results }) => {
         <div className='modal'>
             <div className='modalContent'>
                 <Button
-                    className='modalBtn'
+                    btnClass='modalBtn'
                     btnId='closeModal'
                     text='X'
                     handleClick={handleClick}
@@ -18,11 +18,9 @@ const Modal = ({ handleClick, results }) => {
                 <ul className='modalUl'>
                     <li className='modalLi'><strong>Date:</strong> {results.date}</li>
                     {!!results['Aircraft.aircraftType'] &&
-                        <li className='modalLi'><strong>Aircraft:</strong> {results['Aircraft.aircraftType']}</li>}
+                        <li className='modalLi'><strong>Aircraft:</strong> {results['Aircraft.tailNumber']}</li>}
                     <li className='modalLi'><strong>Tail Number:</strong> {results.tailNumber}</li>
-                    <li className='modalLi'><strong>Departure Airport:</strong> {results.depAir}</li>
-                    {!!results.enRout && <li className='modalLi'><strong>Enroute:</strong> {results.enrRout}</li>}
-                    <li className='modalLi'><strong>Arrival Airport:</strong> {results.arrAir}</li>
+                    {!!results.route && <li className='modalLi'><strong>Route:</strong> {results.route}</li>}
                     {!!results.flightNumber && <li className='modalLi'><strong>Flight Number</strong> {results.flightNum}</li>}
                     {!!results.landings && <li className='modalLi'><strong>Landings:</strong> {results.landings}</li>}
                     {!!results.imc && <li className='modalLi'><strong>IMC:</strong> {results.imc}</li>}
