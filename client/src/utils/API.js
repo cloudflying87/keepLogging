@@ -93,5 +93,8 @@ export default {
     // getting user data to be used client side
     userData: function() {
         return axios.get('/api/user_data');
+    },
+    userVerify: function(email) {
+        return axios.post('/api/verifyAccount', email);
     }
 };
