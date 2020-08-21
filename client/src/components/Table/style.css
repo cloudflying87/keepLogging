@@ -40,9 +40,9 @@ body{
     overflow-y: scroll;
     width: 100px;
 }
-.commentsCol::--webkit-scrollbar {
+/* .commentsCol::--webkit-scrollbar {
     color: red;
-}
+} */
 .col4, .totalCol {
     margin-left: auto;
     margin-right: 10px;
