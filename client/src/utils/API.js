@@ -3,98 +3,108 @@ import axios from 'axios';
 export default {
     // aircraft routes -----------------------------------------------------
     //get all aircraft
-    getAircraft: function() {
+    getAircraft: function () {
         return axios.get('api/aircraft/');
     },
     // selecting one aircraft
-    getOneAircraft: function(id) {
-        return axios.get('/api/aircraft/'+id);
+    getOneAircraft: function (id) {
+        return axios.get('/api/aircraft/' + id);
     },
     // create an aiarcraft
-    createAircraft: function() {
+    createAircraft: function () {
         return axios.post('/api/aircraft/');
     },
     // update an aircraft
-    updateAircraft: function(id) {
-        return axios.put('/api/aircraft/update/'+id);
+    updateAircraft: function (id) {
+        return axios.put('/api/aircraft/update/' + id);
     },
     // delete an aircraft
-    deleteAircraft: function(id) {
-        return axios.delete('/api/aircraft/delte/'+id);
+    deleteAircraft: function (id) {
+        return axios.delete('/api/aircraft/delte/' + id);
     },
     // translate aircraft type into id
-    getAircraftId: function(aircraftType) {
-        return axios.get('/api/aircraft/userFind/'+aircraftType);
+    getAircraftId: function (aircraftType) {
+        return axios.get('/api/aircraft/userFind/' + aircraftType);
     },
     // putting aircraft types in a list for our dropdown menu
-    getAircraftTypes: function() {
+    getAircraftTypes: function () {
         return axios.get('api/aircraftTypes');
     },
     // airport routes --------------------------------------------------------
     // all airports
-    getAirports: function() {
+    getAirports: function () {
         return axios.get('/api/airports/');
     },
     // get airport by id
-    getOneAirport: function(id) {
-        return axios.get('/api/airports/'+id);
+    getOneAirport: function (id) {
+        return axios.get('/api/airports/' + id);
     },
     // create an airport
-    createAirport: function() {
+    createAirport: function () {
         return axios.post('/api/airport');
     },
     // update airport
-    updateAirport: function(id) {
-        return axios.put('/api/airports/'+id);
+    updateAirport: function (id) {
+        return axios.put('/api/airports/' + id);
     },
-    deleteAirport: function(id) {
-        return axios.delete('/api/airports/delete/'+id);
+    deleteAirport: function (id) {
+        return axios.delete('/api/airports/delete/' + id);
     },
     // flight_time routes ----------------------------------------------------------------
     // get all flight_times for the user
-    getFlights: function() {
+    getFlights: function () {
         return axios.get('/api/flight_time/');
     },
     // select one flight_time
-    getOneFlight: function(userId, id) {
+    getOneFlight: function (userId, id) {
         return axios.get(`/api/flight_time/${userId}/${id}`);
     },
     // create a flight_time
-    createFlight: function() {
+    createFlight: function () {
         return axios.post('/api/flight_time/');
     },
     // update a flight_time
-    updateFlight: function(userId, id) {
+    updateFlight: function (userId, id) {
         return axios.put(`/api/flight_time/update/${userId}/${id}`);
     },
     // delete a flight_time
-    deleteFlight: function(userId, id) {
+    deleteFlight: function (userId, id) {
         return axios.put(`/api/flight_time/delete/${userId}/${id}`);
     },
     // get flight_time totals
-    getFlightTotals: function() {
+    getFlightTotals: function () {
         return axios.get('/api/flight_times/totals/');
     },
 
     // -------------------------------------------------------------------------------
     // user login routes
     //login user
-    userLogin: function(userData) {
+    userLogin: function (userData) {
         return axios.post('/api/login', userData);
     },
     // sign up a user
-    userSignUp: function(userData) {
+    userSignUp: function (userData) {
         return axios.post('/api/signup', userData);
     },
     // log out a user
-    userLogOut: function() {
+    userLogOut: function () {
         return axios.get('/logout');
     },
     // getting user data to be used client side
-    userData: function() {
+    userData: function () {
         return axios.get('/api/user_data');
     },
-    userVerify: function(email) {
+    userVerify: function (email) {
         return axios.post('/api/verifyAccount', email);
+    },
+    userAccess: function (key, email) {
+        return axios.post('/api/addAccess', key, email);
+    },
+    sendMail: function (message) {
+        return axios.post('/api/sendMail', message);
     }
-};
+}
+
+
+
+    

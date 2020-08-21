@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Input from '../components/Input';
 import API from '../utils/API'
+// import SMTP from '../utils/SMTP'
+var randomstring = require("randomstring");
+// const sendmail = require('sendmail')();
+
+
 
 const Training = () => {
 
@@ -15,26 +20,58 @@ const Training = () => {
         event.preventDefault();
         console.log(studentEmail)
         if (!studentEmail) {
-            
+
             return setInvalidSubmission(true); // render an error message
         }
         try {
+            var random = randomstring.generate()
+
+            // Find if the entered email address is already in the system
             API.userVerify({
                 studentEmail: studentEmail
             })
-            .then((result) => console.log(result)
-            // result = await fetch('/api/verifyAccount', {
-            //     method: "POST",
-                
-                // `{"studentEmail":"${studentEmail}"}`
-                // 
-                // `{"studentEmail":"${studentEmail}"}`
-            )
+                .then(function (matchingStudent) {
+                    console.log("Matching user", matchingStudent)
+
+                    // Find current logged in user
+                    API.userData({
+                    })
+                        .then(function (loggedInUser) {
+                            console.log("Logged in user", loggedInUser)
+
+                            API.sendMail({
+                                "email":"austinkkramer@gmail.com"
+                            })
+
+
+
+                            // API.userAccess({
+                            // })
+                            //     .then(function (random, loggedInUser) {
+                            //         console.log("Logged in user", loggedInUser)
+                            //         console.log("random", random)
+                            //     })
+                        })
+                        .catch(error => (console.log(error)))
+
+                })
+
+
+
+
+
+
+
+
         }
-            
-         catch (error) {
+        catch (error) {
             console.error(error);
         }
+
+        // Set email as a variable
+        // Add a random key to the logged in user's profile
+        // Send the email with the same random key
+        // When they click on the key it changes the key in the user's profile back to the students email address
     }
 
     return (
@@ -46,7 +83,7 @@ const Training = () => {
                     id="student-email-input"
                     placeholder="Student Email"
                     label="Student Email"
-                    handleInputChange={({ target: { value }}) => setStudentEmail(value)}
+                    handleInputChange={({ target: { value } }) => setStudentEmail(value)}
                 />
                 <button id='add-student' type="submit" >
                     Add Student
@@ -56,7 +93,7 @@ const Training = () => {
         </main>
     );
 
-    
+
 };
 
 

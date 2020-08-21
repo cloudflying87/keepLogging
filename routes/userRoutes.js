@@ -2,6 +2,7 @@ var passport = require("../config/passport");
 var db = require("../models");
 const path = require('path')
 const sequelize = require("sequelize");
+const nodemailer = require("nodemailer");
 
 module.exports = function (app) {
   // Using the passport.authenticate middleware with our local strategy.
@@ -69,18 +70,62 @@ module.exports = function (app) {
     // };
   })
 
-  // app.put("/api/user/update/:id", function (req, res) {
-  //   if (!req.user) {
-  //     res.redirect(307, "/api/login");
-  //   } else {
-  //   db.user.update(req.body, {
-  //     where: {
-  //       UserId: req.params.UserId,
-  //       id: req.params.id
-  //     }
-  //   })
-  //     .then(results => res.json(results))
-  //     .catch(err => res.status(404).json(err));
-  //   };
-  // });
+  app.post("/api/addAccess", function (req, res) {
+      db.user.update({
+        accountAccess,
+        where: {
+        email: req.body.userEmail,
+        id: req.params.id
+      }
+    })
+      .then(results => res.json(results))
+      .catch(err => res.status(404).json(err));
+    ;
+  });
+
+  app.post("/api/sendMail", function (req, res)  {
+    const { email } = req.body;
+    console.log(email)
+    main()
+      .catch(err=> console.log(err))
+
+    async function main() {
+    
+    // create reusable transporter object using the default SMTP transport
+    let transporter = nodemailer.createTransport({
+        host: "mail.flyhomemn.com",
+        port: 465,
+        secure: true, // true for 465, false for other ports
+        auth: {
+            user: "keeplogging@flyhomemn.com", // generated ethereal user
+            pass: "keeplogging", // generated ethereal password
+        },
+    });
+  
+    const info = await transporter.sendMail ({
+        from: '"keep_logging" <keeplogging@flyhomemn.com>', // sender address
+        to: `${email}`, // list of receivers
+        subject: "Hello ✔", // Subject line
+        text: "Hello world?", // plain text body
+    })
+  
+    // send mail with defined transport object
+    // const info = await transporter.sendMail(msg);
+    // const info = await transporter.sendMail(msg);
+    
+  
+    console.log("Message sent: %s", info.messageId);
+    // console.log("Message sent: %s", info);
+    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+  
+    // Preview only available when sending through an Ethereal account
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+
+    res.json(info)
+  
+  }})
+  
+  
 }
+
