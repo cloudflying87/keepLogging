@@ -56,7 +56,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight }) => {
                         cols={40}
                     />
                 </div>
-                <div className='inputDiv timesDiv'>
+                <div className='inputDiv gfi3'>
                     <Input
                         labelFor='flightNumber'
                         label='Flight Number'
@@ -94,7 +94,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight }) => {
                     <Button
                         text='Auto Fill'
                         btnId='autoFill'
-                        className='formBtn'
+                        className='formBtn autoFillBtn'
                         handleClick={(e) => {
                             e.preventDefault();
                             console.log('hello')

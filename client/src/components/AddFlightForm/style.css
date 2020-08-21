@@ -8,7 +8,7 @@
     display: flex;
     flex-flow: row wrap;
     min-height: auto;
-    background-color: lightblue;
+    background-image: linear-gradient(to left, #D1D1D1 20%, #85c7f2 30%, #DBDBDB);;
     justify-content: space-evenly;
   }
   
@@ -26,6 +26,10 @@
     cursor: pointer;
   }
   
+  .addFlightInput {
+    margin: 2px 1px 0;
+  }
+  
   .commentsDiv {
     display: flex;
     width: 100%;
@@ -38,10 +42,6 @@
     display: flex;
     justify-content: center;
   }
-
-  .timesDiv{
-    
-  }
   
   .timesDivRow1 {
     display: flex;
@@ -51,28 +51,35 @@
   .timesDivRow2 {
     display: flex;
     justify-content: space-around;
+    margin-bottom: 10px;
   }
   
   .btnWrapper {
     display: flex;
     justify-content: center;
     width: 100%;
+    margin-bottom: 10px;
   }
-
+  
   @media screen and (max-width: 320px) {
-      #dateInput {
-          margin-right: 0;
-      }
+    .addFlightInput {
+      margin: 0;
+    }
+    #dateInput {
+      margin-right: 0;
+    }
+    #commentsInput {
+      width: 300px;
+    } 
+    .menuBtn {
+      font-size: .74312em;
+    }
 
-      #commentsInput {
-          width: 300px;
-      }
-
-      .menuBtn {
-          font-size: .74312em;
-      }
-
-      body, html {
-          overflow-y: scroll;
-      }
+    #autoFill {
+      font-size: .8em;
+    }
+    body,
+    html {
+      overflow-y: scroll;
+    }
   }
