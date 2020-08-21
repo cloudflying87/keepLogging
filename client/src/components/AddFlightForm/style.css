@@ -26,12 +26,6 @@
     cursor: pointer;
   }
   
-  .inputDiv {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-  }
-  
   .commentsDiv {
     display: flex;
     width: 100%;
@@ -43,6 +37,10 @@
     width: 85%;
     display: flex;
     justify-content: center;
+  }
+
+  .timesDiv{
+    
   }
   
   .timesDivRow1 {
