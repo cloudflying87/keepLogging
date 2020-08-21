@@ -26,7 +26,7 @@ const TotalsDisplay = ({totals}) => {
                     {!!totals.solo &&
                         <li><strong>Solo</strong> {totals.solo}</li>}
                     {!!totals.dualI &&
-                        <li><strong>I</strong> {totals.dualI}</li>}
+                        <li><strong>Instruction Received</strong> {totals.dualI}</li>}
                     {!!totals.pic &&
                         <li><strong>PIC</strong> {totals.pic}</li>}
                     {!!totals.sic &&

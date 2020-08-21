@@ -10,7 +10,7 @@ const Table = ({ openModal }) => {
     });
 
     useEffect(() => {
-        API.getFlights(1)
+        API.getFlights()
             .then(async ({ data }) => {
                 setState(data)
                 const mapped = await data.map(x => ({
@@ -27,8 +27,7 @@ const Table = ({ openModal }) => {
                 }))
             })
             .catch(err => console.log(err))
-
-    }, [])
+    }, [state])
 
     return (
         <div>

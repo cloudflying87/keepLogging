@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Input from '../components/Input';
+import Nav from '../components/Nav/index';
 import API from '../utils/API'
 
 const Training = () => {
@@ -39,6 +40,7 @@ const Training = () => {
 
     return (
         <main>
+            <Nav />
             <form onSubmit={onSubmit}>
 
                 <Input
