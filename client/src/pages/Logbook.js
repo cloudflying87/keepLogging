@@ -10,7 +10,9 @@ import moment from 'moment'
 
 import './logbook.css'
 
-
+let airportLoc = [];
+let distNum = [];
+let crossCountryTrue = false;
 const Logbook = () => {
 
     const [state, setState] = useState({
@@ -20,23 +22,13 @@ const Logbook = () => {
         totals: [],
         userId:''
     })
-    const [logbookForm, setlogbookForm] = useState({})
-    const [timeDistance, settimeDistance] = useState({
-        airports: '',
-        depTime: '',
-        arrivalTime: '',
-        date: '',
-        airportArray: [],
-        airportLoc: [],
-        distNum: [],
-        sunTimesArr: [],
-        crossCountry: false,
-        departTimeDateAdd: false,
-        arrTimeDateAdd: false,
-        departTimeDate: '',
-        arrTimeDate: '',
-        timeCalc: '',
+    const [logbookForm, setlogbookForm] = useState({
+        date:moment('mm/dd/yyyy'),
+        total:'',
+        crossCountry:'',
+        night:''
     })
+    
     const [modal, setModal] = useState({
         open: false,
         values: []
@@ -45,7 +37,7 @@ const Logbook = () => {
     useEffect(() => {
         API.getFlights()
             .then((res) => {
-                setState(state=> ({
+                setState(state => ({
                     ...state,
                     fullResults: res.data
                 }))
@@ -73,23 +65,10 @@ const Logbook = () => {
             ...logbookForm,
             // date: new Date(),
             [name]: value
-
         }))
-        updatingFormState()
     };
-    const updatingFormState = () => {
-        settimeDistance(timeDistance => ({
-            ...timeDistance,
-            date: logbookForm.date,
-            airports: logbookForm.route,
-            depTime: logbookForm.departureTime,
-            arrivalTime: logbookForm.arrivalTime
-        }))
-    }
-    
 
     const workingTimeDistance = async (e) => {
-        updatingFormState()
         e.preventDefault();
         await workingTimes();
         await findDistance();
@@ -97,48 +76,35 @@ const Logbook = () => {
     }
 
     const workingTimes = async () => {
-        
-        settimeDistance(timeDistance => ({
-            ...timeDistance,
-            airportArray: timeDistance.airports.split(' ')
-        }))
-        const eachAirport = timeDistance.airportArray
-        
+        const eachAirport = logbookForm.route.split(' ')
+        console.log(logbookForm.route.split(' '))
         for (let i = 0; i < eachAirport.length; i++) {
             await getLatLong(eachAirport[i])
         }
-        
+
     }
 
     async function getLatLong(icao) {
         await API.getAirports(icao)
             .then(async ({ data }) => {
                 const objectArray = Object.values(data[0])
-                settimeDistance({
-                    ...timeDistance,
-                    airportLoc: [timeDistance.airportLoc.push(parseFloat(objectArray[8],10), parseFloat(objectArray[9],10))]
-                })
+                airportLoc.push(parseFloat(objectArray[8], 10), parseFloat(objectArray[9], 10))
             })
             .catch(console.error)
     }
-    let crossCountry = ''
+    
     const findDistance = async () => {
         let y = -1;
-        let airportLoc = timeDistance.airportLoc
         
-        let distNum = timeDistance.distNum
         for (let i = 0; i < airportLoc.length / 2; i += 2) {
             y++
             distance(airportLoc[i], airportLoc[i + 1], airportLoc[i + 2], airportLoc[i + 3])
             if (distNum[y] > 50) {
-                crossCountry = true 
-                settimeDistance(timeDistance => ({
-                    ...timeDistance,
-                    crossCountry: true
-                }))
-                  console.log(distNum[y],crossCountry) 
+                crossCountryTrue = true
+                
             }
         }
+        console.log(distNum[y], crossCountryTrue)
     }
     const distance = async (lat1, lon1, lat2, lon2) => {
         var r = 3440.070
@@ -150,11 +116,8 @@ const Logbook = () => {
         var a = Math.pow(Math.cos(lat2) * Math.sin(lonDelta), 2) + Math.pow(Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lonDelta), 2);
         var b = Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lonDelta);
         var angle = Math.atan2(Math.sqrt(a), b);
-        settimeDistance({
-            ...timeDistance,
-            distNum: [...timeDistance.distNum, timeDistance.distNum.push(angle * r)]
-        })
-        setlogbookForm()
+            
+        distNum.push(angle * r)
 
     }
 
@@ -162,45 +125,37 @@ const Logbook = () => {
     const calcTime = async () => {
         var departTimeDateAdd = false
         var arrTimeDateAdd = false
-        let timeCalc = 0
-        let crossCountry = false
         let departTimeDate = '';
         let arrTimeDate = '';
-
-        const tdDate = moment.utc((timeDistance.date))
+        let timeCalc = 0;
+        const tdDate = moment.utc((logbookForm.date))
         const userDate = tdDate._i
-    
-        const departTime = timeDistance.depTime
-        const arrTime = timeDistance.arrivalTime
+
+        const departTime = logbookForm.departureTime
+        const arrTime = logbookForm.arrivalTime
         // Here we are checking if the user just input a time. If that is true then we take the date from the date box and put it in from of the time. We are using the newDate to format it as a date correctly to work with. 
-        
-        if (new Date(departTime)=='Invalid Date'){
-            departTimeDate = moment.utc((userDate+' '+departTime))
+
+        if (new Date(departTime) == 'Invalid Date') {
+            departTimeDate = moment.utc((userDate + ' ' + departTime))
             departTimeDateAdd = true
-        }else {
+        } else {
             departTimeDate = moment.utc(departTime)
         }
-        
-        if (new Date(arrTime)=='Invalid Date'){
-            arrTimeDate = moment.utc(userDate+' '+arrTime+":00Z")
+
+        if (new Date(arrTime) == 'Invalid Date') {
+            arrTimeDate = moment.utc(userDate + ' ' + arrTime + ":00Z")
             arrTimeDateAdd = true
-        }else {
+        } else {
             arrTimeDate = moment.utc(arrTime)
         }
-       
-    // Subtracting the times in milliseconds. 
+
+        // Subtracting the times in milliseconds. 
         let momentMillie = moment.duration(arrTimeDate.diff(departTimeDate))
         timeCalc = convertToHoursMM(momentMillie._milliseconds)
-        console.log(timeCalc,timeDistance.crossCountry)
-        
+        console.log(timeCalc, crossCountryTrue)
+
         // Auto filling times. Will add more as we have user preferences. 
-        setlogbookForm(logbookForm => ({
-            ...logbookForm,
-            total: timeCalc,
-        }))
-        if (crossCountry === true){
-            document.getElementById('cxt').value = timeCalc
-        }
+        
         /*
         // Filling the departure box back in so the user can see what date was used from their calculations
         if (departTimeDateAdd){
@@ -211,58 +166,61 @@ const Logbook = () => {
             (document.getElementById('arrTime').value) = (arrTimeDate.getUTCMonth()+1)+'/'+arrTimeDate.getUTCDate()+'/'+arrTimeDate.getUTCFullYear()+' '+arrTime
         }
         */
-        nighttimeGather(departTimeDate,arrTimeDate,timeCalc)
-        
+        nighttimeGather(departTimeDate, arrTimeDate, timeCalc)
+
     }
     let sunTimesArr = []
-    async function nighttimeGather (depart, arrive,timeCalc){
+    async function nighttimeGather(depart, arrive, timeCalc) {
         let nightTime
-        
+
         // Getting the departure airport suntimes dawn, sunrise, sunset, dusk pushing them into an array.
         // always going to take the first airport and the last airport. Getting the last airport by finding the length of the array and taking the last two items. 
         // all calculations are done on sunrise and sunset times. Carrying dawn times but not using them for anything right now. 
-        const numofAirport = timeDistance.airportLoc.length
-        let airportLoc = timeDistance.airportLoc
+        const numofAirport = airportLoc.length
+        console.log()
+        await sunTimes(depart, airportLoc[0], airportLoc[1])
+        await sunTimes(arrive, airportLoc[numofAirport - 2], airportLoc[numofAirport - 1])
 
-        await sunTimes(depart,airportLoc[0],airportLoc[1])
-        await sunTimes(arrive,airportLoc[numofAirport-2],airportLoc[numofAirport-1])
-        
         let depRise = sunTimesArr[1]
         let depSet = sunTimesArr[2]
         let arrRise = sunTimesArr[5]
         let arrSet = sunTimesArr[6]
         
-        console.log(sunTimesArr)
 
-        if ((depart.isBefore(depRise)&&arrive.isBefore(arrRise))|| (depart.isAfter(depSet)&&arrive.isAfter(arrSet))){
+        if ((depart.isBefore(depRise) && arrive.isBefore(arrRise)) || (depart.isAfter(depSet) && arrive.isAfter(arrSet))) {
             // this is for an all night flight before sunrise or after sunset
             nightTime = timeCalc
-        }else if (depart.isBefore(depRise)&&arrive.isAfter(arrRise)){ 
+        } else if (depart.isBefore(depRise) && arrive.isAfter(arrRise)) {
             // this is for an early morning departure before the sunrises
             console.log("not allnig")
             nightTime = convertToHoursMM(moment.duration(depRise.diff(depart)))
-        }else if (depart.isBefore(depSet)&&arrive.isAfter(arrSet)){
+        } else if (depart.isBefore(depSet) && arrive.isAfter(arrSet)) {
             // evening flight departure before sunset and landing after sunset
             // moment.duration(arrTimeDate.diff(departTimeDate))
-            nightTime = convertToHoursMM(arrive-arrSet)
+            nightTime = convertToHoursMM(arrive - arrSet)
         } else {
             nightTime = 0
         }
-    
-        // document.getElementById('night').value = nightTime
-        console.log('night ', nightTime)
+
+        setlogbookForm(logbookForm => ({
+            ...logbookForm,
+            total: timeCalc,
+            crossCountry: crossCountryTrue ? timeCalc : 0,
+            nightTime: nightTime
+        }))
+        
     }
-    async function sunTimes(date,lat,long){
-        API.sunriseSunset(date,lat,long)
-        .then( ({data}) => {
-            let dawnCalc = moment.utc(data.dawn)
-            let sunriseCalc = moment.utc(data.sunrise)
-            let sunsetCalc = moment.utc(data.sunset)
-            let duskCalc = moment.utc(data.dusk)
-    
-            sunTimesArr.push(dawnCalc,sunriseCalc,sunsetCalc,duskCalc)
-        })
-            
+    async function sunTimes(date, lat, long) {
+        await API.sunriseSunset(date, lat, long)
+            .then(({ data }) => {
+                let dawnCalc = moment.utc(data.dawn)
+                let sunriseCalc = moment.utc(data.sunrise)
+                let sunsetCalc = moment.utc(data.sunset)
+                let duskCalc = moment.utc(data.dusk)
+
+                sunTimesArr.push(dawnCalc, sunriseCalc, sunsetCalc, duskCalc)
+            })
+
     }
 
     function convertToHoursMM(diff) {
@@ -367,7 +325,6 @@ const Logbook = () => {
 
     return (
         <div>
-            {/* {console.log(timeDistance)} */}
             {
                 (modal.open && !!modal.values) &&
 
@@ -433,7 +390,7 @@ const Logbook = () => {
                         console.log(state.btnClicked)
                     }}
                 />
-                <Button
+                {/* <Button
                     text='Training'
                     btnId='training'
                     btnClass='menuBtn'
@@ -448,7 +405,7 @@ const Logbook = () => {
                         }))
                         console.log(state.btnClicked)
                     }}
-                />
+                /> */}
                 <Button
                     text='Logout'
                     btnId='logout'
