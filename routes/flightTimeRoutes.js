@@ -9,7 +9,7 @@ module.exports = function(app) {
 
   // Routes for flight_time table per user id
  app.get("/api/flight_time/", function (req, res) {
-   console.log('req.user: ',req.user)
+   console.log('req.user: ',req.body)
   if (!req.user) {
       // res.error(307, "/");
   } else {
@@ -22,7 +22,7 @@ module.exports = function(app) {
       attributes: ['tailNumber']
     }],
     attributes: {
-      exclude: ["createdAt", "updatedAt", "AircraftId", "UserId"]
+      exclude: ["createdAt", "updatedAt", "AircraftId"]
     },
     raw: true
   })
@@ -57,8 +57,8 @@ app.post("/api/flight_time/", async function (req, res) {
   // if (!req.user) {
   //     res.redirect(307, "/login");
   // } else {
-  const flightData = await WorkingFlightTime(req.body)
-    await (db.FlightTime.create(flightData))
+  
+    await (db.FlightTime.create(req.body))
     .then(results => res.json(results))
     .catch(err => res.status(404).json(err.message))
   // };
@@ -130,7 +130,7 @@ app.get("/api/flight_times/totals/", function (req, res) {
 app.get("/api/nighttime?", function (req, res) {
   // const sunTime = SunCalc.getTimes(req.params.date,
   //     req.query.lat,req.query.long)
-   const sunTime = SunCalc.getTimes(new Date(),req.query.lat,req.query.long)    
+   const sunTime = SunCalc.getTimes(new Date(req.query.date),req.query.lat,req.query.long)    
   res.json(sunTime)
 })
 

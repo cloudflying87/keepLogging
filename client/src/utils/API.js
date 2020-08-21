@@ -32,8 +32,8 @@ export default {
     },
     // airport routes --------------------------------------------------------
     // all airports
-    getAirports: function() {
-        return axios.get('/api/airports/');
+    getAirports: function(icao) {
+        return axios.get('/api/airports/'+icao);
     },
     // get airport by id
     getOneAirport: function(id) {
@@ -46,6 +46,9 @@ export default {
     // update airport
     updateAirport: function(id) {
         return axios.put('/api/airports/'+id);
+    },
+    sunriseSunset: function(date,lat,long){
+        return axios.get('/api/nighttime?date='+date._i+'&lat='+lat+'&long='+long);
     },
     deleteAirport: function(id) {
         return axios.delete('/api/airports/delete/'+id);
@@ -60,8 +63,8 @@ export default {
         return axios.get(`/api/flight_time/${userId}/${id}`);
     },
     // create a flight_time
-    createFlight: function() {
-        return axios.post('/api/flight_time/');
+    createFlight: function(flightData) {
+        return axios.post('/api/flight_time/',(flightData));
     },
     // update a flight_time
     updateFlight: function(userId, id) {
