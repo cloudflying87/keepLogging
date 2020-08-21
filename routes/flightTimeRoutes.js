@@ -130,7 +130,7 @@ app.get("/api/flight_times/totals/", function (req, res) {
 app.get("/api/nighttime?", function (req, res) {
   // const sunTime = SunCalc.getTimes(req.params.date,
   //     req.query.lat,req.query.long)
-   const sunTime = SunCalc.getTimes(new Date(),req.query.lat,req.query.long)    
+   const sunTime = SunCalc.getTimes(new Date(req.query.date),req.query.lat,req.query.long)    
   res.json(sunTime)
 })
 
