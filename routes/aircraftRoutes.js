@@ -5,9 +5,9 @@ module.exports = function(app) {
 
     // Routes for aircraft table per user id
 app.get("/api/aircraft/", function (req, res) {
-    // if (!req.user) {
-    //     res.redirect(307, "/api/login");
-    // } else {
+    if (!req.user) {
+        res.redirect(307, "/api/login");
+    } else {
     db.Aircraft.findAll({
       include:[{
         model: db.AircraftModels,
@@ -16,7 +16,7 @@ app.get("/api/aircraft/", function (req, res) {
     })
       .then(results => res.json(results))
       .catch(err => res.status(404).json(err));
-    // };
+    };
   });
 
   // Route for selecting one aircraft
