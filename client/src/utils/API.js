@@ -67,6 +67,7 @@ export default {
     // create a flight_time
 
     createFlight: function(flightData) {
+        console.log(flightData)
         return axios.post('/api/flight_time/',(flightData));
     },
     // update a flight_time
