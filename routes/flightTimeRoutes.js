@@ -11,7 +11,7 @@ module.exports = function(app) {
  app.get("/api/flight_time/", function (req, res) {
    console.log('req.user: ',req.body)
   if (!req.user) {
-      res.error(307, "/");
+      // res.error(307, "/");
   } else {
   db.FlightTime.findAll({
     where: {
@@ -34,7 +34,7 @@ module.exports = function(app) {
 // Route for selecting one flight_time
 app.get("/api/flight_time/:userId/:id", function (req, res) {
   if (!req.user) {
-    res.redirect(307, "/login");
+    // res.redirect(307, "/login");
   } else {
   db.FlightTime.findAll({
     where: {
@@ -67,7 +67,7 @@ app.post("/api/flight_time/", async function (req, res) {
 // Route for updating a flight_time
 app.put("/api/flight_time/update/:UserId/:id", function (req, res) {
   if (!req.user) {
-    res.redirect(307, "/api/login");
+    // res.redirect(307, "/api/login");
   } else {
   db.FlightTime.update(req.body, {
     where: {
@@ -83,7 +83,7 @@ app.put("/api/flight_time/update/:UserId/:id", function (req, res) {
 // Route for deleting a flight_time
 app.delete("/api/flight_time/delete/:UserId/:id", function (req, res) {
   if (!req.user) {
-    res.redirect(307, "/api/login");
+    // res.redirect(307, "/api/login");
   } else {
   db.FlightTime.destroy({
     where: {
@@ -98,7 +98,7 @@ app.delete("/api/flight_time/delete/:UserId/:id", function (req, res) {
 // I cant get this call to work if I use flight_time. I think it is calling the get request above that has two // after flight times. I am sure I am doing something wrong I just dont know what it is. 
 app.get("/api/flight_times/totals/", function (req, res) {
   if (!req.user) {
-      res.redirect(307, "/api/login");
+      // res.redirect(307, "/api/login");
   } else {
   db.FlightTime
     .findAll({
