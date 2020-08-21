@@ -2,9 +2,11 @@ import React from 'react';
 import Input from '../Input/index';
 import Button from '../Button/index';
 import './style.css'
+import moment from 'moment'
 
 
-const AddFlightForm = ({ handleFormInput, handleAddFlight,workingTimeDistance }) => {
+const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value }) => {
+    console.log('addForm value:',value)
     const dateSet = () => {
         const dateWorking = new Date()
         let dateCur = (dateWorking.getFullYear()+'-'+(dateWorking.getMonth()+1) +'-'+dateWorking.getDate())
@@ -26,6 +28,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight,workingTimeDistance })
                         placeholder='date'
                         handleInputChange={handleFormInput}
                         // value={logbookForm.date}
+                        // value={moment()}
                     />
                     <Input
                         labelFor='aircraftType'
@@ -100,7 +103,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight,workingTimeDistance })
                         text='Auto Fill'
                         btnId='autoFill'
                         className='formBtn'
-                        handleClick={workingTimeDistance}
+                        handleClick={handleClick}
                     />
                 </div>
                 <h4 className='header'>Approaches and Landings</h4>
@@ -174,6 +177,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight,workingTimeDistance })
                             placeholder='Total'
                             handleInputChange={handleFormInput}
                             size={4}
+                            value={value.total}
                         />
                         <Input
                             labelFor='crossCountry'

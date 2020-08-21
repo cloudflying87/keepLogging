@@ -39,7 +39,6 @@ const Signup = props => {
             password: state.password
         })
         .then(res =>{
-            console.log(res);
             props.history.push('/logbook');
         })
         .catch(err => {

@@ -107,19 +107,18 @@ app.get("/api/aircraft/", function (req, res) {
       include:[{
         model: db.Aircraft,
         attributes:['tailNumber'],
-        // model: db.AircraftModels,
-        // attributes:['tdesig']
+        include:[{
+          model:db.AircraftModels,
+          attributes:[
+            'tdesig',
+            'description'
+        ]
+        }]
       }],
        
       raw: true
     })
-      .then(results => {
-        let airCraft = []
-        for (let i = 0; i < results.length; i++) {
-          for (const value in results[i])
-            airCraft.push(results[i][value])
-        }
-        res.json(airCraft)})
+      .then(results => {res.json(results)})
       .catch(err => res.status(404).json(err));
     // };
   });

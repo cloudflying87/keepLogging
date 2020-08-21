@@ -20,7 +20,6 @@ const Logbook = () => {
         totals: []
     })
     const [logbookForm, setlogbookForm] = useState({})
-    const [workingState, setWorkingState] = useState({})
     const [timeDistance, settimeDistance] = useState({
         airports: '',
         depTime: '',
@@ -45,7 +44,7 @@ const Logbook = () => {
     useEffect(() => {
         API.getFlights()
             .then((res) => {
-                setState(({
+                setState(state=> ({
                     ...state,
                     fullResults: res.data
                 }))
@@ -55,14 +54,7 @@ const Logbook = () => {
                 window.location.href = '/'
             })
 
-    }, [])
-
-    const handleInputChange = ({ target: { value, name } }) => {
-        setState(state => ({
-            ...state,
-            [name]: value
-        }))
-    };
+    }, [modal.values])
 
     const handleFormInput = ({ target: { value, name } }) => {
         setlogbookForm(logbookForm => ({
@@ -83,11 +75,7 @@ const Logbook = () => {
 
         }))
     }
-    const dateSet = () => {
-        const dateWorking = new Date()
-        let dateCur = (dateWorking.getFullYear() + '-' + (dateWorking.getMonth() + 1) + '-' + dateWorking.getDate())
-        return dateCur
-    }
+    
 
     const workingTimeDistance = async (e) => {
         updatingFormState()
@@ -114,7 +102,6 @@ const Logbook = () => {
     async function getLatLong(icao) {
         await API.getAirports(icao)
             .then(async ({ data }) => {
-                setWorkingState(data)
                 const objectArray = Object.values(data[0])
                 settimeDistance({
                     ...timeDistance,
@@ -236,14 +223,16 @@ const Logbook = () => {
         
         console.log(sunTimesArr)
 
-        if (depart.isBefore(depRise)&&arrive.isBefore(arrRise)|| depart.isAfter(depSet)&&arrive.isAfter(arrSet)){
+        if ((depart.isBefore(depRise)&&arrive.isBefore(arrRise))|| (depart.isAfter(depSet)&&arrive.isAfter(arrSet))){
             // this is for an all night flight before sunrise or after sunset
             nightTime = timeCalc
-        }else if (depart<depRise&&arrive>arrRise){ 
-            //this is for an early morning departure before the sunrises
-            nightTime = convertToHoursMM(depRise-depart)
-        }else if (depart<depSet&&arrive>arrSet){
+        }else if (depart.isBefore(depRise)&&arrive.isAfter(arrRise)){ 
+            // this is for an early morning departure before the sunrises
+            console.log("not allnig")
+            nightTime = convertToHoursMM(moment.duration(depRise.diff(depart)))
+        }else if (depart.isBefore(depSet)&&arrive.isAfter(arrSet)){
             // evening flight departure before sunset and landing after sunset
+            // moment.duration(arrTimeDate.diff(departTimeDate))
             nightTime = convertToHoursMM(arrive-arrSet)
         } else {
             nightTime = 0
@@ -302,8 +291,12 @@ const Logbook = () => {
             cfi: logbookForm.cfi,
             dual: logbookForm.dual,
             solo: logbookForm.solo,
+            UserId: state.fullResults[0].UserId
         })
-            .then((data) => console.log('Success'))
+            .then((data) => {
+                console.log('Success')
+                console.log("logFlight data: ", data)
+            })
             .catch(console.error)
     }
 
@@ -325,10 +318,12 @@ const Logbook = () => {
             case 'addFlightBtn':
                 return (
                     <>
+                    
                         <AddFlightForm
                             handleFormInput={handleFormInput}
+                            handleClick={workingTimeDistance}
                             handleAddFlight={logFlight}
-                            workingTimeDistance={workingTimeDistance}
+                            value={logbookForm}
 
                         />
                     </>
@@ -434,7 +429,7 @@ const Logbook = () => {
                     btnId='training'
                     btnClass='menuBtn'
                     handleClick={(e) => {
-                        const { target } = e
+                        const { target } = e;
                         e.preventDefault()
                         console.log("add flight")
                         setState(state => ({
@@ -450,7 +445,6 @@ const Logbook = () => {
                     btnId='logout'
                     btnClass='menuBtn'
                     handleClick={(e) => {
-                        const { target } = e
                         e.preventDefault()
                         console.log("logout")
                         console.log(state.btnClicked)

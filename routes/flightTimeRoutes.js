@@ -22,7 +22,7 @@ module.exports = function(app) {
       attributes: ['tailNumber']
     }],
     attributes: {
-      exclude: ["createdAt", "updatedAt", "AircraftId", "UserId"]
+      exclude: ["createdAt", "updatedAt", "AircraftId"]
     },
     raw: true
   })

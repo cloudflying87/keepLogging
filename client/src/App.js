@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch, BrowserRouter } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Signup from './pages/Signup';
 import Logbook from './pages/Logbook';
 import Training from './pages/Training';
