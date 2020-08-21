@@ -3,7 +3,7 @@ import Button from '../Button/index';
 import API from '../../utils/API';
 import './style.css'
 
-const Modal = ({ handleClick, results }) => {
+const Modal = ({ handleClick, openEdit, results }) => {
     console.log('modal results', results)
 
     const deleteFlight = e => {
@@ -12,8 +12,8 @@ const Modal = ({ handleClick, results }) => {
         API.deleteFlight(results.id)
             .then(res => console.log(res))
             .catch(err => console.log(err))
-            // closes modal after flight is deleted
-            handleClick(e)
+        // closes modal after flight is deleted
+        handleClick(e)
     }
 
     const editFlight = e => {
@@ -81,10 +81,11 @@ const Modal = ({ handleClick, results }) => {
 
                 </ul>
                 <Button
+
                     text='Edit'
                     btnId='editBtn'
                     className='editAndDeleteBtns'
-                    handleClick={editFlight}
+                    handleClick={() => openEdit(results.id)}
                 />
                 <Button
                     text='Delete'

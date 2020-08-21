@@ -53,7 +53,7 @@ module.exports = function (app) {
   });
 
   // Route for creating a flight_time
-  app.post("/api/flight_time/", function (req, res) {
+  app.post("/api/flight_time", function (req, res) {
     // if (!req.user) {
     //     res.redirect(307, "/login");
     // } else {
@@ -127,6 +127,7 @@ module.exports = function (app) {
         .catch(err => res.status(404).json(err));
     };
   });
+
   app.get("/api/nighttime?", function (req, res) {
     // const sunTime = SunCalc.getTimes(req.params.date,
     //     req.query.lat,req.query.long)
