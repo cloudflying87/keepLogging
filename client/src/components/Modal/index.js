@@ -40,8 +40,6 @@ const Modal = ({ handleClick, results }) => {
                     {!!results['Aircraft.tailNumber'] &&
                         <li className='modalLi'><strong>Aircraft:</strong> {results['Aircraft.tailNumber']}</li>}
 
-                    <li className='modalLi'><strong>Tail Number:</strong> {results.tailNumber}</li>
-
                     {!!results.route && <li className='modalLi'><strong>Route:</strong> {results.route}</li>}
 
                     {!!results.flightNumber && <li className='modalLi'><strong>Flight Number</strong> {results.flightNum}</li>}

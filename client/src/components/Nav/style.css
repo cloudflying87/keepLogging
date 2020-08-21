@@ -27,6 +27,8 @@ img {
     text-align: center;
     display: none;
     flex-flow: column nowrap;
+    margin: 0;
+    padding: 0;
 }
 
 li {

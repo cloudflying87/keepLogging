@@ -17,7 +17,8 @@ const Logbook = () => {
         open: false,
         btnClicked: '',
         fullResults: [],
-        totals: []
+        totals: [],
+        userId:''
     })
     const [logbookForm, setlogbookForm] = useState({})
     const [timeDistance, settimeDistance] = useState({
@@ -52,9 +53,20 @@ const Logbook = () => {
             .catch(err => {
                 console.log(err)
                 window.location.href = '/'
+            });
+
+        API.userData()
+            .then(res => {
+                setState(state=>({
+                    ...state,
+                    userId: res.data.id
+                }))
+            })
+            .catch(err=> {
+                console.error(err)
             })
 
-    }, [modal.values])
+    }, [])
 
     const handleFormInput = ({ target: { value, name } }) => {
         setlogbookForm(logbookForm => ({
@@ -72,7 +84,6 @@ const Logbook = () => {
             airports: logbookForm.route,
             depTime: logbookForm.departureTime,
             arrivalTime: logbookForm.arrivalTime
-
         }))
     }
     
@@ -291,7 +302,7 @@ const Logbook = () => {
             cfi: logbookForm.cfi,
             dual: logbookForm.dual,
             solo: logbookForm.solo,
-            UserId: state.fullResults[0].UserId
+            UserId: state.userId
         })
             .then((data) => {
                 console.log('Success')
