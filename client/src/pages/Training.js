@@ -3,7 +3,7 @@ import Input from '../components/Input';
 import Nav from '../components/Nav/index';
 import API from '../utils/API'
 // import SMTP from '../utils/SMTP'
-var randomstring = require("randomstring");
+import randomstring from 'randomstring'
 // const sendmail = require('sendmail')();
 
 

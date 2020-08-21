@@ -20,21 +20,36 @@ const Logbook = () => {
         btnClicked: '',
         fullResults: [],
         totals: [],
-        userId:''
+        userId: ''
     })
     const [logbookForm, setlogbookForm] = useState({
-        date:moment('mm/dd/yyyy'),
-        total:'',
-        crossCountry:'',
-        night:''
+        date: '',
+        total: '',
+        crossCountry: '',
+        night: ''
     })
-    
+
     const [modal, setModal] = useState({
         open: false,
         values: []
     });
 
     useEffect(() => {
+        getFlights();
+        API.userData()
+            .then(res => {
+                setState(state => ({
+                    ...state,
+                    userId: res.data.id
+                }))
+            })
+            .catch(err => {
+                console.error(err)
+            })
+
+    }, [])
+
+    const getFlights = () => {
         API.getFlights()
             .then((res) => {
                 setState(state => ({
@@ -46,19 +61,7 @@ const Logbook = () => {
                 console.log(err)
                 window.location.href = '/'
             });
-
-        API.userData()
-            .then(res => {
-                setState(state=>({
-                    ...state,
-                    userId: res.data.id
-                }))
-            })
-            .catch(err=> {
-                console.error(err)
-            })
-
-    }, [])
+    }
 
     const handleFormInput = ({ target: { value, name } }) => {
         setlogbookForm(logbookForm => ({
@@ -92,16 +95,16 @@ const Logbook = () => {
             })
             .catch(console.error)
     }
-    
+
     const findDistance = async () => {
         let y = -1;
-        
+
         for (let i = 0; i < airportLoc.length / 2; i += 2) {
             y++
             distance(airportLoc[i], airportLoc[i + 1], airportLoc[i + 2], airportLoc[i + 3])
             if (distNum[y] > 50) {
                 crossCountryTrue = true
-                
+
             }
         }
         console.log(distNum[y], crossCountryTrue)
@@ -116,7 +119,7 @@ const Logbook = () => {
         var a = Math.pow(Math.cos(lat2) * Math.sin(lonDelta), 2) + Math.pow(Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lonDelta), 2);
         var b = Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lonDelta);
         var angle = Math.atan2(Math.sqrt(a), b);
-            
+
         distNum.push(angle * r)
 
     }
@@ -155,7 +158,7 @@ const Logbook = () => {
         console.log(timeCalc, crossCountryTrue)
 
         // Auto filling times. Will add more as we have user preferences. 
-        
+
         /*
         // Filling the departure box back in so the user can see what date was used from their calculations
         if (departTimeDateAdd){
@@ -185,7 +188,7 @@ const Logbook = () => {
         let depSet = sunTimesArr[2]
         let arrRise = sunTimesArr[5]
         let arrSet = sunTimesArr[6]
-        
+
 
         if ((depart.isBefore(depRise) && arrive.isBefore(arrRise)) || (depart.isAfter(depSet) && arrive.isAfter(arrSet))) {
             // this is for an all night flight before sunrise or after sunset
@@ -208,7 +211,7 @@ const Logbook = () => {
             crossCountry: crossCountryTrue ? timeCalc : 0,
             nightTime: nightTime
         }))
-        
+
     }
     async function sunTimes(date, lat, long) {
         await API.sunriseSunset(date, lat, long)
@@ -265,8 +268,10 @@ const Logbook = () => {
             .then((data) => {
                 console.log('Success')
                 console.log("logFlight data: ", data)
+                getFlights();
             })
             .catch(console.error)
+        
     }
 
     const getTotals = () => {
