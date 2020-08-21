@@ -119,13 +119,10 @@ const Logbook = () => {
 
     const workingTimes = async () => {
         const eachAirport = logbookForm.route.split(' ')
-        console.log(logbookForm.route.split(' '))
         for (let i = 0; i < eachAirport.length; i++) {
             await getLatLong(eachAirport[i])
         }
-
     }
-
     async function getLatLong(icao) {
         await API.getAirports(icao)
             .then(async ({ data }) => {
@@ -146,7 +143,6 @@ const Logbook = () => {
 
             }
         }
-        console.log(distNum[y], crossCountryTrue)
     }
     const distance = async (lat1, lon1, lat2, lon2) => {
         var r = 3440.070
@@ -194,7 +190,7 @@ const Logbook = () => {
         // Subtracting the times in milliseconds. 
         let momentMillie = moment.duration(arrTimeDate.diff(departTimeDate))
         timeCalc = convertToHoursMM(momentMillie._milliseconds)
-        console.log(timeCalc, crossCountryTrue)
+        
 
         // Auto filling times. Will add more as we have user preferences. 
 
@@ -235,7 +231,7 @@ const Logbook = () => {
             nightTime = timeCalc
         } else if (depart.isBefore(depRise) && arrive.isAfter(arrRise)) {
             // this is for an early morning departure before the sunrises
-            console.log("not allnig")
+            
             nightTime = convertToHoursMM(moment.duration(depRise.diff(depart)))
         } else if (depart.isBefore(depSet) && arrive.isAfter(arrSet)) {
             // evening flight departure before sunset and landing after sunset
@@ -249,7 +245,7 @@ const Logbook = () => {
             ...logbookForm,
             total: timeCalc,
             crossCountry: crossCountryTrue ? timeCalc : 0,
-            nightTime: nightTime
+            nightTime: nightTime ? nightTime : 0
         }))
 
     }
@@ -314,7 +310,6 @@ const Logbook = () => {
             UserId: state.userId
         })
             .then((data) => {
-                console.log('Success')
                 console.log("logFlight data: ", data)
                 getFlights();
             })

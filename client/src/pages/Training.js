@@ -92,8 +92,7 @@ const Training = () => {
                 </button>
                 </form>
                 {invalidSubmission && (<div>Please enter a valid email</div>)}
-            </main>
-        </>
+        </main>
     );
 
 
