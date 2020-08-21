@@ -104,17 +104,17 @@ app.get("/api/aircraft/", function (req, res) {
       // where: {UserId: req.user.id},
       where: {UserId: 1},
       attributes:['AircraftId'],
-      include:[{
+      include:{
         model: db.Aircraft,
         attributes:['tailNumber'],
-        include:[{
+        include:{
           model:db.AircraftModels,
           attributes:[
             'tdesig',
             'description'
         ]
-        }]
-      }],
+        }
+      },
        
       raw: true
     })

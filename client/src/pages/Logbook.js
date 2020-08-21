@@ -169,7 +169,7 @@ const Logbook = () => {
         let depSet = sunTimesArr[2]
         let arrRise = sunTimesArr[5]
         let arrSet = sunTimesArr[6]
-        
+        console.log("dep ", depRise, " depart ",depart )
 
         if ((depart.isBefore(depRise) && arrive.isBefore(arrRise)) || (depart.isAfter(depSet) && arrive.isAfter(arrSet))) {
             // this is for an all night flight before sunrise or after sunset
@@ -185,12 +185,15 @@ const Logbook = () => {
         } else {
             nightTime = 0
         }
-
+        if (nightTime>timeCalc){
+            nightTime = timeCalc
+        } 
+        console.log(nightTime)
         setlogbookForm(logbookForm => ({
             ...logbookForm,
             total: timeCalc,
             crossCountry: crossCountryTrue ? timeCalc : 0,
-            nightTime: nightTime ? nightTime : 0
+            night: nightTime 
         }))
         
     }

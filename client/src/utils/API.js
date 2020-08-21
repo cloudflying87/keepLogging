@@ -28,7 +28,7 @@ export default {
     },
     // putting aircraft types in a list for our dropdown menu
     getAircraftTypes: function () {
-        return axios.get('api/aircraftTypes');
+        return axios.get('api/aircraftTypes/');
     },
     // airport routes --------------------------------------------------------
     // all airports
