@@ -6,13 +6,6 @@ import moment from 'moment'
 
 
 const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value }) => {
-    console.log('addForm value:',value)
-    const dateSet = () => {
-        const dateWorking = new Date()
-        let dateCur = (dateWorking.getFullYear()+'-'+(dateWorking.getMonth()+1) +'-'+dateWorking.getDate())
-        return dateCur
-        
-    }
     return (
         <div>
             <form>
@@ -28,7 +21,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                         placeholder='date'
                         handleInputChange={handleFormInput}
                         // value={logbookForm.date}
-                        // value={moment()}
+                        value={value.date}
                     />
                     <Input
                         labelFor='aircraftType'
@@ -189,6 +182,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                             placeholder='Cross Country'
                             handleInputChange={handleFormInput}
                             size={4}
+                            value={value.crossCountry}
                         />
                         <Input
                             labelFor='night'
@@ -200,6 +194,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                             placeholder='Night'
                             handleInputChange={handleFormInput}
                             size={4}
+                            value={value.night}
                         />
                         <Input
                             labelFor='imc'

@@ -27,7 +27,7 @@ const Table = ({ openModal }) => {
                 }))
             })
             .catch(err => console.log(err))
-    }, [state])
+    }, [])
 
     return (
         <div>
