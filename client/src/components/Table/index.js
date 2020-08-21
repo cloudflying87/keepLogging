@@ -21,13 +21,13 @@ const Table = ({ openModal }) => {
                     Total: x.total,
                     id: x.id
                 }))
-                setMobileTable(state => ({
+                setMobileTable(state=> ({
                     ...state,
                     results: mapped
                 }))
             })
             .catch(err => console.log(err))
-    }, [state])
+    }, [])
 
     return (
         <div>

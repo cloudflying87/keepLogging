@@ -318,13 +318,11 @@ const Logbook = () => {
             case 'addFlightBtn':
                 return (
                     <>
-                    
                         <AddFlightForm
                             handleFormInput={handleFormInput}
                             handleClick={workingTimeDistance}
                             handleAddFlight={logFlight}
                             value={logbookForm}
-
                         />
                     </>
                 )

@@ -67,12 +67,12 @@ export default {
         return axios.post('/api/flight_time/',(flightData));
     },
     // update a flight_time
-    updateFlight: function(userId, id) {
-        return axios.put(`/api/flight_time/update/${userId}/${id}`);
+    updateFlight: function(id) {
+        return axios.put('/api/flight_time/update/'+id);
     },
     // delete a flight_time
-    deleteFlight: function(userId, id) {
-        return axios.put(`/api/flight_time/delete/${userId}/${id}`);
+    deleteFlight: function(id) {
+        return axios.delete(`/api/flight_time/delete/${id}`);
     },
     // get flight_time totals
     getFlightTotals: function() {

@@ -1,10 +1,27 @@
 import React from 'react';
 import Button from '../Button/index';
+import API from '../../utils/API';
 import './style.css'
 
 const Modal = ({ handleClick, results }) => {
+    console.log('modal results', results)
 
-    console.log(results)
+    const deleteFlight = e => {
+        e.preventDefault();
+        // hit the delete flight route
+        API.deleteFlight(results.id)
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
+            // closes modal after flight is deleted
+            handleClick(e)
+    }
+
+    const editFlight = e => {
+        e.preventDefault();
+        // API.updateFlight(results.id)
+        //     .then(res => console.log(res))
+        //     .catch(err => console.log(err))
+    }
 
     return (
         <div className='modal'>
@@ -15,7 +32,7 @@ const Modal = ({ handleClick, results }) => {
                     text='X'
                     handleClick={handleClick}
                 />
-                
+
                 <ul className='modalUl'>
 
                     <li className='modalLi'><strong>Date:</strong> {results.date}</li>
@@ -65,6 +82,18 @@ const Modal = ({ handleClick, results }) => {
 
 
                 </ul>
+                <Button
+                    text='Edit'
+                    btnId='editBtn'
+                    className='editAndDeleteBtns'
+                    handleClick={editFlight}
+                />
+                <Button
+                    text='Delete'
+                    btnId='deleteBtn'
+                    className='editAndDeleteBtns'
+                    handleClick={deleteFlight}
+                />
             </div>
         </div>
     )

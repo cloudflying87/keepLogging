@@ -81,13 +81,13 @@ app.put("/api/flight_time/update/:UserId/:id", function (req, res) {
 });
 
 // Route for deleting a flight_time
-app.delete("/api/flight_time/delete/:UserId/:id", function (req, res) {
+app.delete("/api/flight_time/delete/:id", function (req, res) {
   if (!req.user) {
     // res.redirect(307, "/api/login");
   } else {
   db.FlightTime.destroy({
     where: {
-      UserId: req.params.UserId,
+      UserId: req.user.id,
       id: req.params.id
     }
   })
