@@ -19,34 +19,88 @@ const Logbook = () => {
         open: false,
         btnClicked: '',
         fullResults: [],
-        totals: []
+        mapped: [],
+        totals: [],
+        userId: ''
     })
     const [logbookForm, setlogbookForm] = useState({
-        date:'',
+        date: '',
+        total: '',
+        crossCountry: '',
+        night: '',
+        arrTime: '',
+        depTime: '',
+        cfi: '',
+        comments: '',
+        dayLdg: '',
+        depAir: '',
+        dualI: '',
+        enrRout: '',
+        flightNum: '',
+        holds:'',
+        hood:'',
+        iap:'',
+        imc:'',
+        instructor:'',
+        landings:'',
+        nightLdg:'',
+        pic:'',
+        sic:'',
+        solo: '',
+        student:'',
+        tailNumber:'',
         total:'',
-        crossCountry:'',
-        night:'',
+        cxt: '',
+        
+
+
+
+
     })
-    
+
     const [modal, setModal] = useState({
         open: false,
         values: []
     });
 
     useEffect(() => {
-        API.getFlights()
-            .then((res) => {
+        getFlights();
+        API.userData()
+            .then(res => {
                 setState(state => ({
                     ...state,
-                    fullResults: res.data
+                    userId: res.data.id
+                }))
+            })
+            .catch(err => {
+                console.error(err)
+            })
+
+    }, [])
+
+    const getFlights = () => {
+        console.log("triggered")
+        API.getFlights()
+            .then((res) => {
+                const mapped = res.data.map(x => ({
+                    Date: x.date,
+                    Aircraft: x['Aircraft.tailNumber'],
+                    Route: x.route,
+                    Comments: x.comments,
+                    Total: x.total,
+                    id: x.id
+                }))
+                setState(state => ({
+                    ...state,
+                    fullResults: res.data,
+                    mapped
                 }))
             })
             .catch(err => {
                 console.log(err)
                 window.location.href = '/'
-            })
-
-    }, [modal.values])
+            });
+    }
 
     const handleFormInput = ({ target: { value, name } }) => {
         setlogbookForm(logbookForm => ({
@@ -77,16 +131,16 @@ const Logbook = () => {
             })
             .catch(console.error)
     }
-    
+
     const findDistance = async () => {
         let y = -1;
-        
+
         for (let i = 0; i < airportLoc.length / 2; i += 2) {
             y++
             distance(airportLoc[i], airportLoc[i + 1], airportLoc[i + 2], airportLoc[i + 3])
             if (distNum[y] > 50) {
                 crossCountryTrue = true
-                
+
             }
         }
     }
@@ -100,7 +154,7 @@ const Logbook = () => {
         var a = Math.pow(Math.cos(lat2) * Math.sin(lonDelta), 2) + Math.pow(Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lonDelta), 2);
         var b = Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lonDelta);
         var angle = Math.atan2(Math.sqrt(a), b);
-            
+
         distNum.push(angle * r)
 
     }
@@ -139,7 +193,7 @@ const Logbook = () => {
         
 
         // Auto filling times. Will add more as we have user preferences. 
-        
+
         /*
         // Filling the departure box back in so the user can see what date was used from their calculations
         if (departTimeDateAdd){
@@ -153,6 +207,7 @@ const Logbook = () => {
         nighttimeGather(departTimeDate, arrTimeDate, timeCalc)
 
     }
+
     let sunTimesArr = []
     async function nighttimeGather(depart, arrive, timeCalc) {
         let nightTime
@@ -169,7 +224,7 @@ const Logbook = () => {
         let depSet = sunTimesArr[2]
         let arrRise = sunTimesArr[5]
         let arrSet = sunTimesArr[6]
-        
+
 
         if ((depart.isBefore(depRise) && arrive.isBefore(arrRise)) || (depart.isAfter(depSet) && arrive.isAfter(arrSet))) {
             // this is for an all night flight before sunrise or after sunset
@@ -192,7 +247,7 @@ const Logbook = () => {
             crossCountry: crossCountryTrue ? timeCalc : 0,
             nightTime: nightTime ? nightTime : 0
         }))
-        
+
     }
     async function sunTimes(date, lat, long) {
         await API.sunriseSunset(date, lat, long)
@@ -221,35 +276,45 @@ const Logbook = () => {
     }
 
     const logFlight = (e) => {
+        const nullChecked = {}
+        Object.keys(logbookForm)
+            .forEach(key => {
+                nullChecked[key] = !!logbookForm[key] ? logbookForm[key] : null
+            })
+
+        console.log(logbookForm)
+
         e.preventDefault()
         API.createFlight({
-            date: logbookForm.date,
-            route: logbookForm.route,
-            comments: logbookForm.comments,
-            flightNum: logbookForm.flightNumber,
-            depTime: logbookForm.departureTime,
-            arrTime: logbookForm.arrivalTime,
-            landings: logbookForm.landings,
-            approach: logbookForm.approach,
-            hold: logbookForm.hold,
-            dayLandings: logbookForm.dayLandings,
-            nightLandings: logbookForm.nightLandings,
-            total: logbookForm.total,
-            crossCountry: logbookForm.crossCountry,
-            night: logbookForm.night ? logbookForm.night : 0,
-            imc: logbookForm.imc,
-            hood: logbookForm.hood,
-            pic: logbookForm.pic,
-            sic: logbookForm.sic,
-            cfi: logbookForm.cfi,
-            dual: logbookForm.dual,
-            solo: logbookForm.solo,
-            UserId: state.fullResults[0].UserId
+            date: nullChecked.date,
+            route: nullChecked.route,
+            comments: nullChecked.comments,
+            flightNum: nullChecked.flightNumber,
+            depTime: nullChecked.departureTime,
+            arrTime: nullChecked.arrivalTime,
+            landings: nullChecked.landings,
+            approach: nullChecked.approach,
+            hold: nullChecked.hold,
+            dayLandings: nullChecked.dayLandings,
+            nightLandings: nullChecked.nightLandings,
+            total: nullChecked.total,
+            crossCountry: nullChecked.crossCountry,
+            night: nullChecked.night,
+            imc: nullChecked.imc,
+            hood: nullChecked.hood,
+            pic: nullChecked.pic,
+            sic: nullChecked.sic,
+            cfi: nullChecked.cfi,
+            dual: nullChecked.dual,
+            solo: nullChecked.solo,
+            UserId: state.userId
         })
             .then((data) => {
                 console.log("logFlight data: ", data)
+                getFlights();
             })
             .catch(console.error)
+
     }
 
     const getTotals = () => {
@@ -270,13 +335,11 @@ const Logbook = () => {
             case 'addFlightBtn':
                 return (
                     <>
-
                         <AddFlightForm
                             handleFormInput={handleFormInput}
                             handleClick={workingTimeDistance}
                             handleAddFlight={logFlight}
                             value={logbookForm}
-
                         />
                     </>
                 )
@@ -297,8 +360,9 @@ const Logbook = () => {
     };
 
     const openModal = e => {
-        const { target } = e;
         e.preventDefault();
+        const { target } = e;
+
         setModal(prevModal => ({
             ...prevModal,
             open: !modal.open,
@@ -308,6 +372,39 @@ const Logbook = () => {
         console.log(state)
     };
 
+    const openEdit = id => {
+        console.log('open edit id', id)
+
+        const selected = state.fullResults
+            .find(x => parseInt(x.id) === id)
+        const newLog = {}
+
+        if (!selected) return;
+        Object.keys(logbookForm).forEach(key => { newLog[key] = selected[key] })
+        setlogbookForm(newLog)
+        setModal(prevModal => ({
+            ...prevModal,
+            open: !modal.open
+        }))
+        setState({
+            ...state,
+            open: true,
+            btnClicked: 'addFlightBtn'
+        })
+    }
+
+    const deleteBtn = id => {
+        // hit the delete flight route
+        API.deleteFlight(id)
+            .then(getFlights())
+            .catch(err => console.log(err))
+        // closes modal after flight is deleted
+        setModal(prevModal => ({
+            ...prevModal,
+            open: !modal.open
+        }))
+    }
+
     return (
         <div>
             {
@@ -316,6 +413,8 @@ const Logbook = () => {
                 <Modal
                     key={modal.values.id}
                     results={modal.values}
+                    openEdit={openEdit}
+                    deleteBtn={deleteBtn}
                     handleClick={e => {
                         e.preventDefault();
                         setModal(state => ({
@@ -416,7 +515,7 @@ const Logbook = () => {
             </div>
             <main>
                 <Table
-                    openModal={openModal}
+                    openModal={openModal} flights={state.mapped}
                 />
                 {/* Modal for popping out table. maybe a 'view' button opens and closes it */}
                 {/* The table will live here. Might try to do an actual table first, then will try grid or flexbox. */}
