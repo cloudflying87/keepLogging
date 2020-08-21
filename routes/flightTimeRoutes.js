@@ -9,7 +9,7 @@ module.exports = function(app) {
 
   // Routes for flight_time table per user id
  app.get("/api/flight_time/", function (req, res) {
-   console.log('req.user: ',req.user)
+   console.log('req.user: ',req.body)
   if (!req.user) {
       res.error(307, "/");
   } else {
@@ -57,8 +57,8 @@ app.post("/api/flight_time/", async function (req, res) {
   // if (!req.user) {
   //     res.redirect(307, "/login");
   // } else {
-  const flightData = await WorkingFlightTime(req.body)
-    await (db.FlightTime.create(flightData))
+  
+    await (db.FlightTime.create(req.body))
     .then(results => res.json(results))
     .catch(err => res.status(404).json(err.message))
   // };

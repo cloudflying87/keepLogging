@@ -44,6 +44,7 @@ const Logbook = () => {
     useEffect(() => {
         API.getFlights()
             .then((res) => {
+                console.log(res)
                 setState(({
                     ...state,
                     fullResults: res.data
@@ -87,6 +88,7 @@ const Logbook = () => {
         return dateCur
     }
 
+    let airportLoc = []
     const workingTimeDistance = async (e) => {
         updatingFormState()
         e.preventDefault();
@@ -96,7 +98,7 @@ const Logbook = () => {
     }
 
     const workingTimes = async () => {
-        
+        const routeDist = logbookForm.route
         settimeDistance(timeDistance => ({
             ...timeDistance,
             airportArray: timeDistance.airports.split(' ')
@@ -159,104 +161,117 @@ const Logbook = () => {
 
     // Calculates total time from the clock times that are input in the time boxes. If no date is entered than todays date is assumed. 
     const calcTime = async () => {
-        var departTimeDateAdd = false
-        var arrTimeDateAdd = false
-        let timeCalc = 0
-        let crossCountry = false
-        let departTimeDate = '';
-        let arrTimeDate = '';
 
-        const tdDate = moment.utc((timeDistance.date))
-        const userDate = tdDate._i
-    
-        const departTime = timeDistance.depTime
-        const arrTime = timeDistance.arrivalTime
+        const userDate = new Date(timeDistance.date);
+
+        const departTime = (timeDistance.depTime);
+        const arrTime = (timeDistance.arrivalTime);
+
         // Here we are checking if the user just input a time. If that is true then we take the date from the date box and put it in from of the time. We are using the newDate to format it as a date correctly to work with. 
-        
-        if (new Date(departTime)=='Invalid Date'){
-            departTimeDate = moment.utc((userDate+' '+departTime))
-            departTimeDateAdd = true
-        }else {
-            departTimeDate = moment.utc(departTime)
+        if (new Date(departTime) == 'Invalid Date') {
+            settimeDistance({
+                ...timeDistance,
+                departTimeDate: new Date(((userDate.getUTCFullYear()+'-'+userDate.getUTCMonth() + 1) + '-' + userDate.getUTCDate() +' '+ departTime + ":00Z")),
+                departTimeDateAdd: true
+            })
+
+        } else {
+            settimeDistance({
+                ...timeDistance,
+                departTimeDate: new Date(departTime + ':00Z'),
+            })
         }
-        
-        if (new Date(arrTime)=='Invalid Date'){
-            arrTimeDate = moment.utc(userDate+' '+arrTime+":00Z")
-            arrTimeDateAdd = true
-        }else {
-            arrTimeDate = moment.utc(arrTime)
+
+        if (new Date(arrTime) == 'Invalid Date') {
+            settimeDistance({
+                ...timeDistance,
+                arrTimeDate: new Date(((userDate.getUTCFullYear() +'-'+ userDate.getUTCMonth() + 1) + '-' + userDate.getUTCDate() +' '+ arrTime + ":00Z")),
+                arrTimeDateAdd: true
+            })
+        } else {
+            settimeDistance({ ...timeDistance, arrTimeDate: new Date(arrTime + ':00Z') })
         }
-       
-    // Subtracting the times in milliseconds. 
-        let momentMillie = moment.duration(arrTimeDate.diff(departTimeDate))
-        timeCalc = convertToHoursMM(momentMillie._milliseconds)
-        console.log(timeCalc)
-        
+        // Subtracting the times in milliseconds. 
+        // settimeDistance({ ...timeDistance, timeCalc: convertToHoursMM(timeDistance.arrTimeDate.getTime() - timeDistance.departTimeDate.getTime()) })
+        console.log(timeDistance.arrTimeDate)
         // Auto filling times. Will add more as we have user preferences. 
-        setlogbookForm(logbookForm => ({
+        // document.getElementById('total').value = timeCalc
+        setlogbookForm({
             ...logbookForm,
-            total: timeCalc,
-        }))
-        if (crossCountry === true){
-            document.getElementById('cxt').value = timeCalc
+            total: timeDistance.timeCalc
+        })
+        if (timeDistance.crossCountry === true) {
+            setlogbookForm({
+                ...logbookForm,
+                crossCountry: timeDistance.timeCalc
+            })
         }
-        /*
         // Filling the departure box back in so the user can see what date was used from their calculations
-        if (departTimeDateAdd){
-            (document.getElementById('deptTime').value) = (departTimeDate.getUTCMonth()+1)+'/'+departTimeDate.getUTCDate()+'/'+departTimeDate.getUTCFullYear()+' '+departTime
+        if (timeDistance.departTimeDateAdd) {
+            setlogbookForm({
+                ...logbookForm,
+                departTime: (timeDistance.departTimeDate.getUTCFullYear()+'-'+timeDistance.departTimeDate.getUTCMonth() + 1) + '-' + timeDistance.departTimeDate.getUTCDate() + '-' +  + ' ' + timeDistance.depTime
+            })
+            
         }
+let arrTimeDate
+let departTimeDate
         // filling the arrival time back in
-        if (arrTimeDateAdd){
-            (document.getElementById('arrTime').value) = (arrTimeDate.getUTCMonth()+1)+'/'+arrTimeDate.getUTCDate()+'/'+arrTimeDate.getUTCFullYear()+' '+arrTime
+        if (timeDistance.arrTimeDateAdd) {
+            
+            // (document.getElementById('arrTime').value) = (arrTimeDate.getUTCMonth() + 1) + '/' + arrTimeDate.getUTCDate() + '/' + arrTimeDate.getUTCFullYear() + ' ' + arrTime
+            setlogbookForm({
+                ...logbookForm,
+                arrivalTime:(timeDistance.departTimeDate.getUTCFullYear()+'-'+timeDistance.departTimeDate.getUTCMonth() + 1) + '-' + timeDistance.departTimeDate.getUTCDate() + '-' +  + ' ' + timeDistance.depTime
+            })
         }
-        
-        nighttimeGather(departTimeDate,arrTimeDate)
-        */
+        // nighttimeGather(departTimeDate, arrTimeDate)
+
     }
-    /*
-    async function nighttimeGather (depart, arrive){
+    const nighttimeGather = async (depart, arrive) => {
         let nightTime
         // Getting the departure airport suntimes dawn, sunrise, sunset, dusk pushing them into an array.
         // always going to take the first airport and the last airport. Getting the last airport by finding the length of the array and taking the last two items. 
         // all calculations are done on sunrise and sunset times. Carrying dawn times but not using them for anything right now. 
+        let sunTimesArr
         const numofAirport = airportLoc.length
-        await sunTimes(depart,airportLoc[0],airportLoc[1])
-        await sunTimes(arrive,airportLoc[numofAirport-2],airportLoc[numofAirport-1])
+        await sunTimes(depart, airportLoc[0], airportLoc[1])
+        await sunTimes(arrive, airportLoc[numofAirport - 2], airportLoc[numofAirport - 1])
         let depRise = sunTimesArr[1]
         let depSet = sunTimesArr[2]
         let arrRise = sunTimesArr[5]
         let arrSet = sunTimesArr[6]
-    
-        if (depart<depRise&&arrive<arrRise|| depart>depSet&&arrive>arrSet){
+
+        if (depart < depRise && arrive < arrRise || depart > depSet && arrive > arrSet) {
             // this is for an all night flight before sunrise or after sunset
-            nightTime = timeCalc
-        }else if (depart<depRise&&arrive>arrRise){ 
+            nightTime = timeDistance.timeCalc
+        } else if (depart < depRise && arrive > arrRise) {
             //this is for an early morning departure before the sunrises
-            nightTime = convertToHoursMM(depRise-depart)
-        }else if (depart<depSet&&arrive>arrSet){
+            nightTime = convertToHoursMM(depRise - depart)
+        } else if (depart < depSet && arrive > arrSet) {
             // evening flight departure before sunset and landing after sunset
-            nightTime = convertToHoursMM(arrive-arrSet)
+            nightTime = convertToHoursMM(arrive - arrSet)
         } else {
             nightTime = 0
         }
-    
+
         document.getElementById('night').value = nightTime
     }
-    async function sunTimes(date,lat,long){
-        await $.ajax({
-            method: "GET",
-            url: `/api/nighttime?date=${date}&lat=${lat}&long=${long}`
-        })
-        .then( ({sunrise,sunset, dawn,dusk}) => {
-            let dawnCalc = moment.utc(dawn)
-            let sunriseCalc = moment.utc(sunrise)
-            let sunsetCalc = moment.utc(sunset)
-            let duskCalc = moment.utc(dusk)
-    
-            sunTimesArr.push(dawnCalc,sunriseCalc,sunsetCalc,duskCalc)})
-            
+    async function sunTimes(date, lat, long) {
+        let sunTimesArr
+        API.sunriseSunset(date, lat, long)
+        
+            .then(({ sunrise, sunset, dawn, dusk }) => {
+                let dawnCalc = moment.utc(dawn)
+                let sunriseCalc = moment.utc(sunrise)
+                let sunsetCalc = moment.utc(sunset)
+                let duskCalc = moment.utc(dusk)
+
+                sunTimesArr.push(dawnCalc, sunriseCalc, sunsetCalc, duskCalc)
+            })
+
     }
-*/
+
     function convertToHoursMM(diff) {
         // Converting the time back to hours and minutes in a decimal form. 
         var msec = diff;

@@ -47,6 +47,9 @@ export default {
     updateAirport: function(id) {
         return axios.put('/api/airports/'+id);
     },
+    sunriseSunset: function(date,lat,long){
+        return axios.get(`/api/nighttime?date=${date}&lat=${lat}&long=${long}`);
+    },
     deleteAirport: function(id) {
         return axios.delete('/api/airports/delete/'+id);
     },
