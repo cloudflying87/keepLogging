@@ -6,6 +6,7 @@ import moment from 'moment'
 
 
 const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value }) => {
+    console.log('add flight from value: ', value)
     return (
         <div>
             <form>
@@ -32,6 +33,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                         inputClass='addFlightInput'
                         placeholder='Aircraft Type'
                         handleInputChange={handleFormInput}
+                        value={value.aircraftType}
                     />
                     <Input
                         labelFor='route'
@@ -42,6 +44,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                         inputClass='addFlightInput'
                         placeholder='Route'
                         handleInputChange={handleFormInput}
+                        value={value.depAir, value.enrRout, value.arrAir}
                     />
                 </div>
                 <div className='commentsDiv'>
@@ -55,6 +58,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                         onChange={handleFormInput}
                         rows={4}
                         cols={40}
+                        value={value.comments}
                     />
                 </div>
                 <div className='inputDiv gfi3'>
@@ -68,6 +72,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                         placeholder='Flight Num'
                         handleInputChange={handleFormInput}
                         size={6}
+                        value={value.flightNum}
                     />
                     <Input
                         labelFor='departureTime'
@@ -79,6 +84,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                         placeholder='Dep Time'
                         handleInputChange={handleFormInput}
                         size={6}
+                        value={value.depTime}
                     />
                     <Input
                         labelFor='arrivalTime'
@@ -90,6 +96,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                         placeholder='Arr Time'
                         handleInputChange={handleFormInput}
                         size={6}
+                        value={value.arrTime}
 
                     />
                     <Button
@@ -111,6 +118,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                         placeholder='Approach'
                         handleInputChange={handleFormInput}
                         size={4}
+                        value={value.iap}
                     />
                     <Input
                         labelFor='hold'
@@ -122,6 +130,8 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                         placeholder='Hold'
                         handleInputChange={handleFormInput}
                         size={4}
+                        value={value.holds}
+
                     />
                     <Input
                         labelFor='landings'
@@ -133,6 +143,8 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                         placeholder='Landings'
                         handleInputChange={handleFormInput}
                         size={4}
+                        value={value.landings}
+
                     />
                     <Input
                         labelFor='dayLandings'
@@ -144,6 +156,8 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                         placeholder='Day Landings'
                         handleInputChange={handleFormInput}
                         size={4}
+                        value={value.dayLdg}
+
                     />
                     <Input
                         labelFor='nightLandings'
@@ -155,6 +169,8 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                         placeholder='night Landings'
                         handleInputChange={handleFormInput}
                         size={4}
+                        value={value.nightLdg}
+
                     />
                 </div>
                 <h4 className='header'>Times</h4>
@@ -182,7 +198,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                             placeholder='Cross Country'
                             handleInputChange={handleFormInput}
                             size={4}
-                            value={value.crossCountry}
+                            value={value.cxt}
                         />
                         <Input
                             labelFor='night'
@@ -206,6 +222,8 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                             placeholder='IMC'
                             handleInputChange={handleFormInput}
                             size={4}
+                            value={value.imc}
+
                         />
                         <Input
                             labelFor='hood'
@@ -217,6 +235,8 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                             placeholder='Hood'
                             handleInputChange={handleFormInput}
                             size={4}
+                            value={value.hood}
+
                         />
                     </div>
                     <div className='timesDivRow2'>
@@ -230,6 +250,8 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                             placeholder='PIC'
                             handleInputChange={handleFormInput}
                             size={4}
+                            value={value.pic}
+
                         />
                         <Input
                             labelFor='sic'
@@ -241,6 +263,8 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                             placeholder='SIC'
                             handleInputChange={handleFormInput}
                             size={4}
+                            value={value.sic}
+
                         />
                         <Input
                             labelFor='cfi'
@@ -252,6 +276,8 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                             placeholder='CFI'
                             handleInputChange={handleFormInput}
                             size={4}
+                            value={value.cfi}
+
                         />
                         <Input
                             labelFor='dual'
@@ -263,6 +289,8 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                             placeholder='Dual'
                             handleInputChange={handleFormInput}
                             size={4}
+                            value={value.dualI}
+
                         />
                         <Input
                             labelFor='solo'
@@ -274,6 +302,8 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                             placeholder='Solo'
                             handleInputChange={handleFormInput}
                             size={4}
+                            value={value.solo}
+
                         />
                     </div>
 
