@@ -373,6 +373,7 @@ const Logbook = () => {
     };
 
     const openEdit = id => {
+        console.log('open edit id', id)
 
         const selected = state.fullResults
             .find(x => parseInt(x.id) === id)
@@ -392,6 +393,18 @@ const Logbook = () => {
         })
     }
 
+    const deleteBtn = id => {
+        // hit the delete flight route
+        API.deleteFlight(id)
+            .then(getFlights())
+            .catch(err => console.log(err))
+        // closes modal after flight is deleted
+        setModal(prevModal => ({
+            ...prevModal,
+            open: !modal.open
+        }))
+    }
+
     return (
         <div>
             {
@@ -401,6 +414,7 @@ const Logbook = () => {
                     key={modal.values.id}
                     results={modal.values}
                     openEdit={openEdit}
+                    deleteBtn={deleteBtn}
                     handleClick={e => {
                         e.preventDefault();
                         setModal(state => ({

@@ -3,26 +3,8 @@ import Button from '../Button/index';
 import API from '../../utils/API';
 import './style.css'
 
-const Modal = ({ handleClick, openEdit, results }) => {
-    console.log('modal results', results)
-
-    const deleteFlight = e => {
-        e.preventDefault();
-        // hit the delete flight route
-        API.deleteFlight(results.id)
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
-        // closes modal after flight is deleted
-        handleClick(e)
-    }
-
-    const editFlight = e => {
-        e.preventDefault();
-        // API.updateFlight(results.id)
-        //     .then(res => console.log(res))
-        //     .catch(err => console.log(err))
-    }
-
+const Modal = ({ handleClick, openEdit, deleteBtn, results }) => {
+    
     return (
         <div className='modal'>
             <div className='modalContent'>
@@ -91,7 +73,7 @@ const Modal = ({ handleClick, openEdit, results }) => {
                     text='Delete'
                     btnId='deleteBtn'
                     className='editAndDeleteBtns'
-                    handleClick={deleteFlight}
+                    handleClick={()=> deleteBtn(results.id)}
                 />
             </div>
         </div>

@@ -41,7 +41,7 @@ const Training = () => {
                             console.log("Logged in user", loggedInUser)
 
                             API.sendMail({
-                                "email":"austinkkramer@gmail.com"
+                                "email": "austinkkramer@gmail.com"
                             })
 
 
@@ -77,22 +77,23 @@ const Training = () => {
 
     return (
         <>
-        <main>
-            <form onSubmit={onSubmit}>
+            <main>
+                <form onSubmit={onSubmit}>
 
-                <Input
-                    type="text"
-                    id="student-email-input"
-                    placeholder="Student Email"
-                    label="Student Email"
-                    handleInputChange={({ target: { value } }) => setStudentEmail(value)}
-                />
-                <button id='add-student' type="submit" >
-                    Add Student
+                    <Input
+                        type="text"
+                        id="student-email-input"
+                        placeholder="Student Email"
+                        label="Student Email"
+                        handleInputChange={({ target: { value } }) => setStudentEmail(value)}
+                    />
+                    <button id='add-student' type="submit" >
+                        Add Student
                 </button>
                 </form>
                 {invalidSubmission && (<div>Please enter a valid email</div>)}
-        </main>
+            </main>
+        </>
     );
 
 
