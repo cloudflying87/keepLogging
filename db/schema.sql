@@ -8,7 +8,6 @@ CREATE TABLE user (
     username VARCHAR(30) NOT NULL,
     password VARCHAR(20),
     accountAccess VARCHAR(30)
-
 );
 
 CREATE TABLE aircraft (
