@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Input from '../components/Input';
+import Nav from '../components/Nav/index';
 import API from '../utils/API'
 // import SMTP from '../utils/SMTP'
 var randomstring = require("randomstring");
@@ -88,9 +89,10 @@ const Training = () => {
                 <button id='add-student' type="submit" >
                     Add Student
                 </button>
-            </form>
-            {invalidSubmission && (<div>Please enter a valid email</div>)}
-        </main>
+                </form>
+                {invalidSubmission && (<div>Please enter a valid email</div>)}
+            </main>
+        </>
     );
 
 

@@ -5,9 +5,9 @@ module.exports = function(app) {
 
     // Routes for aircraft table per user id
 app.get("/api/aircraft/", function (req, res) {
-    // if (!req.user) {
-    //     res.redirect(307, "/api/login");
-    // } else {
+    if (!req.user) {
+        res.redirect(307, "/api/login");
+    } else {
     db.Aircraft.findAll({
       include:[{
         model: db.AircraftModels,
@@ -16,7 +16,7 @@ app.get("/api/aircraft/", function (req, res) {
     })
       .then(results => res.json(results))
       .catch(err => res.status(404).json(err));
-    // };
+    };
   });
 
   // Route for selecting one aircraft
@@ -74,7 +74,7 @@ app.get("/api/aircraft/", function (req, res) {
       .catch(err => res.status(400).json(err));
     };
   });
-
+// this was for getting the tail number to link up with aircraft type
   app.get("/api/aircraft/userFind/:aircraftType", function (req, res) {
     // if (!req.user) {
     //   res.redirect(307, "/login");
@@ -100,18 +100,25 @@ app.get("/api/aircraft/", function (req, res) {
     // if (!req.user) {
     //     res.redirect(307, "/api/login");
     // } else {
-    db.Aircraft.findAll({
-      attributes:['aircraftType'], 
+    db.FlightTime.findAll({
+      // where: {UserId: req.user.id},
+      where: {UserId: 1},
+      attributes:['AircraftId'],
+      include:[{
+        model: db.Aircraft,
+        attributes:['tailNumber'],
+        include:[{
+          model:db.AircraftModels,
+          attributes:[
+            'tdesig',
+            'description'
+        ]
+        }]
+      }],
+       
       raw: true
     })
-      .then(results => {
-        let airCraft = []
-        for (let i = 0; i < results.length; i++) {
-          for (const value in results[i])
-            // airCraft.push({'text':results[i][value]})
-            airCraft.push(results[i][value])
-        }
-        res.json(airCraft)})
+      .then(results => {res.json(results)})
       .catch(err => res.status(404).json(err));
     // };
   });

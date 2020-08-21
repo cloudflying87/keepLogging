@@ -45,7 +45,8 @@ module.exports = function(sequelize, DataTypes) {
     FlightTime.associate = function(models) {
         FlightTime.belongsTo(models.User);
         FlightTime.belongsTo(models.Aircraft);
-        // FlightTime.belongsTo(models.Airport);
+        FlightTime.belongsTo(models.AircraftModels, {
+            through: models.Aircraft});
     };
     
 

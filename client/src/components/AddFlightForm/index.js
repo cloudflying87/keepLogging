@@ -2,11 +2,17 @@ import React from 'react';
 import Input from '../Input/index';
 import Button from '../Button/index';
 import './style.css'
+import moment from 'moment'
 
 
-const AddFlightForm = ({ handleFormInput, handleAddFlight }) => {
-    
-   
+const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value }) => {
+    console.log('addForm value:',value)
+    const dateSet = () => {
+        const dateWorking = new Date()
+        let dateCur = (dateWorking.getFullYear()+'-'+(dateWorking.getMonth()+1) +'-'+dateWorking.getDate())
+        return dateCur
+        
+    }
     return (
         <div>
             <form>
@@ -21,6 +27,8 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight }) => {
                         inputClass='addFlightInput'
                         placeholder='date'
                         handleInputChange={handleFormInput}
+                        // value={logbookForm.date}
+                        // value={moment()}
                     />
                     <Input
                         labelFor='aircraftType'
@@ -56,7 +64,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight }) => {
                         cols={40}
                     />
                 </div>
-                <div className='inputDiv'>
+                <div className='inputDiv gfi3'>
                     <Input
                         labelFor='flightNumber'
                         label='Flight Number'
@@ -95,10 +103,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight }) => {
                         text='Auto Fill'
                         btnId='autoFill'
                         className='formBtn'
-                        handleClick={(e) => {
-                            e.preventDefault();
-                            console.log('hello')
-                        }}
+                        handleClick={handleClick}
                     />
                 </div>
                 <h4 className='header'>Approaches and Landings</h4>
@@ -172,6 +177,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight }) => {
                             placeholder='Total'
                             handleInputChange={handleFormInput}
                             size={4}
+                            value={value.total}
                         />
                         <Input
                             labelFor='crossCountry'

@@ -139,6 +139,8 @@ async function calcTime (){
     nighttimeGather(departTimeDate,arrTimeDate)
     
 }
+
+//------------------------------------
 async function nighttimeGather (depart, arrive){
     let nightTime
     // Getting the departure airport suntimes dawn, sunrise, sunset, dusk pushing them into an array.

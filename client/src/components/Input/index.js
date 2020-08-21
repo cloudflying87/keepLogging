@@ -3,7 +3,7 @@ import './style.css';
 
 const Input = ({ label, labelFor, name, type, inputId, inputClass, placeholder, handleInputChange, value, size }) => {
     return (
-        <div id={inputId}>
+        <>
             <label
                 htmlFor={labelFor}
             >
@@ -19,7 +19,7 @@ const Input = ({ label, labelFor, name, type, inputId, inputClass, placeholder, 
                 value={value}
                 size={size}
             />
-        </div>
+        </>
     )
 
 };

@@ -17,12 +17,12 @@ const Signup = props => {
 
     const handleSignup = e => {
         e.preventDefault();
-        console.log("clicked " + e.target.id)
+        
         API.userSignUp({
             email: state.email, 
             password: state.password
         })
-        .then(res => console.log(res))
+        .then(res => props.history.push('/logbook'))
         .catch(err => {
             setState(state=>({
                 ...state,
@@ -33,13 +33,12 @@ const Signup = props => {
 
     const handleLogin = e => {
         e.preventDefault();
-        console.log("clicked " + e.target.id)
+        
         API.userLogin({
             email: state.email, 
             password: state.password
         })
         .then(res =>{
-            console.log(res);
             props.history.push('/logbook');
         })
         .catch(err => {
@@ -56,7 +55,6 @@ const Signup = props => {
             ...state,
             [name]: value
         }))
-        console.log(state)
     };
 
 
