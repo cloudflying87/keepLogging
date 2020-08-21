@@ -16,49 +16,51 @@ const Training = () => {
         event.preventDefault();
         console.log(studentEmail)
         if (!studentEmail) {
-            
+
             return setInvalidSubmission(true); // render an error message
         }
         try {
             API.userVerify({
                 studentEmail: studentEmail
             })
-            .then((result) => console.log(result)
-            // result = await fetch('/api/verifyAccount', {
-            //     method: "POST",
-                
-                // `{"studentEmail":"${studentEmail}"}`
-                // 
-                // `{"studentEmail":"${studentEmail}"}`
-            )
+                .then((result) => console.log(result)
+                    // result = await fetch('/api/verifyAccount', {
+                    //     method: "POST",
+
+                    // `{"studentEmail":"${studentEmail}"}`
+                    // 
+                    // `{"studentEmail":"${studentEmail}"}`
+                )
         }
-            
-         catch (error) {
+
+        catch (error) {
             console.error(error);
         }
     }
 
     return (
-        <main>
+        <>
             <Nav />
-            <form onSubmit={onSubmit}>
+            <main>
+                <form onSubmit={onSubmit}>
 
-                <Input
-                    type="text"
-                    id="student-email-input"
-                    placeholder="Student Email"
-                    label="Student Email"
-                    handleInputChange={({ target: { value }}) => setStudentEmail(value)}
-                />
-                <button id='add-student' type="submit" >
-                    Add Student
+                    <Input
+                        type="text"
+                        id="student-email-input"
+                        placeholder="Student Email"
+                        label="Student Email"
+                        handleInputChange={({ target: { value } }) => setStudentEmail(value)}
+                    />
+                    <button id='add-student' type="submit" >
+                        Add Student
                 </button>
-            </form>
-            {invalidSubmission && (<div>Please enter a valid email</div>)}
-        </main>
+                </form>
+                {invalidSubmission && (<div>Please enter a valid email</div>)}
+            </main>
+        </>
     );
 
-    
+
 };
 
 

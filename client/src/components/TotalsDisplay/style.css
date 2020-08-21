@@ -1,5 +1,9 @@
-.totalsList {
-    list-style: none;
+.totalsList > ul {
     background-color: lightblue;
+    list-style: none;
+    margin: 0;
+}
+.totalsList > ul > li:last-child {
+    margin-bottom: 0;
 }
 

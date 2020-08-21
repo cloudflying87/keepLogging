@@ -64,7 +64,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                         cols={40}
                     />
                 </div>
-                <div className='inputDiv'>
+                <div className='inputDiv gfi3'>
                     <Input
                         labelFor='flightNumber'
                         label='Flight Number'
