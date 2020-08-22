@@ -5,13 +5,16 @@ import AircraftDisplay from '../components/AircraftDisplay/'
 import Modal from '../components/Modal/index';
 import AddAircraft from '../components/AddAircraftForm'
 import Button from '../components/Button/index'
-
+import UserContext from '../utils/UserContext';
 
 const Aircraft = () => {
     const [state, setState] = useState({
         results: []
     });
-
+    const [user, setUser] = useState({
+        userId: ''
+    })
+    
     useEffect(() => {
         API.getAircraftTypes()
             .then(({ data }) => {
@@ -122,7 +125,7 @@ const Aircraft = () => {
     //     }))
     // }
     return (
-        <>
+        <UserContext.Provider value={user}>
             <Nav />
             <div className='menuDiv'>
                 {/* here will be the buttons for this page. Maybe i'll make a component for these since there will be one on each page. */}
@@ -152,7 +155,7 @@ const Aircraft = () => {
             </div>
             <AircraftDisplay aircraft={state.results} />
 
-        </>
+        </UserContext.Provider>
     );
 
 

@@ -25,7 +25,7 @@ const Logbook = () => {
         // userId: ''
     })
     const [logbookForm, setlogbookForm] = useState({
-        date: '',
+        date: moment().format('YYYY-MM-D'),
         total: '',
         crossCountry: '',
         night: '',
@@ -195,8 +195,8 @@ const Logbook = () => {
         const tdDate = moment.utc((logbookForm.date))
         const userDate = tdDate._i
 
-        const departTime = logbookForm.departureTime
-        const arrTime = logbookForm.arrivalTime
+        const departTime = logbookForm.depTime
+        const arrTime = logbookForm.arrTime
         // Here we are checking if the user just input a time. If that is true then we take the date from the date box and put it in from of the time. We are using the newDate to format it as a date correctly to work with. 
 
         if (new Date(departTime) == 'Invalid Date') {
