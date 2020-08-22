@@ -23,7 +23,7 @@ const Modal = ({ handleClick, openEdit, deleteBtn, results }) => {
 
                     {!!results.route && <li className='modalLi'><strong>Route:</strong> {results.route}</li>}
 
-                    {!!results.flightNumber && <li className='modalLi'><strong>Flight Number</strong> {results.flightNum}</li>}
+                    {!!results.flightNum && <li className='modalLi'><strong>Flight Number</strong> {results.flightNum}</li>}
 
                     {!!results.landings && <li className='modalLi'><strong>Landings:</strong> {results.landings}</li>}
 

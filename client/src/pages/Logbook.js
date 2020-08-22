@@ -52,7 +52,6 @@ const Logbook = () => {
         total: '',
         cxt: '',
         aircraftType: ''
-
     })
     const [modal, setModal] = useState({
         open: false,
@@ -355,10 +354,8 @@ const Logbook = () => {
 
     }
 
-    const editFlight = (e, id) => {
+    const editFlight = e => {
         e.preventDefault();
-        console.log('edit flight working')
-        // console.log('edit id', modal.values.id)
         const nullChecked = {}
         Object.keys(logbookForm)
             .forEach(key => {
