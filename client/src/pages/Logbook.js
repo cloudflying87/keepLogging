@@ -341,7 +341,7 @@ const Logbook = () => {
             cfi: nullChecked.cfi,
             dual: nullChecked.dual,
             solo: nullChecked.solo,
-            UserId: state.userId,
+            UserId: user.userId,
             AircraftId: nullChecked.AircraftId
         })
             .then((data) => {
