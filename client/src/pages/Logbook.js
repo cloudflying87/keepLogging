@@ -52,6 +52,8 @@ const Logbook = () => {
         student: '',
         total: '',
         cxt: '',
+        aircraftType: ''
+
     })
     const [modal, setModal] = useState({
         open: false,
@@ -320,29 +322,30 @@ const Logbook = () => {
             })
 
         console.log(logbookForm)
+        console.log(user.userId)
 
         e.preventDefault()
         API.createFlight({
             date: nullChecked.date,
             route: nullChecked.route,
-            comments: nullChecked.comments,
-            flightNum: nullChecked.flightNumber,
-            depTime: nullChecked.departureTime,
-            arrTime: nullChecked.arrivalTime,
+            comments: logbookForm.comments,
+            flightNum: nullChecked.flightNum,
+            depTime: nullChecked.depTime,
+            arrTime: nullChecked.arrTime,
             landings: nullChecked.landings,
-            approach: nullChecked.approach,
-            hold: nullChecked.hold,
-            dayLandings: nullChecked.dayLandings,
-            nightLandings: nullChecked.nightLandings,
+            iap: nullChecked.iap,
+            cxt: nullChecked.cxt,
+            holds: nullChecked.holds,
+            dayLdg: nullChecked.dayLdg,
+            nightLdg: nullChecked.nightLdg,
             total: nullChecked.total,
-            crossCountry: nullChecked.crossCountry,
             night: nullChecked.night,
             imc: nullChecked.imc,
             hood: nullChecked.hood,
             pic: nullChecked.pic,
             sic: nullChecked.sic,
             cfi: nullChecked.cfi,
-            dual: nullChecked.dual,
+            dualI: nullChecked.dualI,
             solo: nullChecked.solo,
             UserId: user.userId,
             AircraftId: nullChecked.AircraftId
@@ -351,8 +354,79 @@ const Logbook = () => {
                 console.log("logFlight data: ", data)
                 getFlights();
             })
-            .catch(console.error)
+            .catch(err=> console.log(err))
 
+    }
+
+    const editFlight = (e, id) => {
+        e.preventDefault();
+        console.log('edit flight working')
+        // console.log('edit id', modal.values.id)
+        const nullChecked = {}
+        Object.keys(logbookForm)
+            .forEach(key => {
+                nullChecked[key] = !!logbookForm[key] ? logbookForm[key] : null
+            })
+        API.updateFlight(modal.values.id, {
+            date: nullChecked.date,
+            route: nullChecked.route,
+            comments: logbookForm.comments,
+            flightNum: nullChecked.flightNum,
+            depTime: nullChecked.depTime,
+            arrTime: nullChecked.arrTime,
+            landings: nullChecked.landings,
+            iap: nullChecked.iap,
+            cxt: nullChecked.cxt,
+            holds: nullChecked.holds,
+            dayLdg: nullChecked.dayLdg,
+            nightLdg: nullChecked.nightLdg,
+            total: nullChecked.total,
+            night: nullChecked.night,
+            imc: nullChecked.imc,
+            hood: nullChecked.hood,
+            pic: nullChecked.pic,
+            sic: nullChecked.sic,
+            cfi: nullChecked.cfi,
+            dualI: nullChecked.dualI,
+            solo: nullChecked.solo,
+            UserId: user.userId
+
+        })
+            .then(res => {
+                setlogbookForm(prev=>({
+                    ...prev,
+                    date: '',
+                    total: '',
+                    crossCountry: '',
+                    night: '',
+                    arrTime: '',
+                    depTime: '',
+                    cfi: '',
+                    comments: '',
+                    dayLdg: '',
+                    depAir: '',
+                    dualI: '',
+                    enrRout: '',
+                    flightNum: '',
+                    holds: '',
+                    hood: '',
+                    iap: '',
+                    imc: '',
+                    instructor: '',
+                    landings: '',
+                    nightLdg: '',
+                    pic: '',
+                    sic: '',
+                    solo: '',
+                    student: '',
+                    tailNumber: '',
+                    cxt: '',
+                    aircraftType: ''
+                }))
+            })
+            .catch(err => console.error(err))
+
+        getFlights();
     }
 
     const getTotals = () => {
@@ -378,17 +452,28 @@ const Logbook = () => {
                             handleClick={workingTimeDistance}
                             handleAddFlight={logFlight}
                             value={logbookForm}
+                            text='Add Flight'
                             setAircraft={setAircraft}
                         />
                     </>
                 )
             case 'totalsBtn':
-                // console.log('totals', state.totals)
-                // getTotals()
                 return (
                     <TotalsDisplay
                         totals={state.totals}
                     />
+                )
+            case 'editBtn':
+                return (
+                    <>
+                        <AddFlightForm
+                            handleFormInput={handleFormInput}
+                            handleClick={workingTimeDistance}
+                            handleAddFlight={editFlight}
+                            value={logbookForm}
+                            text='Update Flight'
+                        />
+                    </>
                 )
             default:
                 return null;
@@ -425,8 +510,9 @@ const Logbook = () => {
         setState({
             ...state,
             open: true,
-            btnClicked: 'addFlightBtn'
+            btnClicked: 'editBtn'
         })
+        window.scrollTo(0, 0)
     }
 
     const deleteBtn = id => {
@@ -440,6 +526,16 @@ const Logbook = () => {
             open: !modal.open
         }))
     }
+
+    const openAccordion = e => {
+        const { target } = e
+        setState(state => ({
+            ...state,
+            open: !state.open,
+            btnClicked: target.id
+        }))
+    }
+
 
     return (
         <UserContext.Provider value={user}>
@@ -469,46 +565,21 @@ const Logbook = () => {
                         text='Add Flight'
                         btnId='addFlightBtn'
                         btnClass='menuBtn'
-                        handleClick={(e) => {
-                            const { target } = e
-                            e.preventDefault()
-                            setState(state => ({
-                                ...state,
-                                open: !state.open,
-                                btnClicked: target.id
-                            }))
-                        }}
+                        handleClick={openAccordion}
                     />
                     <Button
                         text='Search'
                         btnId='searchBtn'
                         btnClass='menuBtn'
-                        handleClick={(e) => {
-                            const { target } = e
-                            e.preventDefault()
-                            setState(state => ({
-                                ...state,
-                                open: !state.open,
-                                btnClicked: target.id
-                            }))
-                            console.log(state.btnClicked)
-                        }}
+                        handleClick={openAccordion}
                     />
                     <Button
                         text='Totals'
                         btnId='totalsBtn'
                         btnClass='menuBtn'
                         handleClick={(e) => {
-                            const { target } = e
-                            e.preventDefault()
-                            console.log("add flight")
-                            setState(state => ({
-                                ...state,
-                                open: !state.open,
-                                btnClicked: target.id
-                            }))
+                            openAccordion(e)
                             getTotals();
-                            console.log(state.btnClicked)
                         }}
                     />
                     {/* <Button
