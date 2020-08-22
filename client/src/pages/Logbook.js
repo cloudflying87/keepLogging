@@ -70,25 +70,32 @@ const Logbook = () => {
             .catch(err => {
                 console.error(err)
             })
-        API.getAircraftTypes()
+            API.getAircraftTypes()
             .then(({ data }) => {
+                let rawResults = []
                 let filteredResults = []
                 let uniqueId = []
                 for (let i = 0; i < data.length; i++) {
                     if (!uniqueId.includes(data[i].AircraftId)) {
                         if (data[i]['Aircraft.tailNumber'] != null) {
-                            filteredResults.push(data[i].AircraftId+' '+data[i]['Aircraft.tailNumber'] + ' ' + data[i]['Aircraft.AircraftModel.description'])
+                            rawResults.push(data[i])
                             uniqueId.push(data[i].AircraftId)
                         }
                     }
-
                 }
+                // console.log()
+                filteredResults = rawResults.map((a) => ({
+                    value: a.AircraftId, 
+                    label: a['Aircraft.tailNumber']+' '+a['Aircraft.AircraftModel.description'],
+                    
+                }))
+                let filteredResultsSorted = filteredResults.sort((a,b) => (a.label > b.label) ? 1 : ((b.label > a.label)? -1 : 0))
+                
                 setlogbookForm(logbookForm => ({
                     ...logbookForm,
-                    aircraftType: filteredResults.sort()
+                    aircraftList: filteredResultsSorted
                 }))
             })
-
     }, [])
 
     const getFlights = () => {
@@ -113,7 +120,13 @@ const Logbook = () => {
                 window.location.href = '/'
             });
     }
-
+    const setAircraft = (value) => {
+        setlogbookForm(logbookForm => ({
+            ...logbookForm,
+            AircraftId:value.value
+        }))
+        
+    }
     const handleFormInput = ({ target: { value, name } }) => {
         setlogbookForm(logbookForm => ({
             ...logbookForm,
@@ -322,7 +335,8 @@ const Logbook = () => {
             cfi: nullChecked.cfi,
             dual: nullChecked.dual,
             solo: nullChecked.solo,
-            UserId: state.userId
+            UserId: state.userId,
+            AircraftId: nullChecked.AircraftId
         })
             .then((data) => {
                 console.log("logFlight data: ", data)
@@ -355,6 +369,7 @@ const Logbook = () => {
                             handleClick={workingTimeDistance}
                             handleAddFlight={logFlight}
                             value={logbookForm}
+                            setAircraft={setAircraft}
                         />
                     </>
                 )

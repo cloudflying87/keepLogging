@@ -110,7 +110,13 @@ app.get("/api/aircraft/", function (req, res) {
           model:db.AircraftModels,
           attributes:[
             'tdesig',
-            'description'
+            'description',
+            'category_class',
+            'complex',
+            'highPerf',
+            'tailWheel',
+            'taa',
+            'simulator'
         ]
         }
       },

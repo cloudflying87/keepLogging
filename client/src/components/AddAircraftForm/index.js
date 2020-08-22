@@ -6,7 +6,7 @@ import './style.css'
 
 
 const AddAircraft = ({ handleFormInput, handleAddFlight, handleClick, value }) => {
-    console.log('add flight from value: ', value)
+    
     return (
         <div>
             <form>

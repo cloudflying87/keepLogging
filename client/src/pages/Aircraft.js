@@ -21,7 +21,6 @@ const Aircraft = () => {
                 for (let i = 0; i < data.length; i++) {
                     if (!uniqueId.includes(data[i].AircraftId)) {
                         if (data[i]['Aircraft.tailNumber'] != null) {
-                            // filteredResults.push(data[i]['Aircraft.tailNumber'] + ' ' + data[i]['Aircraft.AircraftModel.description'])
                             rawResults.push(data[i])
                             uniqueId.push(data[i].AircraftId)
                         }
@@ -42,13 +41,6 @@ const Aircraft = () => {
                     results: filteredResultsSorted
                 }))
             })
-        // for (let i = 0; i < aircraftDropDownValues.length; i++) {
-        //     let options = $('<option>').text(aircraftDropDownValues[i]).attr('value', aircraftDropDownValues[i])
-        //     $('#aircraftID').append(options);
-        // }
-        // aircraftDropDown = new SlimSelect({
-        //     select: '#aircraftID'
-        // });
     })
     const handleFormInput = ({ target: { value, name } }) => {
         setState(state => ({

@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Input from '../Input/index';
 import Button from '../Button/index';
 import './style.css'
+import { DropdownList } from 'react-widgets'
+import 'react-widgets/dist/css/react-widgets.css';
 import moment from 'moment'
+import Select from 'react-select'
 
-
-const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value }) => {
+const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, setAircraft }) => {
     console.log('add flight from value: ', value)
     return (
         <div>
@@ -24,8 +26,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                         // value={logbookForm.date}
                         value={value.date}
                     />
-                    {console.log('this',value.aircraftType)}
-                    <Input
+                    {/* <Input
                         labelFor='aircraftType'
                         label='Aircraft Type'
                         name='aircraftType'
@@ -35,6 +36,23 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                         placeholder='Aircraft Type'
                         handleInputChange={handleFormInput}
                         value={value.aircraftType}
+                    /> */}
+                    {/* <DropdownList
+                        data={value.aircraftType}
+                        valueField='id'
+                        textField='name'
+                        defaultValue={1}
+                    /> */}
+                    <Select 
+                        options={value.aircraftList}
+                        labelFor='aircraftType'
+                        label='Aircraft Type'
+                        name='aircraftType'
+                        inputId='aircraftTypeInput'
+                        inputClass='addFlightInput'
+                        placeholder='Aircraft Type'
+                        // getValue={(value)=>console.log(value)}
+                        onChange={setAircraft}
                     />
                     <Input
                         labelFor='route'
