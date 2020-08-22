@@ -138,6 +138,11 @@ const Logbook = () => {
 
     const workingTimeDistance = async (e) => {
         e.preventDefault();
+        if (logbookForm.route === undefined ||
+            logbookForm.depTime === undefined ||
+            logbookForm.arrTime === undefined ){
+                return alert('Need to fill in Route, Departure Time and Arrival Time')
+            }
         await workingTimes();
         await findDistance();
         await calcTime();

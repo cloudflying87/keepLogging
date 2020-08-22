@@ -1,19 +1,34 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Input from '../Input/index';
 import Button from '../Button/index';
 import './style.css'
-import { DropdownList } from 'react-widgets'
-import 'react-widgets/dist/css/react-widgets.css';
-import moment from 'moment'
 import Select from 'react-select'
 
 const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, setAircraft }) => {
     console.log('add flight from value: ', value)
+    const customStyles ={
+        option: (provided, state) =>({
+            ...provided,
+            color: state.isSelected && 'blue',
+        }),
+        control: (provided,state) => ({
+            ...provided,
+            width:'auto',
+            height:'15px',
+            color:'purple'
+        }),
+        singleValue: (provided, state) => {
+            const opacity = state.isDisabled ? 0.5 : 1;
+            const transition = 'opacity 1300ms';
+        
+            return { ...provided, opacity, transition };
+          }
+    }
     return (
         <div>
             <form>
                 <h4 className='header'>General Flight Info</h4>
-                <div className='inputDiv'>
+                <div className='inputDiv threeboxes'>
                     <Input
                         labelFor='date'
                         label='Date'
@@ -51,7 +66,8 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, s
                         inputId='aircraftTypeInput'
                         inputClass='addFlightInput'
                         placeholder='Aircraft Type'
-                        // getValue={(value)=>console.log(value)}
+                        width='200px'
+                        styles={customStyles}
                         onChange={setAircraft}
                     />
                     <Input
