@@ -25,7 +25,7 @@ const Logbook = () => {
         // userId: ''
     })
     const [logbookForm, setlogbookForm] = useState({
-        date: '',
+        date: moment().format('YYYY-MM-D'),
         total: '',
         crossCountry: '',
         night: '',
@@ -49,7 +49,7 @@ const Logbook = () => {
         sic: '',
         solo: '',
         student: '',
-        tailNumber: '',
+        total: '',
         cxt: '',
         aircraftType: ''
 
@@ -73,11 +73,35 @@ const Logbook = () => {
             .catch(err => {
                 console.error(err)
             })
-
+            API.getAircraftTypes()
+            .then(({ data }) => {
+                let rawResults = []
+                let filteredResults = []
+                let uniqueId = []
+                for (let i = 0; i < data.length; i++) {
+                    if (!uniqueId.includes(data[i].AircraftId)) {
+                        if (data[i]['Aircraft.tailNumber'] != null) {
+                            rawResults.push(data[i])
+                            uniqueId.push(data[i].AircraftId)
+                        }
+                    }
+                }
+                // console.log()
+                filteredResults = rawResults.map((a) => ({
+                    value: a.AircraftId, 
+                    label: a['Aircraft.tailNumber']+' '+a['Aircraft.AircraftModel.description'],
+                    
+                }))
+                let filteredResultsSorted = filteredResults.sort((a,b) => (a.label > b.label) ? 1 : ((b.label > a.label)? -1 : 0))
+                
+                setlogbookForm(logbookForm => ({
+                    ...logbookForm,
+                    aircraftList: filteredResultsSorted
+                }))
+            })
     }, [])
 
     const getFlights = () => {
-        console.log("triggered")
         API.getFlights()
             .then((res) => {
                 const mapped = res.data.map(x => ({
@@ -99,7 +123,13 @@ const Logbook = () => {
                 window.location.href = '/'
             });
     }
-
+    const setAircraft = (value) => {
+        setlogbookForm(logbookForm => ({
+            ...logbookForm,
+            AircraftId:value.value
+        }))
+        
+    }
     const handleFormInput = ({ target: { value, name } }) => {
         setlogbookForm(logbookForm => ({
             ...logbookForm,
@@ -110,6 +140,11 @@ const Logbook = () => {
 
     const workingTimeDistance = async (e) => {
         e.preventDefault();
+        if (logbookForm.route === undefined ||
+            logbookForm.depTime === undefined ||
+            logbookForm.arrTime === undefined ){
+                return alert('Need to fill in Route, Departure Time and Arrival Time')
+            }
         await workingTimes();
         await findDistance();
         await calcTime();
@@ -167,8 +202,8 @@ const Logbook = () => {
         const tdDate = moment.utc((logbookForm.date))
         const userDate = tdDate._i
 
-        const departTime = logbookForm.departureTime
-        const arrTime = logbookForm.arrivalTime
+        const departTime = logbookForm.depTime
+        const arrTime = logbookForm.arrTime
         // Here we are checking if the user just input a time. If that is true then we take the date from the date box and put it in from of the time. We are using the newDate to format it as a date correctly to work with. 
 
         if (new Date(departTime) == 'Invalid Date') {
@@ -222,7 +257,7 @@ const Logbook = () => {
         let depSet = sunTimesArr[2]
         let arrRise = sunTimesArr[5]
         let arrSet = sunTimesArr[6]
-
+        console.log("dep ", depRise, " depart ", depart)
 
         if ((depart.isBefore(depRise) && arrive.isBefore(arrRise)) || (depart.isAfter(depSet) && arrive.isAfter(arrSet))) {
             // this is for an all night flight before sunrise or after sunset
@@ -238,12 +273,15 @@ const Logbook = () => {
         } else {
             nightTime = 0
         }
-
+        if (nightTime > timeCalc) {
+            nightTime = timeCalc
+        }
+        console.log(nightTime)
         setlogbookForm(logbookForm => ({
             ...logbookForm,
             total: timeCalc,
-            crossCountry: crossCountryTrue ? timeCalc : 0,
-            nightTime: nightTime ? nightTime : 0
+            cxt: crossCountryTrue ? timeCalc : 0,
+            night: nightTime
         }))
 
     }
@@ -288,7 +326,7 @@ const Logbook = () => {
             date: nullChecked.date,
             route: nullChecked.route,
             comments: logbookForm.comments,
-            flightNum: nullChecked.flightNumber,
+            flightNum: nullChecked.flightNum,
             depTime: nullChecked.depTime,
             arrTime: nullChecked.arrTime,
             landings: nullChecked.landings,
@@ -306,7 +344,8 @@ const Logbook = () => {
             cfi: nullChecked.cfi,
             dualI: nullChecked.dualI,
             solo: nullChecked.solo,
-            UserId: user.userId
+            UserId: user.userId,
+            AircraftId: nullChecked.AircraftId
         })
             .then((data) => {
                 console.log("logFlight data: ", data)
@@ -329,7 +368,7 @@ const Logbook = () => {
             date: nullChecked.date,
             route: nullChecked.route,
             comments: logbookForm.comments,
-            flightNum: nullChecked.flightNumber,
+            flightNum: nullChecked.flightNum,
             depTime: nullChecked.depTime,
             arrTime: nullChecked.arrTime,
             landings: nullChecked.landings,
@@ -411,6 +450,7 @@ const Logbook = () => {
                             handleAddFlight={logFlight}
                             value={logbookForm}
                             text='Add Flight'
+                            setAircraft={setAircraft}
                         />
                     </>
                 )

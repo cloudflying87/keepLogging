@@ -101,20 +101,25 @@ app.get("/api/aircraft/", function (req, res) {
     //     res.redirect(307, "/api/login");
     // } else {
     db.FlightTime.findAll({
-      // where: {UserId: req.user.id},
-      where: {UserId: 1},
+      where: {UserId: req.user.id},
       attributes:['AircraftId'],
-      include:[{
+      include:{
         model: db.Aircraft,
         attributes:['tailNumber'],
-        include:[{
+        include:{
           model:db.AircraftModels,
           attributes:[
             'tdesig',
-            'description'
+            'description',
+            'category_class',
+            'complex',
+            'highPerf',
+            'tailWheel',
+            'taa',
+            'simulator'
         ]
-        }]
-      }],
+        }
+      },
        
       raw: true
     })
