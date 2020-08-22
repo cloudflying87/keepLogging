@@ -1,5 +1,5 @@
 import React from 'react'
-import { Bar } from 'react-chartjs-2';
+import { Bar, Pie } from 'react-chartjs-2';
 
 const Chart = ({ totals }) => {
 
@@ -14,7 +14,14 @@ const Chart = ({ totals }) => {
         night: totals.night
     }
 
-    const data = {
+    const pieTotals = {
+        PIC: totals.pic,
+        SIC: totals.sic,
+        CFI: totals.cfi,
+        'Dual I': totals.dualI
+    }
+
+    const barData = {
         labels: Object.keys(filteredTotals),
         datasets: [
             {
@@ -29,15 +36,35 @@ const Chart = ({ totals }) => {
         ]
     };
 
+    const pieData = {
+        labels: Object.keys(pieTotals),
+        datasets: [{
+            data: Object.values(pieTotals),
+            backgroundColor: [
+            '#FF6384',
+            '#36A2EB',
+            '#FFCE56'
+            ],
+            hoverBackgroundColor: [
+            '#FF6384',
+            '#36A2EB',
+            '#FFCE56'
+            ]
+        }]
+    };
+    
+
     return (
         <div>
             <h2>Totals</h2>
             <Bar
-                data={data}
+                data={barData}
                 options={{
                     maintainAspectRatio: true
                 }}
             />
+            <h2>Pilot Times</h2>
+            <Pie data={pieData} />
         </div>
     );
 };
