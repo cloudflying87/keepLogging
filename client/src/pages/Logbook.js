@@ -314,6 +314,10 @@ const Logbook = () => {
 
     }
 
+    const editFlight = () => {
+        console.log('edit flight working')
+    }
+
     const getTotals = () => {
 
         API.getFlightTotals()
@@ -337,16 +341,27 @@ const Logbook = () => {
                             handleClick={workingTimeDistance}
                             handleAddFlight={logFlight}
                             value={logbookForm}
+                            text='Add Flight'
                         />
                     </>
                 )
             case 'totalsBtn':
-                // console.log('totals', state.totals)
-                // getTotals()
                 return (
                     <TotalsDisplay
                         totals={state.totals}
                     />
+                )
+            case 'editBtn':
+                return (
+                    <>
+                        <AddFlightForm
+                            handleFormInput={handleFormInput}
+                            handleClick={workingTimeDistance}
+                            handleAddFlight={editFlight}
+                            value={logbookForm}
+                            text='Update Flight'
+                        />
+                    </>
                 )
             default:
                 return null;
@@ -383,8 +398,9 @@ const Logbook = () => {
         setState({
             ...state,
             open: true,
-            btnClicked: 'addFlightBtn'
+            btnClicked: 'editBtn'
         })
+        window.scrollTo(0, 0)
     }
 
     const deleteBtn = id => {
@@ -398,6 +414,16 @@ const Logbook = () => {
             open: !modal.open
         }))
     }
+
+    const openAccordion = e => {
+        const { target } = e
+        setState(state => ({
+            ...state,
+            open: !state.open,
+            btnClicked: target.id
+        }))
+    }
+
 
     return (
         <UserContext.Provider value={user}>
@@ -427,46 +453,21 @@ const Logbook = () => {
                         text='Add Flight'
                         btnId='addFlightBtn'
                         btnClass='menuBtn'
-                        handleClick={(e) => {
-                            const { target } = e
-                            e.preventDefault()
-                            setState(state => ({
-                                ...state,
-                                open: !state.open,
-                                btnClicked: target.id
-                            }))
-                        }}
+                        handleClick={openAccordion}
                     />
                     <Button
                         text='Search'
                         btnId='searchBtn'
                         btnClass='menuBtn'
-                        handleClick={(e) => {
-                            const { target } = e
-                            e.preventDefault()
-                            setState(state => ({
-                                ...state,
-                                open: !state.open,
-                                btnClicked: target.id
-                            }))
-                            console.log(state.btnClicked)
-                        }}
+                        handleClick={openAccordion}
                     />
                     <Button
                         text='Totals'
                         btnId='totalsBtn'
                         btnClass='menuBtn'
                         handleClick={(e) => {
-                            const { target } = e
-                            e.preventDefault()
-                            console.log("add flight")
-                            setState(state => ({
-                                ...state,
-                                open: !state.open,
-                                btnClicked: target.id
-                            }))
+                            openAccordion(e)
                             getTotals();
-                            console.log(state.btnClicked)
                         }}
                     />
                     {/* <Button

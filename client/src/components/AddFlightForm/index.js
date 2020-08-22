@@ -3,7 +3,7 @@ import Input from '../Input/index';
 import Button from '../Button/index';
 import './style.css'
 
-const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value }) => {
+const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, text }) => {
     console.log('add flight from value: ', value)
     return (
         <div>
@@ -308,7 +308,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                 </div>
                 <div className='btnWrapper'>
                     <Button
-                        text='Add Flight'
+                        text={text}
                         btnId='createFlightBtn'
                         className='formBtn'
                         handleClick={handleAddFlight}
