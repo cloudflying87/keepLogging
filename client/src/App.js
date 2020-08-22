@@ -16,12 +16,12 @@ function App() {
 
     <Router>
       <Switch>
-        <Route exact path='/' component={Signup} />
-        <Route exact path='/logbook' component={Logbook} />
-        <Route exact path='/training' component={Training} />
-        <Route exact path='/Aircraft' component={Aircraft} />
-        <Route exact path='/Airports' component={Airports} />
-        <Route exact path='/myProfile' component={MyProfile} />
+          <Route exact path='/' component={Signup} />
+          <Route exact path='/logbook' component={Logbook} />
+          <Route exact path='/training' component={Training} />
+          <Route exact path='/Aircraft' component={Aircraft} />
+          <Route exact path='/Airports' component={Airports} />
+          <Route exact path='/myProfile' component={MyProfile} />
       </Switch>
     </Router>
 
