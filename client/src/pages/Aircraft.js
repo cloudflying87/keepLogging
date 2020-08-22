@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Nav from '../components/Nav/index';
-import API from '../utils/API'
+import API from '../utils/API';
+
 
 const Aircraft = () => {
 const[state, setState] = useState({
