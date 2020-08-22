@@ -49,13 +49,8 @@ const Logbook = () => {
         solo: '',
         student:'',
         tailNumber:'',
-        total:'',
         cxt: '',
         
-
-
-
-
     })
 
     const [modal, setModal] = useState({
@@ -343,7 +338,6 @@ const Logbook = () => {
                         />
                     </>
                 )
-                break;
             case 'totalsBtn':
                 // console.log('totals', state.totals)
                 // getTotals()
@@ -352,10 +346,8 @@ const Logbook = () => {
                         totals={state.totals}
                     />
                 )
-                break;
             default:
                 return null;
-                break;
         };
     };
 
@@ -449,11 +441,11 @@ const Logbook = () => {
                     handleClick={(e) => {
                         const { target } = e
                         e.preventDefault()
-                        console.log("add flight")
-                        setState({
+                        setState(state=> ({
+                            ...state,
                             open: !state.open,
                             btnClicked: target.id
-                        })
+                        }))
                         console.log(state.btnClicked)
                     }}
                 />

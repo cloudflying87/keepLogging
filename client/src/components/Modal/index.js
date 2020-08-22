@@ -1,6 +1,5 @@
 import React from 'react';
 import Button from '../Button/index';
-import API from '../../utils/API';
 import './style.css'
 
 const Modal = ({ handleClick, openEdit, deleteBtn, results }) => {
