@@ -1,33 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import API from '../../utils/API';
+import React from 'react';
 import './style.css'
 
 const Table = ({ openModal, flights }) => {
 
-    // const [state, setState] = useState();
-    // const [mobileTable, setMobileTable] = useState({
-    //     results: flights
-    // });
-
-    // useEffect(() => {
-    //     API.getFlights()
-    //         .then(({ data }) => {
-    //             setState(data)
-    //             const mapped = data.map(x => ({
-    //                 Date: x.date,
-    //                 Aircraft: x['Aircraft.tailNumber'],
-    //                 Route: x.route,
-    //                 Comments: x.comments,
-    //                 Total: x.total,
-    //                 id: x.id
-    //             }))
-    //             setMobileTable(state => ({
-    //                 ...state,
-    //                 results: mapped
-    //             }))
-    //         })
-    //         .catch(err => console.log(err))
-    // }, [])
 
     return (
         <div>

@@ -77,9 +77,9 @@ const Training = () => {
 
     return (
         <>
+        <Nav />
             <main>
                 <form onSubmit={onSubmit}>
-
                     <Input
                         type="text"
                         id="student-email-input"

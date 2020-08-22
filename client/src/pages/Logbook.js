@@ -6,6 +6,7 @@ import Table from '../components/Table/index';
 import Modal from '../components/Modal/index';
 import TotalsDisplay from '../components/TotalsDisplay/index';
 import API from '../utils/API';
+import UserContext from '../utils/UserContext';
 import moment from 'moment'
 
 import './logbook.css'
@@ -21,7 +22,7 @@ const Logbook = () => {
         fullResults: [],
         mapped: [],
         totals: [],
-        userId: ''
+        // userId: ''
     })
     const [logbookForm, setlogbookForm] = useState({
         date: '',
@@ -48,22 +49,22 @@ const Logbook = () => {
         sic: '',
         solo: '',
         student: '',
-        aircraftType: '',
         total: '',
         cxt: '',
     })
-
     const [modal, setModal] = useState({
         open: false,
         values: []
     });
+    const [user, setUser] = useState({
+        userId: ''
+    })
 
     useEffect(() => {
         getFlights();
         API.userData()
             .then(res => {
-                setState(state => ({
-                    ...state,
+                setUser(({
                     userId: res.data.id
                 }))
             })
@@ -373,7 +374,6 @@ const Logbook = () => {
                         />
                     </>
                 )
-                break;
             case 'totalsBtn':
                 // console.log('totals', state.totals)
                 // getTotals()
@@ -382,10 +382,8 @@ const Logbook = () => {
                         totals={state.totals}
                     />
                 )
-                break;
             default:
                 return null;
-                break;
         };
     };
 
@@ -436,75 +434,76 @@ const Logbook = () => {
     }
 
     return (
-        <div>
-            {
-                (modal.open && !!modal.values) &&
+        <UserContext.Provider value={user}>
+            <div>
+                {
+                    (modal.open && !!modal.values) &&
 
-                <Modal
-                    key={modal.values.id}
-                    results={modal.values}
-                    openEdit={openEdit}
-                    deleteBtn={deleteBtn}
-                    handleClick={e => {
-                        e.preventDefault();
-                        setModal(state => ({
-                            ...state,
-                            open: !modal.open
-                        }))
-                    }}
-                />
+                    <Modal
+                        key={modal.values.id}
+                        results={modal.values}
+                        openEdit={openEdit}
+                        deleteBtn={deleteBtn}
+                        handleClick={e => {
+                            e.preventDefault();
+                            setModal(state => ({
+                                ...state,
+                                open: !modal.open
+                            }))
+                        }}
+                    />
 
-            }
-            <Nav />
-            <div className='menuDiv'>
-                {/* here will be the buttons for this page. Maybe i'll make a component for these since there will be one on each page. */}
-                <Button
-                    text='Add Flight'
-                    btnId='addFlightBtn'
-                    btnClass='menuBtn'
-                    handleClick={(e) => {
-                        const { target } = e
-                        e.preventDefault()
-                        setState(state => ({
-                            ...state,
-                            open: !state.open,
-                            btnClicked: target.id
-                        }))
-                    }}
-                />
-                <Button
-                    text='Search'
-                    btnId='searchBtn'
-                    btnClass='menuBtn'
-                    handleClick={(e) => {
-                        const { target } = e
-                        e.preventDefault()
-                        console.log("add flight")
-                        setState({
-                            open: !state.open,
-                            btnClicked: target.id
-                        })
-                        console.log(state.btnClicked)
-                    }}
-                />
-                <Button
-                    text='Totals'
-                    btnId='totalsBtn'
-                    btnClass='menuBtn'
-                    handleClick={(e) => {
-                        const { target } = e
-                        e.preventDefault()
-                        console.log("add flight")
-                        setState(state => ({
-                            ...state,
-                            open: !state.open,
-                            btnClicked: target.id
-                        }))
-                        getTotals();
-                        console.log(state.btnClicked)
-                    }}
-                />
-                {/* <Button
+                }
+                <Nav />
+                <div className='menuDiv'>
+                    {/* here will be the buttons for this page. Maybe i'll make a component for these since there will be one on each page. */}
+                    <Button
+                        text='Add Flight'
+                        btnId='addFlightBtn'
+                        btnClass='menuBtn'
+                        handleClick={(e) => {
+                            const { target } = e
+                            e.preventDefault()
+                            setState(state => ({
+                                ...state,
+                                open: !state.open,
+                                btnClicked: target.id
+                            }))
+                        }}
+                    />
+                    <Button
+                        text='Search'
+                        btnId='searchBtn'
+                        btnClass='menuBtn'
+                        handleClick={(e) => {
+                            const { target } = e
+                            e.preventDefault()
+                            setState(state => ({
+                                ...state,
+                                open: !state.open,
+                                btnClicked: target.id
+                            }))
+                            console.log(state.btnClicked)
+                        }}
+                    />
+                    <Button
+                        text='Totals'
+                        btnId='totalsBtn'
+                        btnClass='menuBtn'
+                        handleClick={(e) => {
+                            const { target } = e
+                            e.preventDefault()
+                            console.log("add flight")
+                            setState(state => ({
+                                ...state,
+                                open: !state.open,
+                                btnClicked: target.id
+                            }))
+                            getTotals();
+                            console.log(state.btnClicked)
+                        }}
+                    />
+                    {/* <Button
                     text='Training'
                     btnId='training'
                     btnClass='menuBtn'
@@ -520,38 +519,39 @@ const Logbook = () => {
                         console.log(state.btnClicked)
                     }}
                 /> */}
-                <Button
-                    text='Logout'
-                    btnId='logout'
-                    btnClass='menuBtn'
-                    handleClick={(e) => {
-                        e.preventDefault()
-                        console.log("logout")
-                        console.log(state.btnClicked)
-                        API.userLogOut()
-                            .then(window.location.href = "/")
-                            .catch(err => console.error(err))
-                    }}
-                />
-            </div>
-            <div className='formDiv'>
-                {
-                    !state.open
-                        ? null
-                        : (
-                            switchFunc(state.btnClicked)
-                        )
-                }
-            </div>
-            <main>
-                <Table
-                    openModal={openModal} flights={state.mapped}
-                />
-                {/* Modal for popping out table. maybe a 'view' button opens and closes it */}
-                {/* The table will live here. Might try to do an actual table first, then will try grid or flexbox. */}
-            </main>
+                    <Button
+                        text='Logout'
+                        btnId='logout'
+                        btnClass='menuBtn'
+                        handleClick={(e) => {
+                            e.preventDefault()
+                            console.log("logout")
+                            console.log(state.btnClicked)
+                            API.userLogOut()
+                                .then(window.location.href = "/")
+                                .catch(err => console.error(err))
+                        }}
+                    />
+                </div>
+                <div className='formDiv'>
+                    {
+                        !state.open
+                            ? null
+                            : (
+                                switchFunc(state.btnClicked)
+                            )
+                    }
+                </div>
+                <main>
+                    <Table
+                        openModal={openModal} flights={state.mapped}
+                    />
+                    {/* Modal for popping out table. maybe a 'view' button opens and closes it */}
+                    {/* The table will live here. Might try to do an actual table first, then will try grid or flexbox. */}
+                </main>
 
-        </div>
+            </div>
+        </UserContext.Provider>
     )
 }
 
