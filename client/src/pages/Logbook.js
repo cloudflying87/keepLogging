@@ -6,6 +6,7 @@ import Table from '../components/Table/index';
 import Modal from '../components/Modal/index';
 import TotalsDisplay from '../components/TotalsDisplay/index';
 import API from '../utils/API';
+import UserContext from '../utils/UserContext';
 import moment from 'moment'
 
 import './logbook.css'
@@ -21,7 +22,7 @@ const Logbook = () => {
         fullResults: [],
         mapped: [],
         totals: [],
-        userId: ''
+        // userId: ''
     })
     const [logbookForm, setlogbookForm] = useState({
         date: '',
@@ -37,33 +38,34 @@ const Logbook = () => {
         dualI: '',
         enrRout: '',
         flightNum: '',
-        holds:'',
-        hood:'',
-        iap:'',
-        imc:'',
-        instructor:'',
-        landings:'',
-        nightLdg:'',
-        pic:'',
-        sic:'',
+        holds: '',
+        hood: '',
+        iap: '',
+        imc: '',
+        instructor: '',
+        landings: '',
+        nightLdg: '',
+        pic: '',
+        sic: '',
         solo: '',
-        student:'',
-        tailNumber:'',
+        student: '',
+        tailNumber: '',
         cxt: '',
-        
-    })
 
+    })
     const [modal, setModal] = useState({
         open: false,
         values: []
     });
+    const [user, setUser] = useState({
+        userId: ''
+    })
 
     useEffect(() => {
         getFlights();
         API.userData()
             .then(res => {
-                setState(state => ({
-                    ...state,
+                setUser(({
                     userId: res.data.id
                 }))
             })
@@ -185,7 +187,7 @@ const Logbook = () => {
         // Subtracting the times in milliseconds. 
         let momentMillie = moment.duration(arrTimeDate.diff(departTimeDate))
         timeCalc = convertToHoursMM(momentMillie._milliseconds)
-        
+
 
         // Auto filling times. Will add more as we have user preferences. 
 
@@ -226,7 +228,7 @@ const Logbook = () => {
             nightTime = timeCalc
         } else if (depart.isBefore(depRise) && arrive.isAfter(arrRise)) {
             // this is for an early morning departure before the sunrises
-            
+
             nightTime = convertToHoursMM(moment.duration(depRise.diff(depart)))
         } else if (depart.isBefore(depSet) && arrive.isAfter(arrSet)) {
             // evening flight departure before sunset and landing after sunset
@@ -302,7 +304,7 @@ const Logbook = () => {
             cfi: nullChecked.cfi,
             dual: nullChecked.dual,
             solo: nullChecked.solo,
-            UserId: state.userId
+            UserId: user.userId
         })
             .then((data) => {
                 console.log("logFlight data: ", data)
@@ -398,75 +400,76 @@ const Logbook = () => {
     }
 
     return (
-        <div>
-            {
-                (modal.open && !!modal.values) &&
+        <UserContext.Provider value={user}>
+            <div>
+                {
+                    (modal.open && !!modal.values) &&
 
-                <Modal
-                    key={modal.values.id}
-                    results={modal.values}
-                    openEdit={openEdit}
-                    deleteBtn={deleteBtn}
-                    handleClick={e => {
-                        e.preventDefault();
-                        setModal(state => ({
-                            ...state,
-                            open: !modal.open
-                        }))
-                    }}
-                />
+                    <Modal
+                        key={modal.values.id}
+                        results={modal.values}
+                        openEdit={openEdit}
+                        deleteBtn={deleteBtn}
+                        handleClick={e => {
+                            e.preventDefault();
+                            setModal(state => ({
+                                ...state,
+                                open: !modal.open
+                            }))
+                        }}
+                    />
 
-            }
-            <Nav />
-            <div className='menuDiv'>
-                {/* here will be the buttons for this page. Maybe i'll make a component for these since there will be one on each page. */}
-                <Button
-                    text='Add Flight'
-                    btnId='addFlightBtn'
-                    btnClass='menuBtn'
-                    handleClick={(e) => {
-                        const { target } = e
-                        e.preventDefault()
-                        setState(state => ({
-                            ...state,
-                            open: !state.open,
-                            btnClicked: target.id
-                        }))
-                    }}
-                />
-                <Button
-                    text='Search'
-                    btnId='searchBtn'
-                    btnClass='menuBtn'
-                    handleClick={(e) => {
-                        const { target } = e
-                        e.preventDefault()
-                        setState(state=> ({
-                            ...state,
-                            open: !state.open,
-                            btnClicked: target.id
-                        }))
-                        console.log(state.btnClicked)
-                    }}
-                />
-                <Button
-                    text='Totals'
-                    btnId='totalsBtn'
-                    btnClass='menuBtn'
-                    handleClick={(e) => {
-                        const { target } = e
-                        e.preventDefault()
-                        console.log("add flight")
-                        setState(state => ({
-                            ...state,
-                            open: !state.open,
-                            btnClicked: target.id
-                        }))
-                        getTotals();
-                        console.log(state.btnClicked)
-                    }}
-                />
-                {/* <Button
+                }
+                <Nav />
+                <div className='menuDiv'>
+                    {/* here will be the buttons for this page. Maybe i'll make a component for these since there will be one on each page. */}
+                    <Button
+                        text='Add Flight'
+                        btnId='addFlightBtn'
+                        btnClass='menuBtn'
+                        handleClick={(e) => {
+                            const { target } = e
+                            e.preventDefault()
+                            setState(state => ({
+                                ...state,
+                                open: !state.open,
+                                btnClicked: target.id
+                            }))
+                        }}
+                    />
+                    <Button
+                        text='Search'
+                        btnId='searchBtn'
+                        btnClass='menuBtn'
+                        handleClick={(e) => {
+                            const { target } = e
+                            e.preventDefault()
+                            setState(state => ({
+                                ...state,
+                                open: !state.open,
+                                btnClicked: target.id
+                            }))
+                            console.log(state.btnClicked)
+                        }}
+                    />
+                    <Button
+                        text='Totals'
+                        btnId='totalsBtn'
+                        btnClass='menuBtn'
+                        handleClick={(e) => {
+                            const { target } = e
+                            e.preventDefault()
+                            console.log("add flight")
+                            setState(state => ({
+                                ...state,
+                                open: !state.open,
+                                btnClicked: target.id
+                            }))
+                            getTotals();
+                            console.log(state.btnClicked)
+                        }}
+                    />
+                    {/* <Button
                     text='Training'
                     btnId='training'
                     btnClass='menuBtn'
@@ -482,38 +485,39 @@ const Logbook = () => {
                         console.log(state.btnClicked)
                     }}
                 /> */}
-                <Button
-                    text='Logout'
-                    btnId='logout'
-                    btnClass='menuBtn'
-                    handleClick={(e) => {
-                        e.preventDefault()
-                        console.log("logout")
-                        console.log(state.btnClicked)
-                        API.userLogOut()
-                            .then(window.location.href = "/")
-                            .catch(err => console.error(err))
-                    }}
-                />
-            </div>
-            <div className='formDiv'>
-                {
-                    !state.open
-                        ? null
-                        : (
-                            switchFunc(state.btnClicked)
-                        )
-                }
-            </div>
-            <main>
-                <Table
-                    openModal={openModal} flights={state.mapped}
-                />
-                {/* Modal for popping out table. maybe a 'view' button opens and closes it */}
-                {/* The table will live here. Might try to do an actual table first, then will try grid or flexbox. */}
-            </main>
+                    <Button
+                        text='Logout'
+                        btnId='logout'
+                        btnClass='menuBtn'
+                        handleClick={(e) => {
+                            e.preventDefault()
+                            console.log("logout")
+                            console.log(state.btnClicked)
+                            API.userLogOut()
+                                .then(window.location.href = "/")
+                                .catch(err => console.error(err))
+                        }}
+                    />
+                </div>
+                <div className='formDiv'>
+                    {
+                        !state.open
+                            ? null
+                            : (
+                                switchFunc(state.btnClicked)
+                            )
+                    }
+                </div>
+                <main>
+                    <Table
+                        openModal={openModal} flights={state.mapped}
+                    />
+                    {/* Modal for popping out table. maybe a 'view' button opens and closes it */}
+                    {/* The table will live here. Might try to do an actual table first, then will try grid or flexbox. */}
+                </main>
 
-        </div>
+            </div>
+        </UserContext.Provider>
     )
 }
 
