@@ -60,7 +60,7 @@ const Chart = ({ totals }) => {
             <Bar
                 data={barData}
                 options={{
-                    maintainAspectRatio: true
+                    maintainAspectRatio: false
                 }}
             />
             <h2>Pilot Times</h2>
