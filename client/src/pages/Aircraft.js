@@ -6,6 +6,8 @@ import Modal from '../components/Modal/index';
 import AddAircraft from '../components/AddAircraftForm'
 import Button from '../components/Button/index'
 import UserContext from '../utils/UserContext';
+import getAircraftTypesFunction from '../components/AircraftDisplay/function'
+import { compareSync } from 'bcryptjs';
 
 const Aircraft = () => {
     const [state, setState] = useState({
@@ -14,7 +16,7 @@ const Aircraft = () => {
     const [user, setUser] = useState({
         userId: ''
     })
-    
+
     useEffect(() => {
         API.getAircraftTypes()
             .then(({ data }) => {
@@ -30,12 +32,15 @@ const Aircraft = () => {
                     }
 
                 }
+                
                 // console.log()
                 filteredResults = rawResults.map((a) => ({
                     id: a.AircraftId, 
                     tailNumber: a['Aircraft.tailNumber'],
                     description: a['Aircraft.AircraftModel.description'],
-                    designator: a['Aircraft.AircraftModel.tdesig']
+                    designator: a['Aircraft.AircraftModel.tdesig'],
+                    modelNumber:a['Aircraft.AircraftModel.id'],
+
                 }))
                 let filteredResultsSorted = filteredResults.sort((a,b) => (a.tailNumber > b.tailNumber) ? 1 : ((b.tailNumber > a.tailNumber)? -1 : 0))
                 

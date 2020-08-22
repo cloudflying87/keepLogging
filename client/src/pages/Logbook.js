@@ -10,6 +10,7 @@ import UserContext from '../utils/UserContext';
 import moment from 'moment'
 
 import './logbook.css'
+import getAircraftTypesFunction from '../components/AircraftDisplay/function';
 
 let airportLoc = [];
 let distNum = [];
@@ -71,32 +72,7 @@ const Logbook = () => {
             .catch(err => {
                 console.error(err)
             })
-            API.getAircraftTypes()
-            .then(({ data }) => {
-                let rawResults = []
-                let filteredResults = []
-                let uniqueId = []
-                for (let i = 0; i < data.length; i++) {
-                    if (!uniqueId.includes(data[i].AircraftId)) {
-                        if (data[i]['Aircraft.tailNumber'] != null) {
-                            rawResults.push(data[i])
-                            uniqueId.push(data[i].AircraftId)
-                        }
-                    }
-                }
-                // console.log()
-                filteredResults = rawResults.map((a) => ({
-                    value: a.AircraftId, 
-                    label: a['Aircraft.tailNumber']+' '+a['Aircraft.AircraftModel.description'],
-                    
-                }))
-                let filteredResultsSorted = filteredResults.sort((a,b) => (a.label > b.label) ? 1 : ((b.label > a.label)? -1 : 0))
-                
-                setlogbookForm(logbookForm => ({
-                    ...logbookForm,
-                    aircraftList: filteredResultsSorted
-                }))
-            })
+        getAircraftTypes()
     }, [])
 
     const getFlights = () => {
@@ -124,9 +100,9 @@ const Logbook = () => {
     const setAircraft = (value) => {
         setlogbookForm(logbookForm => ({
             ...logbookForm,
-            AircraftId:value.value
+            AircraftId: value.value
         }))
-        
+
     }
     const handleFormInput = ({ target: { value, name } }) => {
         setlogbookForm(logbookForm => ({
@@ -135,14 +111,41 @@ const Logbook = () => {
             [name]: value
         }))
     };
+    const getAircraftTypes = () => {
+        API.getAircraftTypes()
+            .then(({ data }) => {
+                let rawResults = []
+                let filteredResults = []
+                let uniqueId = []
+                for (let i = 0; i < data.length; i++) {
+                    if (!uniqueId.includes(data[i].AircraftId)) {
+                        if (data[i]['Aircraft.tailNumber'] != null) {
+                            rawResults.push(data[i])
+                            uniqueId.push(data[i].AircraftId)
+                        }
+                    }
+                }
+                // console.log()
+                filteredResults = rawResults.map((a) => ({
+                    value: a.AircraftId,
+                    label: a['Aircraft.tailNumber'] + ' ' + a['Aircraft.AircraftModel.description'],
 
+                }))
+                let filteredResultsSorted = filteredResults.sort((a, b) => (a.label > b.label) ? 1 : ((b.label > a.label) ? -1 : 0))
+
+                setlogbookForm(logbookForm => ({
+                    ...logbookForm,
+                    aircraftList: filteredResultsSorted
+                }))
+            })
+    }
     const workingTimeDistance = async (e) => {
         e.preventDefault();
         if (logbookForm.route === undefined ||
             logbookForm.depTime === undefined ||
-            logbookForm.arrTime === undefined ){
-                return alert('Need to fill in Route, Departure Time and Arrival Time')
-            }
+            logbookForm.arrTime === undefined) {
+            return alert('Need to fill in Route, Departure Time and Arrival Time')
+        }
         await workingTimes();
         await findDistance();
         await calcTime();
