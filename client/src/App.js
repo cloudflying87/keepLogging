@@ -6,6 +6,7 @@ import Training from './pages/Training';
 import Aircraft from './pages/Aircraft';
 import Airports from './pages/Airports';
 import MyProfile from './pages/MyProfile';
+import Redirect from './pages/Validate';
 import './style.css'
 
 
@@ -22,6 +23,7 @@ function App() {
         <Route exact path='/Aircraft' component={Aircraft} />
         <Route exact path='/Airports' component={Airports} />
         <Route exact path='/myProfile' component={MyProfile} />
+        <Route exact path='/redirect/:key' component={Redirect} />
       </Switch>
     </Router>
 

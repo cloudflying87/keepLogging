@@ -41,7 +41,8 @@ const Training = () => {
                             console.log("Logged in user", loggedInUser)
 
                             API.sendMail({
-                                "email":"austinkkramer@gmail.com"
+                                "email": JSON.stringify(studentEmail),
+                                "user": JSON.stringify(loggedInUser)
                             })
 
 
@@ -56,13 +57,6 @@ const Training = () => {
                         .catch(error => (console.log(error)))
 
                 })
-
-
-
-
-
-
-
 
         }
         catch (error) {
@@ -92,7 +86,6 @@ const Training = () => {
                 </form>
                 {invalidSubmission && (<div>Please enter a valid email</div>)}
             </main>
-        </>
     );
 
 
