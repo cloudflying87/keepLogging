@@ -292,8 +292,9 @@ const Logbook = () => {
             depTime: nullChecked.depTime,
             arrTime: nullChecked.arrTime,
             landings: nullChecked.landings,
-            approach: nullChecked.approach,
-            holds: nullChecked.hold,
+            iap: nullChecked.iap,
+            cxt: nullChecked.cxt,
+            holds: nullChecked.holds,
             dayLdg: nullChecked.dayLdg,
             nightLdg: nullChecked.nightLdg,
             total: nullChecked.total,
@@ -303,7 +304,7 @@ const Logbook = () => {
             pic: nullChecked.pic,
             sic: nullChecked.sic,
             cfi: nullChecked.cfi,
-            dual: nullChecked.dual,
+            dualI: nullChecked.dualI,
             solo: nullChecked.solo,
             UserId: user.userId
         })
@@ -332,8 +333,9 @@ const Logbook = () => {
             depTime: nullChecked.depTime,
             arrTime: nullChecked.arrTime,
             landings: nullChecked.landings,
-            approach: nullChecked.approach,
-            holds: nullChecked.hold,
+            iap: nullChecked.iap,
+            cxt: nullChecked.cxt,
+            holds: nullChecked.holds,
             dayLdg: nullChecked.dayLdg,
             nightLdg: nullChecked.nightLdg,
             total: nullChecked.total,
@@ -343,12 +345,43 @@ const Logbook = () => {
             pic: nullChecked.pic,
             sic: nullChecked.sic,
             cfi: nullChecked.cfi,
-            dual: nullChecked.dual,
+            dualI: nullChecked.dualI,
             solo: nullChecked.solo,
             UserId: user.userId
 
         })
-            .then(res => console.log(res))
+            .then(res => {
+                setlogbookForm(prev=>({
+                    ...prev,
+                    date: '',
+                    total: '',
+                    crossCountry: '',
+                    night: '',
+                    arrTime: '',
+                    depTime: '',
+                    cfi: '',
+                    comments: '',
+                    dayLdg: '',
+                    depAir: '',
+                    dualI: '',
+                    enrRout: '',
+                    flightNum: '',
+                    holds: '',
+                    hood: '',
+                    iap: '',
+                    imc: '',
+                    instructor: '',
+                    landings: '',
+                    nightLdg: '',
+                    pic: '',
+                    sic: '',
+                    solo: '',
+                    student: '',
+                    tailNumber: '',
+                    cxt: '',
+                    aircraftType: ''
+                }))
+            })
             .catch(err => console.error(err))
 
         getFlights();
