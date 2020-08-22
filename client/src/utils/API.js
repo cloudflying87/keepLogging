@@ -70,8 +70,8 @@ export default {
         return axios.post('/api/flight_time', (flightData));
     },
     // update a flight_time
-    updateFlight: function (id) {
-        return axios.put('/api/flight_time/update/' + id);
+    updateFlight: function (id, flightData) {
+        return axios.put('/api/flight_time/update/' + id, flightData);
     },
     // delete a flight_time
     deleteFlight: function (id) {

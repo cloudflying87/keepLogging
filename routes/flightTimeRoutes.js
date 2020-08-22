@@ -65,13 +65,13 @@ module.exports = function (app) {
   });
 
   // Route for updating a flight_time
-  app.put("/api/flight_time/update/:UserId/:id", function (req, res) {
+  app.put("/api/flight_time/update/:id", function (req, res) {
     if (!req.user) {
       // res.redirect(307, "/api/login");
     } else {
       db.FlightTime.update(req.body, {
         where: {
-          UserId: req.params.UserId,
+          UserId: req.user.id,
           id: req.params.id
         }
       })

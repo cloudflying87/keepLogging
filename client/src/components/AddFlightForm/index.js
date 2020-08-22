@@ -4,7 +4,7 @@ import Button from '../Button/index';
 import './style.css'
 import Select from 'react-select'
 
-const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, setAircraft }) => {
+const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, setAircraft, text }) => {
     console.log('add flight from value: ', value)
     const customStyles ={
         option: (provided, state) =>({
@@ -345,7 +345,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, s
                 </div>
                 <div className='btnWrapper'>
                     <Button
-                        text='Add Flight'
+                        text={text}
                         btnId='createFlightBtn'
                         className='formBtn'
                         handleClick={handleAddFlight}
