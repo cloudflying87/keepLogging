@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Nav from '../components/Nav/index';
 import API from '../utils/API';
+import AircraftDisplay from '../components/AircraftDisplay/'
 
 
 const Aircraft = () => {
-const[state, setState] = useState({
-    results:[]
-});
+    const [state, setState] = useState({
+        results: []
+    });
 
     useEffect(() => {
         API.getAircraftTypes()
@@ -21,9 +22,11 @@ const[state, setState] = useState({
 
                 }
                 setState(state => ({
-                    ...state,results: 
-                    filteredResults.sort()}))
+                    ...state,
+                    results: filteredResults.sort()
+                }))
             })
+
     })
     return (
         <>
@@ -31,15 +34,8 @@ const[state, setState] = useState({
             <div>
                 <h1>My Aircraft</h1>
             </div>
-            <div className='tableBody'>
-                {
-                    !!state.results.length &&
-                    state.results.map((x, i) => <div key={i + '-row'} id={x.id} className='tableCol'>
-                        <div className='aircraft' id={x}>{x}</div>
-                        
-                    </div>)
-                }
-            </div>
+            <AircraftDisplay aircraft={state.results} />
+
         </>
     );
 
