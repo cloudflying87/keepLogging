@@ -7,17 +7,19 @@ body{
     background-color: rgba(182, 182, 182, 0.658);
 }
 .aircraft {
-    justify-content: center;
+    margin-top: 20px;
+    font-size: 1.3em;
 }
 h1 {
     text-align: center;
+    margin-top: 5px;
 }
-.tableCol {
-    display: flex;
-    flex-flow: row nowrap;
+.tableRow {
+    display:flex;
+    justify-content: center;
     height: 65px;
 }
 
-.tableCol:nth-child(even) {
+.tableRow:nth-child(even) {
     background-color: lightgrey;
 }
