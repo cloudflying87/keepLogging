@@ -51,6 +51,7 @@ const Logbook = () => {
         student: '',
         tailNumber: '',
         cxt: '',
+        aircraftType: ''
 
     })
     const [modal, setModal] = useState({
@@ -280,22 +281,22 @@ const Logbook = () => {
             })
 
         console.log(logbookForm)
+        console.log(user.userId)
 
         e.preventDefault()
         API.createFlight({
             date: nullChecked.date,
             route: nullChecked.route,
-            comments: nullChecked.comments,
+            comments: logbookForm.comments,
             flightNum: nullChecked.flightNumber,
-            depTime: nullChecked.departureTime,
-            arrTime: nullChecked.arrivalTime,
+            depTime: nullChecked.depTime,
+            arrTime: nullChecked.arrTime,
             landings: nullChecked.landings,
             approach: nullChecked.approach,
-            hold: nullChecked.hold,
-            dayLandings: nullChecked.dayLandings,
-            nightLandings: nullChecked.nightLandings,
+            holds: nullChecked.hold,
+            dayLdg: nullChecked.dayLdg,
+            nightLdg: nullChecked.nightLdg,
             total: nullChecked.total,
-            crossCountry: nullChecked.crossCountry,
             night: nullChecked.night,
             imc: nullChecked.imc,
             hood: nullChecked.hood,
@@ -310,12 +311,47 @@ const Logbook = () => {
                 console.log("logFlight data: ", data)
                 getFlights();
             })
-            .catch(console.error)
+            .catch(err=> console.log(err))
 
     }
 
-    const editFlight = () => {
+    const editFlight = (e, id) => {
+        e.preventDefault();
         console.log('edit flight working')
+        // console.log('edit id', modal.values.id)
+        const nullChecked = {}
+        Object.keys(logbookForm)
+            .forEach(key => {
+                nullChecked[key] = !!logbookForm[key] ? logbookForm[key] : null
+            })
+        API.updateFlight(modal.values.id, {
+            date: nullChecked.date,
+            route: nullChecked.route,
+            comments: logbookForm.comments,
+            flightNum: nullChecked.flightNumber,
+            depTime: nullChecked.depTime,
+            arrTime: nullChecked.arrTime,
+            landings: nullChecked.landings,
+            approach: nullChecked.approach,
+            holds: nullChecked.hold,
+            dayLdg: nullChecked.dayLdg,
+            nightLdg: nullChecked.nightLdg,
+            total: nullChecked.total,
+            night: nullChecked.night,
+            imc: nullChecked.imc,
+            hood: nullChecked.hood,
+            pic: nullChecked.pic,
+            sic: nullChecked.sic,
+            cfi: nullChecked.cfi,
+            dual: nullChecked.dual,
+            solo: nullChecked.solo,
+            UserId: user.userId
+
+        })
+            .then(res => console.log(res))
+            .catch(err => console.error(err))
+
+        getFlights();
     }
 
     const getTotals = () => {
