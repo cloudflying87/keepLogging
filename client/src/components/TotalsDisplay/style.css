@@ -5,5 +5,10 @@
 }
 .totalsList > ul > li:last-child {
     margin-bottom: 0;
+    padding-bottom: 8px;
 }
 
+h2 {
+    margin-top: 0;
+    padding-top: 8px;
+}
