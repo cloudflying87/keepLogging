@@ -25,7 +25,9 @@
   textarea:hover {
     cursor: pointer;
   }
-  
+  .threeboxes{
+    justify-content: center;
+  }
   .addFlightInput {
     margin: 2px 1px 0;
   }
@@ -67,6 +69,11 @@
     }
     #dateInput {
       margin-right: 0;
+    }
+    .css-yk16xz-control {
+      display:block;
+      
+      background-color: purple;
     }
     #commentsInput {
       width: 300px;

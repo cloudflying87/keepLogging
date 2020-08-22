@@ -22,7 +22,8 @@ const Signup = props => {
             email: state.email, 
             password: state.password
         })
-        .then(res => props.history.push('/logbook'))
+        .then(res => {
+            props.history.push('/logbook')})
         .catch(err => {
             setState(state=>({
                 ...state,
@@ -38,7 +39,7 @@ const Signup = props => {
             email: state.email, 
             password: state.password
         })
-        .then(res =>{
+        .then(({data}) =>{
             props.history.push('/logbook');
         })
         .catch(err => {

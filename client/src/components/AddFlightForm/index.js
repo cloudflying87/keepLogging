@@ -2,22 +2,33 @@ import React from 'react';
 import Input from '../Input/index';
 import Button from '../Button/index';
 import './style.css'
-import moment from 'moment'
+import Select from 'react-select'
 
-
-const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value }) => {
-    console.log('addForm value:',value)
-    const dateSet = () => {
-        const dateWorking = new Date()
-        let dateCur = (dateWorking.getFullYear()+'-'+(dateWorking.getMonth()+1) +'-'+dateWorking.getDate())
-        return dateCur
+const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, setAircraft, text }) => {
+    console.log('add flight from value: ', value)
+    const customStyles ={
+        option: (provided, state) =>({
+            ...provided,
+            color: state.isSelected && 'blue',
+        }),
+        control: (provided,state) => ({
+            ...provided,
+            width:'auto',
+            height:'15px',
+            color:'purple'
+        }),
+        singleValue: (provided, state) => {
+            const opacity = state.isDisabled ? 0.5 : 1;
+            const transition = 'opacity 1300ms';
         
+            return { ...provided, opacity, transition };
+          }
     }
     return (
         <div>
             <form>
                 <h4 className='header'>General Flight Info</h4>
-                <div className='inputDiv'>
+                <div className='inputDiv threeboxes'>
                     <Input
                         labelFor='date'
                         label='Date'
@@ -28,17 +39,36 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                         placeholder='date'
                         handleInputChange={handleFormInput}
                         // value={logbookForm.date}
-                        // value={moment()}
+                        value={value.date}
                     />
-                    <Input
+                    {/* <Input
                         labelFor='aircraftType'
                         label='Aircraft Type'
                         name='aircraftType'
-                        type='text'
+                        type='list'
                         inputId='aircraftTypeInput'
                         inputClass='addFlightInput'
                         placeholder='Aircraft Type'
                         handleInputChange={handleFormInput}
+                        value={value.aircraftType}
+                    /> */}
+                    {/* <DropdownList
+                        data={value.aircraftType}
+                        valueField='id'
+                        textField='name'
+                        defaultValue={1}
+                    /> */}
+                    <Select 
+                        options={value.aircraftList}
+                        labelFor='aircraftType'
+                        label='Aircraft Type'
+                        name='aircraftType'
+                        inputId='aircraftTypeInput'
+                        inputClass='addFlightInput'
+                        placeholder='Aircraft Type'
+                        width='200px'
+                        styles={customStyles}
+                        onChange={setAircraft}
                     />
                     <Input
                         labelFor='route'
@@ -49,6 +79,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                         inputClass='addFlightInput'
                         placeholder='Route'
                         handleInputChange={handleFormInput}
+                        value={value.depAir, value.enrRout, value.arrAir}
                     />
                 </div>
                 <div className='commentsDiv'>
@@ -62,41 +93,45 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                         onChange={handleFormInput}
                         rows={4}
                         cols={40}
+                        value={value.comments}
                     />
                 </div>
                 <div className='inputDiv gfi3'>
                     <Input
-                        labelFor='flightNumber'
+                        labelFor='flightNum'
                         label='Flight Number'
-                        name='flightNumber'
+                        name='flightNum'
                         type='text'
                         inputId='flightNumberInput'
                         inputClass='addFlightInput'
                         placeholder='Flight Num'
                         handleInputChange={handleFormInput}
                         size={6}
+                        value={value.flightNum}
                     />
                     <Input
-                        labelFor='departureTime'
+                        labelFor='depTime'
                         label='Dep Time'
-                        name='departureTime'
+                        name='depTime'
                         type='text'
                         inputId='departureTimeInput'
                         inputClass='addFlightInput'
                         placeholder='Dep Time'
                         handleInputChange={handleFormInput}
                         size={6}
+                        value={value.depTime}
                     />
                     <Input
-                        labelFor='arrivalTime'
+                        labelFor='arrTime'
                         label='Arr Time'
-                        name='arrivalTime'
+                        name='arrTime'
                         type='text'
                         inputId='arrivalTimeInput'
                         inputClass='addFlightInput'
                         placeholder='Arr Time'
                         handleInputChange={handleFormInput}
                         size={6}
+                        value={value.arrTime}
 
                     />
                     <Button
@@ -109,26 +144,29 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                 <h4 className='header'>Approaches and Landings</h4>
                 <div className='appLandDiv'>
                     <Input
-                        labelFor='approach'
+                        labelFor='iap'
                         label='Approach'
-                        name='approach'
+                        name='iap'
                         type='text'
                         inputId='approachInput'
                         inputClass='addFlightInput'
                         placeholder='Approach'
                         handleInputChange={handleFormInput}
                         size={4}
+                        value={value.iap}
                     />
                     <Input
-                        labelFor='hold'
+                        labelFor='holds'
                         label='hold'
-                        name='hold'
+                        name='holds'
                         type='text'
                         inputId='holdInput'
                         inputClass='addFlightInput'
                         placeholder='Hold'
                         handleInputChange={handleFormInput}
                         size={4}
+                        value={value.holds}
+
                     />
                     <Input
                         labelFor='landings'
@@ -140,28 +178,34 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                         placeholder='Landings'
                         handleInputChange={handleFormInput}
                         size={4}
+                        value={value.landings}
+
                     />
                     <Input
-                        labelFor='dayLandings'
+                        labelFor='dayLdg'
                         label='dayLandings'
-                        name='dayLandings'
+                        name='dayLdg'
                         type='text'
                         inputId='dayLandingsInput'
                         inputClass='addFlightInput'
                         placeholder='Day Landings'
                         handleInputChange={handleFormInput}
                         size={4}
+                        value={value.dayLdg}
+
                     />
                     <Input
-                        labelFor='nightLandings'
+                        labelFor='nightLdg'
                         label='nightLandings'
-                        name='nightLandings'
+                        name='nightLdg'
                         type='text'
                         inputId='nightLandingsInput'
                         inputClass='addFlightInput'
-                        placeholder='night Landings'
+                        placeholder='Night Landings'
                         handleInputChange={handleFormInput}
                         size={4}
+                        value={value.nightLdg}
+
                     />
                 </div>
                 <h4 className='header'>Times</h4>
@@ -180,15 +224,16 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                             value={value.total}
                         />
                         <Input
-                            labelFor='crossCountry'
+                            labelFor='cxt'
                             label='crossCountry'
-                            name='crossCountry'
+                            name='cxt'
                             type='text'
                             inputId='crossCountryInput'
                             inputClass='addFlightInput'
                             placeholder='Cross Country'
                             handleInputChange={handleFormInput}
                             size={4}
+                            value={value.cxt}
                         />
                         <Input
                             labelFor='night'
@@ -200,6 +245,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                             placeholder='Night'
                             handleInputChange={handleFormInput}
                             size={4}
+                            value={value.night}
                         />
                         <Input
                             labelFor='imc'
@@ -211,6 +257,8 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                             placeholder='IMC'
                             handleInputChange={handleFormInput}
                             size={4}
+                            value={value.imc}
+
                         />
                         <Input
                             labelFor='hood'
@@ -222,6 +270,8 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                             placeholder='Hood'
                             handleInputChange={handleFormInput}
                             size={4}
+                            value={value.hood}
+
                         />
                     </div>
                     <div className='timesDivRow2'>
@@ -235,6 +285,8 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                             placeholder='PIC'
                             handleInputChange={handleFormInput}
                             size={4}
+                            value={value.pic}
+
                         />
                         <Input
                             labelFor='sic'
@@ -246,6 +298,8 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                             placeholder='SIC'
                             handleInputChange={handleFormInput}
                             size={4}
+                            value={value.sic}
+
                         />
                         <Input
                             labelFor='cfi'
@@ -257,17 +311,21 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                             placeholder='CFI'
                             handleInputChange={handleFormInput}
                             size={4}
+                            value={value.cfi}
+
                         />
                         <Input
-                            labelFor='dual'
+                            labelFor='dualI'
                             label='dual'
-                            name='dual'
+                            name='dualI'
                             type='text'
                             inputId='dualInput'
                             inputClass='addFlightInput'
                             placeholder='Dual'
                             handleInputChange={handleFormInput}
                             size={4}
+                            value={value.dualI}
+
                         />
                         <Input
                             labelFor='solo'
@@ -279,13 +337,15 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                             placeholder='Solo'
                             handleInputChange={handleFormInput}
                             size={4}
+                            value={value.solo}
+
                         />
                     </div>
 
                 </div>
                 <div className='btnWrapper'>
                     <Button
-                        text='Add Flight'
+                        text={text}
                         btnId='createFlightBtn'
                         className='formBtn'
                         handleClick={handleAddFlight}

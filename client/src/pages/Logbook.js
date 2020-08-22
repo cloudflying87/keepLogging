@@ -6,126 +6,174 @@ import Table from '../components/Table/index';
 import Modal from '../components/Modal/index';
 import TotalsDisplay from '../components/TotalsDisplay/index';
 import API from '../utils/API';
+import UserContext from '../utils/UserContext';
 import moment from 'moment'
 
 import './logbook.css'
 
-
+let airportLoc = [];
+let distNum = [];
+let crossCountryTrue = false;
 const Logbook = () => {
 
     const [state, setState] = useState({
         open: false,
         btnClicked: '',
         fullResults: [],
-        totals: []
+        mapped: [],
+        totals: [],
+        // userId: ''
     })
-    const [logbookForm, setlogbookForm] = useState({})
-    const [timeDistance, settimeDistance] = useState({
-        airports: '',
+    const [logbookForm, setlogbookForm] = useState({
+        date: moment().format('YYYY-MM-D'),
+        total: '',
+        crossCountry: '',
+        night: '',
+        arrTime: '',
         depTime: '',
-        arrivalTime: '',
-        date: '',
-        airportArray: [],
-        airportLoc: [],
-        distNum: [],
-        sunTimesArr: [],
-        crossCountry: false,
-        departTimeDateAdd: false,
-        arrTimeDateAdd: false,
-        departTimeDate: '',
-        arrTimeDate: '',
-        timeCalc: '',
+        cfi: '',
+        comments: '',
+        dayLdg: '',
+        depAir: '',
+        dualI: '',
+        enrRout: '',
+        flightNum: '',
+        holds: '',
+        hood: '',
+        iap: '',
+        imc: '',
+        instructor: '',
+        landings: '',
+        nightLdg: '',
+        pic: '',
+        sic: '',
+        solo: '',
+        student: '',
+        total: '',
+        cxt: '',
+        aircraftType: ''
+
     })
     const [modal, setModal] = useState({
         open: false,
         values: []
     });
+    const [user, setUser] = useState({
+        userId: ''
+    })
 
     useEffect(() => {
+        getFlights();
+        API.userData()
+            .then(res => {
+                setUser(({
+                    userId: res.data.id
+                }))
+            })
+            .catch(err => {
+                console.error(err)
+            })
+            API.getAircraftTypes()
+            .then(({ data }) => {
+                let rawResults = []
+                let filteredResults = []
+                let uniqueId = []
+                for (let i = 0; i < data.length; i++) {
+                    if (!uniqueId.includes(data[i].AircraftId)) {
+                        if (data[i]['Aircraft.tailNumber'] != null) {
+                            rawResults.push(data[i])
+                            uniqueId.push(data[i].AircraftId)
+                        }
+                    }
+                }
+                // console.log()
+                filteredResults = rawResults.map((a) => ({
+                    value: a.AircraftId, 
+                    label: a['Aircraft.tailNumber']+' '+a['Aircraft.AircraftModel.description'],
+                    
+                }))
+                let filteredResultsSorted = filteredResults.sort((a,b) => (a.label > b.label) ? 1 : ((b.label > a.label)? -1 : 0))
+                
+                setlogbookForm(logbookForm => ({
+                    ...logbookForm,
+                    aircraftList: filteredResultsSorted
+                }))
+            })
+    }, [])
+
+    const getFlights = () => {
         API.getFlights()
             .then((res) => {
-                setState(state=> ({
+                const mapped = res.data.map(x => ({
+                    Date: x.date,
+                    Aircraft: x['Aircraft.tailNumber'],
+                    Route: x.route,
+                    Comments: x.comments,
+                    Total: x.total,
+                    id: x.id
+                }))
+                setState(state => ({
                     ...state,
-                    fullResults: res.data
+                    fullResults: res.data,
+                    mapped
                 }))
             })
             .catch(err => {
                 console.log(err)
                 window.location.href = '/'
-            })
-
-    }, [modal.values])
-
+            });
+    }
+    const setAircraft = (value) => {
+        setlogbookForm(logbookForm => ({
+            ...logbookForm,
+            AircraftId:value.value
+        }))
+        
+    }
     const handleFormInput = ({ target: { value, name } }) => {
         setlogbookForm(logbookForm => ({
             ...logbookForm,
             // date: new Date(),
             [name]: value
-
         }))
-        updatingFormState()
     };
-    const updatingFormState = () => {
-        settimeDistance(timeDistance => ({
-            ...timeDistance,
-            date: logbookForm.date,
-            airports: logbookForm.route,
-            depTime: logbookForm.departureTime,
-            arrivalTime: logbookForm.arrivalTime
-
-        }))
-    }
-    
 
     const workingTimeDistance = async (e) => {
-        updatingFormState()
         e.preventDefault();
+        if (logbookForm.route === undefined ||
+            logbookForm.depTime === undefined ||
+            logbookForm.arrTime === undefined ){
+                return alert('Need to fill in Route, Departure Time and Arrival Time')
+            }
         await workingTimes();
         await findDistance();
         await calcTime();
     }
 
     const workingTimes = async () => {
-        
-        settimeDistance(timeDistance => ({
-            ...timeDistance,
-            airportArray: timeDistance.airports.split(' ')
-        }))
-        const eachAirport = timeDistance.airportArray
-        
+        const eachAirport = logbookForm.route.split(' ')
         for (let i = 0; i < eachAirport.length; i++) {
             await getLatLong(eachAirport[i])
         }
-        
     }
-
     async function getLatLong(icao) {
         await API.getAirports(icao)
             .then(async ({ data }) => {
                 const objectArray = Object.values(data[0])
-                settimeDistance({
-                    ...timeDistance,
-                    airportLoc: [timeDistance.airportLoc.push(parseFloat(objectArray[8],10), parseFloat(objectArray[9],10))]
-                })
+                airportLoc.push(parseFloat(objectArray[8], 10), parseFloat(objectArray[9], 10))
             })
             .catch(console.error)
     }
-    let crossCountry = ''
+
     const findDistance = async () => {
         let y = -1;
-        let airportLoc = timeDistance.airportLoc
-        
-        let distNum = timeDistance.distNum
+
         for (let i = 0; i < airportLoc.length / 2; i += 2) {
             y++
             distance(airportLoc[i], airportLoc[i + 1], airportLoc[i + 2], airportLoc[i + 3])
             if (distNum[y] > 50) {
-                crossCountry = true 
-                settimeDistance(timeDistance => ({
-                    ...timeDistance,
-                    crossCountry: true
-                }))
-                  console.log(distNum[y],crossCountry) 
+                crossCountryTrue = true
+
             }
         }
     }
@@ -139,11 +187,8 @@ const Logbook = () => {
         var a = Math.pow(Math.cos(lat2) * Math.sin(lonDelta), 2) + Math.pow(Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lonDelta), 2);
         var b = Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lonDelta);
         var angle = Math.atan2(Math.sqrt(a), b);
-        settimeDistance({
-            ...timeDistance,
-            distNum: [...timeDistance.distNum, timeDistance.distNum.push(angle * r)]
-        })
-        setlogbookForm()
+
+        distNum.push(angle * r)
 
     }
 
@@ -151,45 +196,37 @@ const Logbook = () => {
     const calcTime = async () => {
         var departTimeDateAdd = false
         var arrTimeDateAdd = false
-        let timeCalc = 0
-        let crossCountry = false
         let departTimeDate = '';
         let arrTimeDate = '';
-
-        const tdDate = moment.utc((timeDistance.date))
+        let timeCalc = 0;
+        const tdDate = moment.utc((logbookForm.date))
         const userDate = tdDate._i
-    
-        const departTime = timeDistance.depTime
-        const arrTime = timeDistance.arrivalTime
+
+        const departTime = logbookForm.depTime
+        const arrTime = logbookForm.arrTime
         // Here we are checking if the user just input a time. If that is true then we take the date from the date box and put it in from of the time. We are using the newDate to format it as a date correctly to work with. 
-        
-        if (new Date(departTime)=='Invalid Date'){
-            departTimeDate = moment.utc((userDate+' '+departTime))
+
+        if (new Date(departTime) == 'Invalid Date') {
+            departTimeDate = moment.utc((userDate + ' ' + departTime))
             departTimeDateAdd = true
-        }else {
+        } else {
             departTimeDate = moment.utc(departTime)
         }
-        
-        if (new Date(arrTime)=='Invalid Date'){
-            arrTimeDate = moment.utc(userDate+' '+arrTime+":00Z")
+
+        if (new Date(arrTime) == 'Invalid Date') {
+            arrTimeDate = moment.utc(userDate + ' ' + arrTime + ":00Z")
             arrTimeDateAdd = true
-        }else {
+        } else {
             arrTimeDate = moment.utc(arrTime)
         }
-       
-    // Subtracting the times in milliseconds. 
+
+        // Subtracting the times in milliseconds. 
         let momentMillie = moment.duration(arrTimeDate.diff(departTimeDate))
         timeCalc = convertToHoursMM(momentMillie._milliseconds)
-        console.log(timeCalc,timeDistance.crossCountry)
-        
+
+
         // Auto filling times. Will add more as we have user preferences. 
-        setlogbookForm(logbookForm => ({
-            ...logbookForm,
-            total: timeCalc,
-        }))
-        if (crossCountry === true){
-            document.getElementById('cxt').value = timeCalc
-        }
+
         /*
         // Filling the departure box back in so the user can see what date was used from their calculations
         if (departTimeDateAdd){
@@ -200,58 +237,65 @@ const Logbook = () => {
             (document.getElementById('arrTime').value) = (arrTimeDate.getUTCMonth()+1)+'/'+arrTimeDate.getUTCDate()+'/'+arrTimeDate.getUTCFullYear()+' '+arrTime
         }
         */
-        nighttimeGather(departTimeDate,arrTimeDate,timeCalc)
-        
+        nighttimeGather(departTimeDate, arrTimeDate, timeCalc)
+
     }
+
     let sunTimesArr = []
-    async function nighttimeGather (depart, arrive,timeCalc){
+    async function nighttimeGather(depart, arrive, timeCalc) {
         let nightTime
-        
+
         // Getting the departure airport suntimes dawn, sunrise, sunset, dusk pushing them into an array.
         // always going to take the first airport and the last airport. Getting the last airport by finding the length of the array and taking the last two items. 
         // all calculations are done on sunrise and sunset times. Carrying dawn times but not using them for anything right now. 
-        const numofAirport = timeDistance.airportLoc.length
-        let airportLoc = timeDistance.airportLoc
+        const numofAirport = airportLoc.length
+        console.log()
+        await sunTimes(depart, airportLoc[0], airportLoc[1])
+        await sunTimes(arrive, airportLoc[numofAirport - 2], airportLoc[numofAirport - 1])
 
-        await sunTimes(depart,airportLoc[0],airportLoc[1])
-        await sunTimes(arrive,airportLoc[numofAirport-2],airportLoc[numofAirport-1])
-        
         let depRise = sunTimesArr[1]
         let depSet = sunTimesArr[2]
         let arrRise = sunTimesArr[5]
         let arrSet = sunTimesArr[6]
-        
-        console.log(sunTimesArr)
+        console.log("dep ", depRise, " depart ", depart)
 
-        if ((depart.isBefore(depRise)&&arrive.isBefore(arrRise))|| (depart.isAfter(depSet)&&arrive.isAfter(arrSet))){
+        if ((depart.isBefore(depRise) && arrive.isBefore(arrRise)) || (depart.isAfter(depSet) && arrive.isAfter(arrSet))) {
             // this is for an all night flight before sunrise or after sunset
             nightTime = timeCalc
-        }else if (depart.isBefore(depRise)&&arrive.isAfter(arrRise)){ 
+        } else if (depart.isBefore(depRise) && arrive.isAfter(arrRise)) {
             // this is for an early morning departure before the sunrises
-            console.log("not allnig")
+
             nightTime = convertToHoursMM(moment.duration(depRise.diff(depart)))
-        }else if (depart.isBefore(depSet)&&arrive.isAfter(arrSet)){
+        } else if (depart.isBefore(depSet) && arrive.isAfter(arrSet)) {
             // evening flight departure before sunset and landing after sunset
             // moment.duration(arrTimeDate.diff(departTimeDate))
-            nightTime = convertToHoursMM(arrive-arrSet)
+            nightTime = convertToHoursMM(arrive - arrSet)
         } else {
             nightTime = 0
         }
-    
-        // document.getElementById('night').value = nightTime
-        console.log('night ', nightTime)
+        if (nightTime > timeCalc) {
+            nightTime = timeCalc
+        }
+        console.log(nightTime)
+        setlogbookForm(logbookForm => ({
+            ...logbookForm,
+            total: timeCalc,
+            cxt: crossCountryTrue ? timeCalc : 0,
+            night: nightTime
+        }))
+
     }
-    async function sunTimes(date,lat,long){
-        API.sunriseSunset(date,lat,long)
-        .then( ({data}) => {
-            let dawnCalc = moment.utc(data.dawn)
-            let sunriseCalc = moment.utc(data.sunrise)
-            let sunsetCalc = moment.utc(data.sunset)
-            let duskCalc = moment.utc(data.dusk)
-    
-            sunTimesArr.push(dawnCalc,sunriseCalc,sunsetCalc,duskCalc)
-        })
-            
+    async function sunTimes(date, lat, long) {
+        await API.sunriseSunset(date, lat, long)
+            .then(({ data }) => {
+                let dawnCalc = moment.utc(data.dawn)
+                let sunriseCalc = moment.utc(data.sunrise)
+                let sunsetCalc = moment.utc(data.sunset)
+                let duskCalc = moment.utc(data.dusk)
+
+                sunTimesArr.push(dawnCalc, sunriseCalc, sunsetCalc, duskCalc)
+            })
+
     }
 
     function convertToHoursMM(diff) {
@@ -268,36 +312,118 @@ const Logbook = () => {
     }
 
     const logFlight = (e) => {
+        const nullChecked = {}
+        Object.keys(logbookForm)
+            .forEach(key => {
+                nullChecked[key] = !!logbookForm[key] ? logbookForm[key] : null
+            })
+
+        console.log(logbookForm)
+        console.log(user.userId)
+
         e.preventDefault()
         API.createFlight({
-            date: logbookForm.date,
-            route: logbookForm.route,
+            date: nullChecked.date,
+            route: nullChecked.route,
             comments: logbookForm.comments,
-            flightNum: logbookForm.flightNumber,
-            depTime: logbookForm.departureTime,
-            arrTime: logbookForm.arrivalTime,
-            landings: logbookForm.landings,
-            approach: logbookForm.approach,
-            hold: logbookForm.hold,
-            dayLandings: logbookForm.dayLandings,
-            nightLandings: logbookForm.nightLandings,
-            total: logbookForm.total,
-            crossCountry: logbookForm.crossCountry,
-            night: logbookForm.night,
-            imc: logbookForm.imc,
-            hood: logbookForm.hood,
-            pic: logbookForm.pic,
-            sic: logbookForm.sic,
-            cfi: logbookForm.cfi,
-            dual: logbookForm.dual,
-            solo: logbookForm.solo,
-            UserId: state.fullResults[0].UserId
+            flightNum: nullChecked.flightNum,
+            depTime: nullChecked.depTime,
+            arrTime: nullChecked.arrTime,
+            landings: nullChecked.landings,
+            iap: nullChecked.iap,
+            cxt: nullChecked.cxt,
+            holds: nullChecked.holds,
+            dayLdg: nullChecked.dayLdg,
+            nightLdg: nullChecked.nightLdg,
+            total: nullChecked.total,
+            night: nullChecked.night,
+            imc: nullChecked.imc,
+            hood: nullChecked.hood,
+            pic: nullChecked.pic,
+            sic: nullChecked.sic,
+            cfi: nullChecked.cfi,
+            dualI: nullChecked.dualI,
+            solo: nullChecked.solo,
+            UserId: user.userId,
+            AircraftId: nullChecked.AircraftId
         })
             .then((data) => {
-                console.log('Success')
                 console.log("logFlight data: ", data)
+                getFlights();
             })
-            .catch(console.error)
+            .catch(err=> console.log(err))
+
+    }
+
+    const editFlight = (e, id) => {
+        e.preventDefault();
+        console.log('edit flight working')
+        // console.log('edit id', modal.values.id)
+        const nullChecked = {}
+        Object.keys(logbookForm)
+            .forEach(key => {
+                nullChecked[key] = !!logbookForm[key] ? logbookForm[key] : null
+            })
+        API.updateFlight(modal.values.id, {
+            date: nullChecked.date,
+            route: nullChecked.route,
+            comments: logbookForm.comments,
+            flightNum: nullChecked.flightNum,
+            depTime: nullChecked.depTime,
+            arrTime: nullChecked.arrTime,
+            landings: nullChecked.landings,
+            iap: nullChecked.iap,
+            cxt: nullChecked.cxt,
+            holds: nullChecked.holds,
+            dayLdg: nullChecked.dayLdg,
+            nightLdg: nullChecked.nightLdg,
+            total: nullChecked.total,
+            night: nullChecked.night,
+            imc: nullChecked.imc,
+            hood: nullChecked.hood,
+            pic: nullChecked.pic,
+            sic: nullChecked.sic,
+            cfi: nullChecked.cfi,
+            dualI: nullChecked.dualI,
+            solo: nullChecked.solo,
+            UserId: user.userId
+
+        })
+            .then(res => {
+                setlogbookForm(prev=>({
+                    ...prev,
+                    date: '',
+                    total: '',
+                    crossCountry: '',
+                    night: '',
+                    arrTime: '',
+                    depTime: '',
+                    cfi: '',
+                    comments: '',
+                    dayLdg: '',
+                    depAir: '',
+                    dualI: '',
+                    enrRout: '',
+                    flightNum: '',
+                    holds: '',
+                    hood: '',
+                    iap: '',
+                    imc: '',
+                    instructor: '',
+                    landings: '',
+                    nightLdg: '',
+                    pic: '',
+                    sic: '',
+                    solo: '',
+                    student: '',
+                    tailNumber: '',
+                    cxt: '',
+                    aircraftType: ''
+                }))
+            })
+            .catch(err => console.error(err))
+
+        getFlights();
     }
 
     const getTotals = () => {
@@ -318,35 +444,43 @@ const Logbook = () => {
             case 'addFlightBtn':
                 return (
                     <>
-                    
                         <AddFlightForm
                             handleFormInput={handleFormInput}
                             handleClick={workingTimeDistance}
                             handleAddFlight={logFlight}
                             value={logbookForm}
-
+                            text='Add Flight'
+                            setAircraft={setAircraft}
                         />
                     </>
                 )
-                break;
             case 'totalsBtn':
-                // console.log('totals', state.totals)
-                // getTotals()
                 return (
                     <TotalsDisplay
                         totals={state.totals}
                     />
                 )
-                break;
+            case 'editBtn':
+                return (
+                    <>
+                        <AddFlightForm
+                            handleFormInput={handleFormInput}
+                            handleClick={workingTimeDistance}
+                            handleAddFlight={editFlight}
+                            value={logbookForm}
+                            text='Update Flight'
+                        />
+                    </>
+                )
             default:
                 return null;
-                break;
         };
     };
 
     const openModal = e => {
-        const { target } = e;
         e.preventDefault();
+        const { target } = e;
+
         setModal(prevModal => ({
             ...prevModal,
             open: !modal.open,
@@ -356,75 +490,96 @@ const Logbook = () => {
         console.log(state)
     };
 
+    const openEdit = id => {
+        console.log('open edit id', id)
+
+        const selected = state.fullResults
+            .find(x => parseInt(x.id) === id)
+        const newLog = {}
+
+        if (!selected) return;
+        Object.keys(logbookForm).forEach(key => { newLog[key] = selected[key] })
+        setlogbookForm(newLog)
+        setModal(prevModal => ({
+            ...prevModal,
+            open: !modal.open
+        }))
+        setState({
+            ...state,
+            open: true,
+            btnClicked: 'editBtn'
+        })
+        window.scrollTo(0, 0)
+    }
+
+    const deleteBtn = id => {
+        // hit the delete flight route
+        API.deleteFlight(id)
+            .then(getFlights())
+            .catch(err => console.log(err))
+        // closes modal after flight is deleted
+        setModal(prevModal => ({
+            ...prevModal,
+            open: !modal.open
+        }))
+    }
+
+    const openAccordion = e => {
+        const { target } = e
+        setState(state => ({
+            ...state,
+            open: !state.open,
+            btnClicked: target.id
+        }))
+    }
+
+
     return (
-        <div>
-            {/* {console.log(timeDistance)} */}
-            {
-                (modal.open && !!modal.values) &&
+        <UserContext.Provider value={user}>
+            <div>
+                {
+                    (modal.open && !!modal.values) &&
 
-                <Modal
-                    key={modal.values.id}
-                    results={modal.values}
-                    handleClick={e => {
-                        e.preventDefault();
-                        setModal(state => ({
-                            ...state,
-                            open: !modal.open
-                        }))
-                    }}
-                />
+                    <Modal
+                        key={modal.values.id}
+                        results={modal.values}
+                        openEdit={openEdit}
+                        deleteBtn={deleteBtn}
+                        handleClick={e => {
+                            e.preventDefault();
+                            setModal(state => ({
+                                ...state,
+                                open: !modal.open
+                            }))
+                        }}
+                    />
 
-            }
-            <Nav />
-            <div className='menuDiv'>
-                {/* here will be the buttons for this page. Maybe i'll make a component for these since there will be one on each page. */}
-                <Button
-                    text='Add Flight'
-                    btnId='addFlightBtn'
-                    btnClass='menuBtn'
-                    handleClick={(e) => {
-                        const { target } = e
-                        e.preventDefault()
-                        setState(state => ({
-                            ...state,
-                            open: !state.open,
-                            btnClicked: target.id
-                        }))
-                    }}
-                />
-                <Button
-                    text='Search'
-                    btnId='searchBtn'
-                    btnClass='menuBtn'
-                    handleClick={(e) => {
-                        const { target } = e
-                        e.preventDefault()
-                        console.log("add flight")
-                        setState({
-                            open: !state.open,
-                            btnClicked: target.id
-                        })
-                        console.log(state.btnClicked)
-                    }}
-                />
-                <Button
-                    text='Totals'
-                    btnId='totalsBtn'
-                    btnClass='menuBtn'
-                    handleClick={(e) => {
-                        const { target } = e
-                        e.preventDefault()
-                        console.log("add flight")
-                        setState(state => ({
-                            ...state,
-                            open: !state.open,
-                            btnClicked: target.id
-                        }))
-                        getTotals();
-                        console.log(state.btnClicked)
-                    }}
-                />
-                <Button
+                }
+                <Nav />
+                <div className='menuDiv'>
+                    {/* here will be the buttons for this page. Maybe i'll make a component for these since there will be one on each page. */}
+                    <Button
+                        text='Add Flight'
+                        btnId='addFlightBtn'
+                        btnClass='menuBtn'
+                        handleClick={openAccordion}
+                    />
+                    <Button
+                        text='Search'
+                        btnId='searchBtn'
+                        btnClass='menuBtn'
+                        handleClick={openAccordion}
+                    />
+                    <Button
+                        text='Totals'
+                        btnId='totalsBtn'
+                        btnClass='menuBtn'
+                        handleClick={(e) => {
+                            openAccordion(e)
+                            getTotals();
+                        }}
+                    />
+                    {/* <Button
                     text='Training'
                     btnId='training'
                     btnClass='menuBtn'
@@ -439,39 +594,40 @@ const Logbook = () => {
                         }))
                         console.log(state.btnClicked)
                     }}
-                />
-                <Button
-                    text='Logout'
-                    btnId='logout'
-                    btnClass='menuBtn'
-                    handleClick={(e) => {
-                        e.preventDefault()
-                        console.log("logout")
-                        console.log(state.btnClicked)
-                        API.userLogOut()
-                            .then(window.location.href = "/")
-                            .catch(err => console.error(err))
-                    }}
-                />
-            </div>
-            <div className='formDiv'>
-                {
-                    !state.open
-                        ? null
-                        : (
-                            switchFunc(state.btnClicked)
-                        )
-                }
-            </div>
-            <main>
-                <Table
-                    openModal={openModal}
-                />
-                {/* Modal for popping out table. maybe a 'view' button opens and closes it */}
-                {/* The table will live here. Might try to do an actual table first, then will try grid or flexbox. */}
-            </main>
+                /> */}
+                    <Button
+                        text='Logout'
+                        btnId='logout'
+                        btnClass='menuBtn'
+                        handleClick={(e) => {
+                            e.preventDefault()
+                            console.log("logout")
+                            console.log(state.btnClicked)
+                            API.userLogOut()
+                                .then(window.location.href = "/")
+                                .catch(err => console.error(err))
+                        }}
+                    />
+                </div>
+                <div className='formDiv'>
+                    {
+                        !state.open
+                            ? null
+                            : (
+                                switchFunc(state.btnClicked)
+                            )
+                    }
+                </div>
+                <main>
+                    <Table
+                        openModal={openModal} flights={state.mapped}
+                    />
+                    {/* Modal for popping out table. maybe a 'view' button opens and closes it */}
+                    {/* The table will live here. Might try to do an actual table first, then will try grid or flexbox. */}
+                </main>
 
-        </div>
+            </div>
+        </UserContext.Provider>
     )
 }
 

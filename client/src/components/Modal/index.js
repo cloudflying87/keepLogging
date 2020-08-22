@@ -2,10 +2,8 @@ import React from 'react';
 import Button from '../Button/index';
 import './style.css'
 
-const Modal = ({ handleClick, results }) => {
-
-    console.log(results)
-
+const Modal = ({ handleClick, openEdit, deleteBtn, results }) => {
+    
     return (
         <div className='modal'>
             <div className='modalContent'>
@@ -15,15 +13,13 @@ const Modal = ({ handleClick, results }) => {
                     text='X'
                     handleClick={handleClick}
                 />
-                
+
                 <ul className='modalUl'>
 
                     <li className='modalLi'><strong>Date:</strong> {results.date}</li>
 
                     {!!results['Aircraft.tailNumber'] &&
                         <li className='modalLi'><strong>Aircraft:</strong> {results['Aircraft.tailNumber']}</li>}
-
-                    <li className='modalLi'><strong>Tail Number:</strong> {results.tailNumber}</li>
 
                     {!!results.route && <li className='modalLi'><strong>Route:</strong> {results.route}</li>}
 
@@ -65,6 +61,19 @@ const Modal = ({ handleClick, results }) => {
 
 
                 </ul>
+                <Button
+
+                    text='Edit'
+                    btnId='editBtn'
+                    className='editAndDeleteBtns'
+                    handleClick={() => openEdit(results.id)}
+                />
+                <Button
+                    text='Delete'
+                    btnId='deleteBtn'
+                    className='editAndDeleteBtns'
+                    handleClick={()=> deleteBtn(results.id)}
+                />
             </div>
         </div>
     )
