@@ -3,7 +3,7 @@ import Button from '../components/Button/index';
 import Input from '../components/Input/index';
 import API from '../utils/API';
 import './signup.css'
-
+var globalUserId = 0
 const Signup = props => {
 
     const [state, setState] = useState({
@@ -22,7 +22,9 @@ const Signup = props => {
             email: state.email, 
             password: state.password
         })
-        .then(res => props.history.push('/logbook'))
+        .then(res => {
+            console.log(res)
+            props.history.push('/logbook')})
         .catch(err => {
             setState(state=>({
                 ...state,
@@ -38,7 +40,8 @@ const Signup = props => {
             email: state.email, 
             password: state.password
         })
-        .then(res =>{
+        .then(({data}) =>{
+            globalUserId=data.id
             props.history.push('/logbook');
         })
         .catch(err => {

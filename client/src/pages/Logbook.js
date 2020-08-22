@@ -37,25 +37,20 @@ const Logbook = () => {
         dualI: '',
         enrRout: '',
         flightNum: '',
-        holds:'',
-        hood:'',
-        iap:'',
-        imc:'',
-        instructor:'',
-        landings:'',
-        nightLdg:'',
-        pic:'',
-        sic:'',
+        holds: '',
+        hood: '',
+        iap: '',
+        imc: '',
+        instructor: '',
+        landings: '',
+        nightLdg: '',
+        pic: '',
+        sic: '',
         solo: '',
-        student:'',
-        tailNumber:'',
-        total:'',
+        student: '',
+        aircraftType: '',
+        total: '',
         cxt: '',
-        
-
-
-
-
     })
 
     const [modal, setModal] = useState({
@@ -75,11 +70,28 @@ const Logbook = () => {
             .catch(err => {
                 console.error(err)
             })
+        API.getAircraftTypes()
+            .then(({ data }) => {
+                let filteredResults = []
+                let uniqueId = []
+                for (let i = 0; i < data.length; i++) {
+                    if (!uniqueId.includes(data[i].AircraftId)) {
+                        if (data[i]['Aircraft.tailNumber'] != null) {
+                            filteredResults.push(data[i].AircraftId+' '+data[i]['Aircraft.tailNumber'] + ' ' + data[i]['Aircraft.AircraftModel.description'])
+                            uniqueId.push(data[i].AircraftId)
+                        }
+                    }
+
+                }
+                setlogbookForm(logbookForm => ({
+                    ...logbookForm,
+                    aircraftType: filteredResults.sort()
+                }))
+            })
 
     }, [])
 
     const getFlights = () => {
-        console.log("triggered")
         API.getFlights()
             .then((res) => {
                 const mapped = res.data.map(x => ({
@@ -190,7 +202,7 @@ const Logbook = () => {
         // Subtracting the times in milliseconds. 
         let momentMillie = moment.duration(arrTimeDate.diff(departTimeDate))
         timeCalc = convertToHoursMM(momentMillie._milliseconds)
-        
+
 
         // Auto filling times. Will add more as we have user preferences. 
 
@@ -224,14 +236,14 @@ const Logbook = () => {
         let depSet = sunTimesArr[2]
         let arrRise = sunTimesArr[5]
         let arrSet = sunTimesArr[6]
-        console.log("dep ", depRise, " depart ",depart )
+        console.log("dep ", depRise, " depart ", depart)
 
         if ((depart.isBefore(depRise) && arrive.isBefore(arrRise)) || (depart.isAfter(depSet) && arrive.isAfter(arrSet))) {
             // this is for an all night flight before sunrise or after sunset
             nightTime = timeCalc
         } else if (depart.isBefore(depRise) && arrive.isAfter(arrRise)) {
             // this is for an early morning departure before the sunrises
-            
+
             nightTime = convertToHoursMM(moment.duration(depRise.diff(depart)))
         } else if (depart.isBefore(depSet) && arrive.isAfter(arrSet)) {
             // evening flight departure before sunset and landing after sunset
@@ -240,15 +252,15 @@ const Logbook = () => {
         } else {
             nightTime = 0
         }
-        if (nightTime>timeCalc){
+        if (nightTime > timeCalc) {
             nightTime = timeCalc
-        } 
+        }
         console.log(nightTime)
         setlogbookForm(logbookForm => ({
             ...logbookForm,
             total: timeCalc,
             cxt: crossCountryTrue ? timeCalc : 0,
-            night: nightTime 
+            night: nightTime
         }))
 
     }

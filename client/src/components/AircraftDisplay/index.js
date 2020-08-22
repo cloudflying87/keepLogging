@@ -7,10 +7,10 @@ const AircraftDisplay = ({ aircraft }) => {
         <div className='tableBody'>
             {
                 !!aircraft.length &&
-                aircraft.map((x, i) => <div key={i + '-row'} id={x.id} className='tableCol'>
-                    <div className='aircraft' id={x}>{x}</div>
-
-                </div>)
+                aircraft.map((x, i) =>
+                    <div key={i + '-row'} id={x.id} className='tableCol'>
+                        <div className='aircraft' id={x.id}>{x.tailNumber} {x.description}</div>
+                    </div>)
             }
         </div>
     )

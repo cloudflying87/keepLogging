@@ -24,11 +24,12 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                         // value={logbookForm.date}
                         value={value.date}
                     />
+                    {console.log('this',value.aircraftType)}
                     <Input
                         labelFor='aircraftType'
                         label='Aircraft Type'
                         name='aircraftType'
-                        type='text'
+                        type='list'
                         inputId='aircraftTypeInput'
                         inputClass='addFlightInput'
                         placeholder='Aircraft Type'
