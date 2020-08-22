@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './style.css';
 import logo from '../../logoSmall.png';
+import Button from '../Button/index';
+import API from '../../utils/API';
 
 const Nav = ({ children }) => {
 
@@ -58,42 +60,62 @@ const Nav = ({ children }) => {
                     />
                 </div>
             </div>
-                <ul className="navList">
-                    <li>
-                        <Link
-                            to='/logbook'
-                        >
-                            Logbook
+            <ul className="navList">
+                <li>
+                    <Link
+                        to='/logbook'
+                    >
+                        Logbook
                      </Link>
-                    </li>
-                    <li>
-                        <Link
-                            to='/aircraft'
-                        >
-                            Aircraft
+                </li>
+                <li>
+                    <Link
+                        to='/aircraft'
+                    >
+                        Aircraft
                      </Link>
-                    </li>
-                    <li>
-                        <Link
-                            to='/airports'
-                        >
-                            Airports
+                </li>
+                <li>
+                    <Link
+                        to='/airports'
+                    >
+                        Airports
                      </Link>
-                    </li>
-                    <li>
-                        <Link
-                            to='/training'
-                        >
-                            Training
+                </li>
+                <li>
+                    <Link
+                        to='/training'
+                    >
+                        Training
                      </Link>
-                    </li>
-                    <li>
-                        <Link
-                            to='/myProfile'>
-                            My Profile
+                </li>
+                <li>
+                    <Link
+                        to='/myProfile'>
+                        My Profile
                      </Link>
-                    </li>
-                </ul>
+                </li>
+                <li>
+                    <Link
+                        // {(API.userLogOut())}
+                        to='/'>
+                        Logout
+                     </Link>
+                </li>
+                {/* <li>
+                    
+                    <Button
+                        text='Logout'
+                        btnId='logout'
+                        btnClass='menuBtn'
+                        handleClick={(e) => {
+                            API.userLogOut()
+                                .then(window.location.href = "/")
+                                .catch(err => console.error(err))
+                        }}
+                    />
+                </li> */}
+            </ul>
         </nav>
     )
 }

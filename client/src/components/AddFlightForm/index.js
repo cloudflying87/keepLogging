@@ -2,14 +2,33 @@ import React from 'react';
 import Input from '../Input/index';
 import Button from '../Button/index';
 import './style.css'
+import Select from 'react-select'
 
-const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value }) => {
+const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, setAircraft }) => {
     console.log('add flight from value: ', value)
+    const customStyles ={
+        option: (provided, state) =>({
+            ...provided,
+            color: state.isSelected && 'blue',
+        }),
+        control: (provided,state) => ({
+            ...provided,
+            width:'auto',
+            height:'15px',
+            color:'purple'
+        }),
+        singleValue: (provided, state) => {
+            const opacity = state.isDisabled ? 0.5 : 1;
+            const transition = 'opacity 1300ms';
+        
+            return { ...provided, opacity, transition };
+          }
+    }
     return (
         <div>
             <form>
                 <h4 className='header'>General Flight Info</h4>
-                <div className='inputDiv'>
+                <div className='inputDiv threeboxes'>
                     <Input
                         labelFor='date'
                         label='Date'
@@ -22,16 +41,34 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value })
                         // value={logbookForm.date}
                         value={value.date}
                     />
-                    <Input
+                    {/* <Input
                         labelFor='aircraftType'
                         label='Aircraft Type'
                         name='aircraftType'
-                        type='text'
+                        type='list'
                         inputId='aircraftTypeInput'
                         inputClass='addFlightInput'
                         placeholder='Aircraft Type'
                         handleInputChange={handleFormInput}
                         value={value.aircraftType}
+                    /> */}
+                    {/* <DropdownList
+                        data={value.aircraftType}
+                        valueField='id'
+                        textField='name'
+                        defaultValue={1}
+                    /> */}
+                    <Select 
+                        options={value.aircraftList}
+                        labelFor='aircraftType'
+                        label='Aircraft Type'
+                        name='aircraftType'
+                        inputId='aircraftTypeInput'
+                        inputClass='addFlightInput'
+                        placeholder='Aircraft Type'
+                        width='200px'
+                        styles={customStyles}
+                        onChange={setAircraft}
                     />
                     <Input
                         labelFor='route'
