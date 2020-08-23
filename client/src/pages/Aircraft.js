@@ -2,24 +2,47 @@ import React, { useState, useEffect } from 'react';
 import Nav from '../components/Nav/index';
 import API from '../utils/API';
 import AircraftDisplay from '../components/AircraftDisplay/'
-import Modal from '../components/Modal/index';
-import AddAircraft from '../components/AddAircraftForm'
 import Button from '../components/Button/index'
+import AddAircraft from '../components/AddAircraftForm'
 import UserContext from '../utils/UserContext';
 import getAircraftTypesFunction from '../components/AircraftDisplay/function'
-import { compareSync } from 'bcryptjs';
+
 
 const Aircraft = () => {
     const [state, setState] = useState({
         open: false,
-        btnClicked:'',
-        results: []
+        btnClicked: '',
+        userCurrentAircraft: [],
+        tailNumber: '',
+        modelId:0
     });
     const [user, setUser] = useState({
         userId: ''
     })
 
     useEffect(() => {
+        getCurrentTypes()
+        getAllTypes()
+
+    }, [])
+
+    const getAllTypes = () => {
+        API.getAircraftModels()
+            .then(({ data }) => {
+                const formattedResults = data.map(x => ({
+                    value: x.id,
+                    label: x.manufacture_code + ' ' + x.description + ' ' + x.category_class
+                }))
+
+                setState(state => ({
+                    ...state,
+                    allModels: formattedResults
+                }))
+            })
+
+
+    }
+    const getCurrentTypes = () => {
         API.getAircraftTypes()
             .then(({ data }) => {
                 let rawResults = []
@@ -34,38 +57,62 @@ const Aircraft = () => {
                     }
 
                 }
-                
-                // console.log()
+
+
                 filteredResults = rawResults.map((a) => ({
-                    id: a.AircraftId, 
-                    modelId:a['Aircraft.AircraftModel.id'],
+                    id: a.AircraftId,
+                    modelId: a['Aircraft.AircraftModel.id'],
                     tailNumber: a['Aircraft.tailNumber'],
                     description: a['Aircraft.AircraftModel.description'],
-                    category_class:a['Aircraft.AircraftModel.category_class'],
-                    tailWheel:a['Aircraft.AircraftModel.tailWheel'],
-                    highPerf:a['Aircraft.AircraftModel.highPerf'],
-                    complex:a['Aircraft.AircraftModel.complex'],
-                    taa:a['Aircraft.AircraftModel.taa'],
-                    simulator:a['Aircraft.AircraftModel.simulator'],
-                    designator: a['Aircraft.AircraftModel.tdesig'],
-                    
+                    category_class: a['Aircraft.AircraftModel.category_class'],
+                    // tailWheel:a['Aircraft.AircraftModel.tailWheel'],
+                    // highPerf:a['Aircraft.AircraftModel.highPerf'],
+                    // complex:a['Aircraft.AircraftModel.complex'],
+                    // taa:a['Aircraft.AircraftModel.taa'],
+                    // simulator:a['Aircraft.AircraftModel.simulator'],
+                    // designator: a['Aircraft.AircraftModel.tdesig'],
+
 
                 }))
-                let filteredResultsSorted = filteredResults.sort((a,b) => (a.tailNumber > b.tailNumber) ? 1 : ((b.tailNumber > a.tailNumber)? -1 : 0))
-                
+                let filteredResultsSorted = filteredResults.sort((a, b) => (a.tailNumber > b.tailNumber) ? 1 : ((b.tailNumber > a.tailNumber) ? -1 : 0))
+
                 setState(state => ({
                     ...state,
-                    results: filteredResultsSorted
+                    userCurrentAircraft: filteredResultsSorted
                 }))
             })
-    }, [])
+            .catch(console.error)
+    }
     const handleFormInput = ({ target: { value, name } }) => {
         setState(state => ({
             ...state,
             // date: new Date(),
             [name]: value
         }))
+        
     };
+
+    const addTail = (event) => {
+        event.preventDefault()
+        API.createAircraft({
+            tailNumber: state.tailNumber,
+            AircraftModelId: state.modelId
+        })
+        .then((data) => {
+            console.log(state)
+            console.log(data)})
+        
+        .catch(console.error)
+    }
+
+    const setAircraft = (value) => {
+        setState(state =>({
+            ...state,
+            modelId: value.value
+        }))
+        
+    }
+
     const switchFunc = arg => {
         switch (arg) {
             case 'Addaircraft':
@@ -73,18 +120,20 @@ const Aircraft = () => {
                     <>
                         <AddAircraft
                             handleFormInput={handleFormInput}
-                            
+                            addT={addTail}
+                            value={state}
+                            setAircraft={setAircraft}
                         />
                     </>
                 )
                 break;
-            case 'totalsBtn':
+            case 'modelBtn':
                 // console.log('totals', state.totals)
                 // getTotals()
                 // return (
-                    // <TotalsDisplay
-                    //     totals={state.totals}
-                    // />
+                // <TotalsDisplay
+                //     totals={state.totals}
+                // />
                 // )
                 break;
             default:
@@ -167,7 +216,7 @@ const Aircraft = () => {
                         )
                 }
             </div>
-            <AircraftDisplay aircraft={state.results} />
+            <AircraftDisplay aircraft={state.userCurrentAircraft} />
 
         </UserContext.Provider>
     );

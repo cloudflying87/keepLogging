@@ -13,7 +13,7 @@ let connection;
 
 // var importFile = './db/sampleDataSmall2.csv'
 // var importFile = './db/airplanes.csv' './db/users.csv', './db/aircraftModels.csv', './db/airports.csv','./db/sampleDataSmall2.csv'
-var importFile = ['./db/users.csv','./db/airportone.csv','./db/airporttwo.csv','./db/aircraftModels.csv','./db/sampledata.csv','./db/aircraft.csv']
+var importFile = ['./db/users.csv','./db/airportone.csv','./db/airporttwo.csv','./db/aircraftModels.csv','./db/aircraft.csv','./db/sampledata.csv']
 for (let i = 0; i < importFile.length; i++) {
     let stream = fs.createReadStream(importFile[i]);
     let myData = [];

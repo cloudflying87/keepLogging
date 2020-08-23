@@ -11,8 +11,8 @@ export default {
         return axios.get('/api/aircraft/' + id);
     },
     // create an aiarcraft
-    createAircraft: function () {
-        return axios.post('/api/aircraft/');
+    createAircraft: function (tail) {
+        return axios.post('/api/aircraft/' , tail);
     },
     // update an aircraft
     updateAircraft: function (id) {
@@ -29,6 +29,9 @@ export default {
     // putting aircraft types in a list for our dropdown menu
     getAircraftTypes: function () {
         return axios.get('api/aircraftTypes/');
+    },
+    getAircraftModels: function () {
+        return axios.get('api/aircraftModels/');
     },
     // airport routes --------------------------------------------------------
     // all airports

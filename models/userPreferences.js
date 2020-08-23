@@ -3,6 +3,7 @@ module.exports = function(sequelize, DataTypes) {
             Email: DataTypes.STRING,
             Access: DataTypes.STRING,
             AccountAccess: DataTypes.STRING,
+            AircraftIds: DataTypes.STRING,
             // instructorCanView: DataTypes.BOOLEAN,
             // instructorCanAdd: DataTypes.BOOLEAN,
             // student: DataTypes.INTEGER,

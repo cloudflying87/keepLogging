@@ -107,8 +107,8 @@ const Logbook = () => {
             ...logbookForm,
             AircraftId: value.value
         }))
-
     }
+    
     const handleFormInput = ({ target: { value, name } }) => {
         setlogbookForm(logbookForm => ({
             ...logbookForm,
@@ -455,6 +455,7 @@ const Logbook = () => {
                             handleFormInput={handleFormInput}
                             handleClick={workingTimeDistance}
                             handleAddFlight={logFlight}
+                            setAircraft={setAircraft}
                             value={logbookForm}
                             text='Add Flight'
                         />
@@ -473,6 +474,7 @@ const Logbook = () => {
                             handleFormInput={handleFormInput}
                             handleClick={workingTimeDistance}
                             handleAddFlight={editFlight}
+                            setAircraft={setAircraft}
                             value={logbookForm}
                             text='Update Flight'
                         />
@@ -492,8 +494,8 @@ const Logbook = () => {
             open: !modal.open,
             values: state.fullResults.find(x => parseInt(x.id) === parseInt(target.id))
         }))
-        console.log(modal)
-        console.log(state)
+        // console.log(modal)
+        // console.log(state)
     };
 
     const openEdit = id => {

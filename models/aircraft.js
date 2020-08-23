@@ -6,6 +6,13 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false
         },
+        AircraftModelId:{
+        type: DataTypes.INTEGER,
+          references:{
+              model:"AircraftModels",
+              key:"id"
+          }
+        },
         avionics: DataTypes.STRING,
         
         
