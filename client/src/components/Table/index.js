@@ -16,8 +16,6 @@ const Table = ({ openModal, flights }) => {
                 timeout={2000}
                 className='enter'
                 unmountOnExit
-                // onEnter={() => setShowTable(true)}
-                // onExited={() => setShowTable(false)}
             >
                 <div className='table'>
                     <div className='tableHeader'>
