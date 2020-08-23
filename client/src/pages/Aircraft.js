@@ -96,9 +96,11 @@ const Aircraft = () => {
         event.preventDefault()
         API.createAircraft({
             tailNumber: state.tailNumber,
-            aircraftModel: state.modelId
+            AircraftModelId: state.modelId
         })
-        .then((data) => console.log(state))
+        .then((data) => {
+            console.log(state)
+            console.log(data)})
         
         .catch(console.error)
     }
