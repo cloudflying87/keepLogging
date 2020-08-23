@@ -1,13 +1,14 @@
 module.exports = function(sequelize, DataTypes) {
-    const userPreference = sequelize
-        .define("userPreference", {
-            instructor: DataTypes.INTEGER,
-            instructorCanView: DataTypes.BOOLEAN,
-            instructorCanAdd: DataTypes.BOOLEAN,
-            student: DataTypes.INTEGER,
-            aircraft: DataTypes.STRING,
-            UserId: DataTypes.INTEGER,
+    var userPreferences = sequelize.define("userPreferences", {
+            Email: DataTypes.STRING,
+            Access: DataTypes.STRING,
+            AccountAccess: DataTypes.STRING,
+            AircraftIds: DataTypes.STRING,
+            // instructorCanView: DataTypes.BOOLEAN,
+            // instructorCanAdd: DataTypes.BOOLEAN,
+            // student: DataTypes.INTEGER,
+
         })
-    return userPreference;
+    return userPreferences;
 };
 

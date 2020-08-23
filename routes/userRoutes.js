@@ -3,6 +3,7 @@ var db = require("../models");
 const path = require('path')
 const sequelize = require("sequelize");
 const nodemailer = require("nodemailer");
+var randomstring = require("randomstring");
 
 module.exports = function (app) {
   // Using the passport.authenticate middleware with our local strategy.
@@ -70,22 +71,14 @@ module.exports = function (app) {
     // };
   })
 
-  app.post("/api/addAccess", function (req, res) {
-      db.user.update({
-        accountAccess,
-        where: {
-        email: req.body.userEmail,
-        id: req.params.id
-      }
-    })
-      .then(results => res.json(results))
-      .catch(err => res.status(404).json(err));
-    ;
-  });
-
   app.post("/api/sendMail", function (req, res)  {
     const { email } = req.body;
-    console.log(email)
+    const { user } = req.body;
+    
+    // console.log("line 78", email)
+    // console.log("line 79", user)
+    // console.log("line 80", req.body.user.data.email)
+    // console.log(user.data.id)
     main()
       .catch(err=> console.log(err))
 
@@ -101,18 +94,21 @@ module.exports = function (app) {
             pass: "keeplogging", // generated ethereal password
         },
     });
-  
+    const key = randomstring.generate()
     const info = await transporter.sendMail ({
         from: '"keep_logging" <keeplogging@flyhomemn.com>', // sender address
         to: `${email}`, // list of receivers
-        subject: "Hello ✔", // Subject line
-        text: "Hello world?", // plain text body
+        subject: `A user would like to connect with you on KeepLogging`, // Subject line
+        // text: "A user would like to connect with you on KeepLogging. Please click confirm if you would like to proceed", // plain text body
+        html: `<p>A user would like to connect with you on KeepLogging. Please click confirm if you would like to proceed</p><a href="http://localhost:3000/redirect/${key}/${email}" class="button" >Click Here</a>`, // html body
+       
     })
-  
-    // send mail with defined transport object
-    // const info = await transporter.sendMail(msg);
-    // const info = await transporter.sendMail(msg);
-    
+    // db.products.insert( { item: "card", qty: 15 } )
+    db.userPreferences.create({
+      Email: req.body.user.data.email,
+      Access: key
+    })
+     
   
     console.log("Message sent: %s", info.messageId);
     // console.log("Message sent: %s", info);
@@ -126,6 +122,14 @@ module.exports = function (app) {
   
   }})
   
-  
+  app.post("/api/addAccess", function (req, res) {
+    console.log("routes 126", req.body.key)
+      db.userPreferences.update(
+        {AccountAccess: req.body.studentEmail},
+        {where: {Access: req.body.key}}
+      )
+        .then(results => res.json(results))
+        .catch(err => res.status(404).json(err));
+    // };
+  })
 }
-

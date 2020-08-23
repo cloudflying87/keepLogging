@@ -41,7 +41,8 @@ const Training = () => {
                             console.log("Logged in user", loggedInUser)
 
                             API.sendMail({
-                                "email": "austinkkramer@gmail.com"
+                                "email": studentEmail,
+                                "user": loggedInUser
                             })
 
 
@@ -57,13 +58,6 @@ const Training = () => {
 
                 })
 
-
-
-
-
-
-
-
         }
         catch (error) {
             console.error(error);
@@ -76,8 +70,8 @@ const Training = () => {
     }
 
     return (
-        <>
-        <Nav />
+        
+        
             <main>
                 <form onSubmit={onSubmit}>
                     <Input
@@ -93,7 +87,6 @@ const Training = () => {
                 </form>
                 {invalidSubmission && (<div>Please enter a valid email</div>)}
             </main>
-        </>
     );
 
 
