@@ -36,13 +36,15 @@ app.get("/api/aircraft/", function (req, res) {
 
   // Route for creating an aircraft
   app.post("/api/aircraft/", function (req, res) {
-    if (!req.user) {
-        res.redirect(307, "/login");
-    } else {
+    // if (!req.user) {
+    //     res.redirect(307, "/login");
+    // } else {
     db.Aircraft.create(req.body)
-      .then(results => res.json(results))
+      .then(results => {
+        console.log(req.body)
+        res.json(results)})
       .catch(err => res.status(404).json(err));
-    };
+    // };
   });
 
   // Route for updating an aircraft

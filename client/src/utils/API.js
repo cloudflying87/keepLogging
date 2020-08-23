@@ -11,8 +11,8 @@ export default {
         return axios.get('/api/aircraft/' + id);
     },
     // create an aiarcraft
-    createAircraft: function () {
-        return axios.post('/api/aircraft/');
+    createAircraft: function (tail) {
+        return axios.post('/api/aircraft/' , tail);
     },
     // update an aircraft
     updateAircraft: function (id) {

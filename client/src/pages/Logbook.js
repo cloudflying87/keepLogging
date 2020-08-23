@@ -106,7 +106,6 @@ const Logbook = () => {
             ...logbookForm,
             AircraftId: value.value
         }))
-        console.log(logbookForm)
     }
     
     const handleFormInput = ({ target: { value, name } }) => {

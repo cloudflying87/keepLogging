@@ -13,7 +13,7 @@ let connection;
 
 // var importFile = './db/sampleDataSmall2.csv'
 // var importFile = './db/airplanes.csv' './db/users.csv', './db/aircraftModels.csv', './db/airports.csv','./db/sampleDataSmall2.csv'
-var importFile = ['./db/users.csv','./db/airportone.csv','./db/airporttwo.csv','./db/aircraftModels.csv','./db/sampledata.csv','./db/aircraft.csv']
+var importFile = ['./db/users.csv','./db/airportone.csv','./db/airporttwo.csv','./db/aircraftModels.csv','./db/aircraft.csv','./db/sampledata.csv']
 for (let i = 0; i < importFile.length; i++) {
     let stream = fs.createReadStream(importFile[i]);
     let myData = [];
@@ -75,7 +75,7 @@ for (let i = 0; i < importFile.length; i++) {
                 
                 } else if (importFile[i] == './db/aircraft.csv') {  
                     console.log("aircraft")
-                    let query = 'INSERT INTO aircraft (id,tailNumber,AircraftModelId,avionics,createdAt,updatedAt) VALUES ?'
+                    let query = 'INSERT INTO aircraft (id,tailNumber,AircraftModel,avionics,createdAt,updatedAt) VALUES ?'
                     connection.query(query, [myData], (error, response) => {
                         console.log(error || response);
                     })

@@ -5,7 +5,7 @@ import './style.css'
 import Select from 'react-select'
 
 
-const AddAircraft = ({ addT, setAircraft, value }) => {
+const AddAircraft = ({ addT, setAircraft, value, handleFormInput }) => {
 
     return (
         <div>
@@ -20,7 +20,7 @@ const AddAircraft = ({ addT, setAircraft, value }) => {
                         inputId='tailNumber'
                         inputClass='addFlightInput'
                         placeholder='Tail Number'
-                        // handleInputChange={handleFormInput}
+                        handleInputChange={handleFormInput}
                         // value={value.tailNumber}
                     />
                     <Select

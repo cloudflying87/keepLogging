@@ -14,6 +14,7 @@ const Aircraft = () => {
         btnClicked: '',
         userCurrentAircraft: [],
         tailNumber: '',
+        modelId:0
     });
     const [user, setUser] = useState({
         userId: ''
@@ -88,16 +89,26 @@ const Aircraft = () => {
             // date: new Date(),
             [name]: value
         }))
+        console.log(state)
     };
 
     const addTail = (event) => {
         event.preventDefault()
-        console.log('Test',state)
+        API.createAircraft({
+            tailNumber: state.tailNumber,
+            aircraftModel: state.modelId
+        })
+        .then((data) => console.log(data))
+        
+        .catch(console.error)
     }
 
-    const setAircraft = () => {
-        
-        console.log('Test',state)
+    const setAircraft = (value) => {
+        setState(state =>({
+            ...state,
+            modelId: value.value
+        }))
+        console.log(state)
     }
 
     const switchFunc = arg => {
@@ -114,7 +125,7 @@ const Aircraft = () => {
                     </>
                 )
                 break;
-            case 'totalsBtn':
+            case 'modelBtn':
                 // console.log('totals', state.totals)
                 // getTotals()
                 // return (
