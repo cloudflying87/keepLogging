@@ -53,7 +53,9 @@ const Logbook = () => {
         cxt: '',
         aircraftId: '',
         aircraftType: '',
-        aircraftList: []
+        aircraftList: [],
+        'Aircraft.tailNumber': ''
+
     })
     // const [aircraftList, setAircraftList] = useState()
     const [modal, setModal] = useState({
@@ -388,7 +390,9 @@ const Logbook = () => {
             dualI: nullChecked.dualI,
             solo: nullChecked.solo,
             UserId: user.userId,
-            AircraftId: nullChecked.AircraftId
+            AircraftId: nullChecked.AircraftId,
+            'Aircraft.tailNumber': nullChecked['Aircraft.tailNumber']
+
 
         })
             // .then(res => setlogbookFormBlank())
@@ -399,7 +403,7 @@ const Logbook = () => {
     const setlogbookFormBlank = () => {
         setlogbookForm(prev=>({
             ...prev,
-            date: '',
+            date: moment().format('YYYY-MM-D'),
             total: '',
             crossCountry: '',
             night: '',
@@ -424,7 +428,9 @@ const Logbook = () => {
             student: '',
             tailNumber: '',
             cxt: '',
-            aircraftId: ''
+            aircraftId: '',
+            'Aircraft.tailNumber': ''
+
         }))
     }
     const getTotals = () => {
