@@ -1,24 +1,19 @@
-
-  .menuDiv {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    background-image: linear-gradient(to left, #D1D1D1 10%, #85c7f2, #DBDBDB);
-  }
-  
-  .menuBtn {
-    margin: 4px 2px;
-  }
-  
-  .formDiv {
-    background-color: lightblue;
-  }
-
-  @media screen and (max-width: 320px) {
-  
-
+.menuDiv {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  background-image: linear-gradient(to left, #D1D1D1 10%, #85c7f2, #DBDBDB);
 }
-  
-  
-  
-  
+
+.menuBtn {
+  margin: 4px 2px;
+}
+
+.formDiv {
+  background-color: lightblue;
+}
+
+
+@media screen and (max-width: 320px) {}
+
+

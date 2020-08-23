@@ -8,7 +8,7 @@ import TotalsDisplay from '../components/TotalsDisplay/index';
 import API from '../utils/API';
 import UserContext from '../utils/UserContext';
 import moment from 'moment'
-
+import { CSSTransition } from 'react-transition-group';
 import './logbook.css'
 import getAircraftTypesFunction from '../components/AircraftDisplay/function';
 
@@ -401,7 +401,7 @@ const Logbook = () => {
         getFlights();
     }
     const setlogbookFormBlank = () => {
-        setlogbookForm(prev=>({
+        setlogbookForm(prev => ({
             ...prev,
             date: moment().format('YYYY-MM-D'),
             total: '',
@@ -510,7 +510,7 @@ const Logbook = () => {
         console.log(logbookForm)
         // setlogbookForm(newLog)
         // console.log("new log", newLog)
-        
+
         setModal(prevModal => ({
             ...prevModal,
             open: !modal.open
@@ -567,6 +567,7 @@ const Logbook = () => {
 
                 }
                 <Nav />
+
                 <div className='menuDiv'>
                     {/* here will be the buttons for this page. Maybe i'll make a component for these since there will be one on each page. */}
                     <Button
@@ -620,19 +621,22 @@ const Logbook = () => {
                         }}
                     />
                 </div>
-                <div className='formDiv'>
-                    {
-                        !state.open
-                            ? null
-                            : (
-                                switchFunc(state.btnClicked)
-                            )
-                    }
-                </div>
+                    <div className='formDiv'>
+                        {
+                            !state.open
+                                ? null
+                                : (
+                                    switchFunc(state.btnClicked)
+                                )
+                        }
+                    </div>
                 <main>
-                    <Table
-                        openModal={openModal} flights={state.mapped}
-                    />
+                    {
+                        <Table
+                            openModal={openModal} flights={state.mapped}
+                        />
+                    }
+
                     {/* Modal for popping out table. maybe a 'view' button opens and closes it */}
                     {/* The table will live here. Might try to do an actual table first, then will try grid or flexbox. */}
                 </main>
