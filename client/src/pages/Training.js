@@ -70,8 +70,9 @@ const Training = () => {
     }
 
     return (
-        
-        
+
+        <>
+            <Nav/>
             <main>
                 <form onSubmit={onSubmit}>
                     <Input
@@ -87,6 +88,7 @@ const Training = () => {
                 </form>
                 {invalidSubmission && (<div>Please enter a valid email</div>)}
             </main>
+        </>
     );
 
 
