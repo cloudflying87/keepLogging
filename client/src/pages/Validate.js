@@ -16,13 +16,15 @@ import API from '../utils/API'
 // import { Router } from 'express';
 
  const Validate  = (props) => {
-    // console.log(key)
+    // console.log(props.match.params.key)
     API.userAccess({
-        key: props.match.params.key
+        key: props.match.params.key,
+        studentEmail: props.match.params.studentEmail
     })
    
         
-        // console.log(key)
+        console.log("validate.js line 26-key", props.match.params.key)
+        console.log("validate.js line 27-studentEmail", props.match.params.studentEmail)
         return(
             <h1>Redirecting to home page</h1>
             // <Redirect to="/training" />

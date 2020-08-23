@@ -103,14 +103,14 @@ export default {
     userVerify: function (email) {
         return axios.post('/api/verifyAccount', email);
     },
-    userAccess: function (key) {
-        return axios.post('/api/addAccess', key);
+    userAccess: function (key, studentEmail) {
+        return axios.post('/api/addAccess', key, studentEmail);
     },
     sendMail: function (message, user) {
         return axios.post('/api/sendMail', message, user);
     },
-    redirect: function (validationKey) {
-        return axios.get('/redirect/' + validationKey);
+    redirect: function (validationKey, studentEmail) {
+        return axios.get(`/redirect/${validationKey}/${studentEmail}`);
     }
 }
 

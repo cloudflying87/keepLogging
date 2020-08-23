@@ -41,8 +41,8 @@ const Training = () => {
                             console.log("Logged in user", loggedInUser)
 
                             API.sendMail({
-                                "email": JSON.stringify(studentEmail),
-                                "user": JSON.stringify(loggedInUser)
+                                "email": studentEmail,
+                                "user": loggedInUser
                             })
 
 

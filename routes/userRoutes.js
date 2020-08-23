@@ -72,9 +72,13 @@ module.exports = function (app) {
   })
 
   app.post("/api/sendMail", function (req, res)  {
-    const { email, user } = req.body;
+    const { email } = req.body;
+    const { user } = req.body;
     
-    console.log(email)
+    // console.log("line 78", email)
+    // console.log("line 79", user)
+    // console.log("line 80", req.body.user.data.email)
+    // console.log(user.data.id)
     main()
       .catch(err=> console.log(err))
 
@@ -96,8 +100,13 @@ module.exports = function (app) {
         to: `${email}`, // list of receivers
         subject: `A user would like to connect with you on KeepLogging`, // Subject line
         // text: "A user would like to connect with you on KeepLogging. Please click confirm if you would like to proceed", // plain text body
-        html: `<p>A user would like to connect with you on KeepLogging. Please click confirm if you would like to proceed</p><a href="http://localhost:3000/redirect/${key}" class="button" >Click Here</a>`, // html body
+        html: `<p>A user would like to connect with you on KeepLogging. Please click confirm if you would like to proceed</p><a href="http://localhost:3000/redirect/${key}/${email}" class="button" >Click Here</a>`, // html body
        
+    })
+    // db.products.insert( { item: "card", qty: 15 } )
+    db.userPreferences.create({
+      Email: req.body.user.data.email,
+      Access: key
     })
      
   
@@ -114,15 +123,13 @@ module.exports = function (app) {
   }})
   
   app.post("/api/addAccess", function (req, res) {
-    if(req.body.key = key)
-      db.User.findAll({
-        where: {
-          email: req.body.studentEmail
-        },
-      })
+    console.log("routes 126", req.body.key)
+      db.userPreferences.update(
+        {AccountAccess: req.body.studentEmail},
+        {where: {Access: req.body.key}}
+      )
         .then(results => res.json(results))
         .catch(err => res.status(404).json(err));
     // };
   })
 }
-

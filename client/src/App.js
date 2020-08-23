@@ -23,7 +23,7 @@ function App() {
         <Route exact path='/Aircraft' component={Aircraft} />
         <Route exact path='/Airports' component={Airports} />
         <Route exact path='/myProfile' component={MyProfile} />
-        <Route exact path='/redirect/:key' component={Redirect} />
+        <Route exact path='/redirect/:key/:studentEmail' component={Redirect} />
       </Switch>
     </Router>
 
