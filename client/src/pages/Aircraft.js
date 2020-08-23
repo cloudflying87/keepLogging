@@ -6,15 +6,19 @@ import Modal from '../components/Modal/index';
 import AddAircraft from '../components/AddAircraftForm'
 import Button from '../components/Button/index'
 import UserContext from '../utils/UserContext';
+import getAircraftTypesFunction from '../components/AircraftDisplay/function'
+import { compareSync } from 'bcryptjs';
 
 const Aircraft = () => {
     const [state, setState] = useState({
+        open: false,
+        btnClicked:'',
         results: []
     });
     const [user, setUser] = useState({
         userId: ''
     })
-    
+
     useEffect(() => {
         API.getAircraftTypes()
             .then(({ data }) => {
@@ -30,12 +34,22 @@ const Aircraft = () => {
                     }
 
                 }
+                
                 // console.log()
                 filteredResults = rawResults.map((a) => ({
                     id: a.AircraftId, 
+                    modelId:a['Aircraft.AircraftModel.id'],
                     tailNumber: a['Aircraft.tailNumber'],
                     description: a['Aircraft.AircraftModel.description'],
-                    designator: a['Aircraft.AircraftModel.tdesig']
+                    category_class:a['Aircraft.AircraftModel.category_class'],
+                    tailWheel:a['Aircraft.AircraftModel.tailWheel'],
+                    highPerf:a['Aircraft.AircraftModel.highPerf'],
+                    complex:a['Aircraft.AircraftModel.complex'],
+                    taa:a['Aircraft.AircraftModel.taa'],
+                    simulator:a['Aircraft.AircraftModel.simulator'],
+                    designator: a['Aircraft.AircraftModel.tdesig'],
+                    
+
                 }))
                 let filteredResultsSorted = filteredResults.sort((a,b) => (a.tailNumber > b.tailNumber) ? 1 : ((b.tailNumber > a.tailNumber)? -1 : 0))
                 
@@ -124,6 +138,14 @@ const Aircraft = () => {
     //         open: !modal.open
     //     }))
     // }
+    const openAccordion = e => {
+        const { target } = e
+        setState(state => ({
+            ...state,
+            open: !state.open,
+            btnClicked: target.id
+        }))
+    }
     return (
         <UserContext.Provider value={user}>
             <Nav />
@@ -131,17 +153,9 @@ const Aircraft = () => {
                 {/* here will be the buttons for this page. Maybe i'll make a component for these since there will be one on each page. */}
                 <Button
                     text='Add Aircraft'
-                    btnId='addFlightBtn'
+                    btnId='Addaircraft'
                     btnClass='menuBtn'
-                    handleClick={(e) => {
-                        const { target } = e
-                        e.preventDefault()
-                        setState(state => ({
-                            ...state,
-                            open: !state.open,
-                            btnClicked: target.id
-                        }))
-                    }}
+                    handleClick={openAccordion}
                 />
             </div>
             <div className='formDiv'>

@@ -58,14 +58,15 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, s
                         defaultValue={1}
                     /> */}
                     <Select 
-                        options={aircraftList}
+                        options={value.aircraftList}
                         labelFor='aircraftType'
                         label='Aircraft Type'
                         name='aircraftType'
                         inputId='aircraftTypeInput'
                         inputClass='addFlightInput dropdown'
-                        placeholder='Aircraft Type'
+                        placeholder={!!value['Aircraft.tailNumber'] ? value['Aircraft.tailNumber'] : 'Aircraft Type'}
                         width='200px'
+                        // defaultValue = {value.aircraftList[1]}
                         styles={customStyles}
                         onChange={setAircraft}
                     />
@@ -78,7 +79,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, s
                         inputClass='addFlightInput'
                         placeholder='Route'
                         handleInputChange={handleFormInput}
-                        value={value.depAir, value.enrRout, value.arrAir}
+                        value={value.route}
                     />
                 </div>
                 <div className='commentsDiv'>

@@ -10,6 +10,7 @@ import UserContext from '../utils/UserContext';
 import moment from 'moment'
 
 import './logbook.css'
+import getAircraftTypesFunction from '../components/AircraftDisplay/function';
 
 let airportLoc = [];
 let distNum = [];
@@ -34,9 +35,8 @@ const Logbook = () => {
         cfi: '',
         comments: '',
         dayLdg: '',
-        depAir: '',
         dualI: '',
-        enrRout: '',
+        route: '',
         flightNum: '',
         holds: '',
         hood: '',
@@ -51,10 +51,13 @@ const Logbook = () => {
         student: '',
         total: '',
         cxt: '',
+        aircraftId: '',
         aircraftType: '',
-        // aircraftList: []
+        aircraftList: [],
+        'Aircraft.tailNumber': ''
+
     })
-    const [aircraftList, setAircraftList] = useState()
+    // const [aircraftList, setAircraftList] = useState()
     const [modal, setModal] = useState({
         open: false,
         values: []
@@ -74,34 +77,7 @@ const Logbook = () => {
             .catch(err => {
                 console.error(err)
             })
-        API.getAircraftTypes()
-            .then(({ data }) => {
-                let rawResults = []
-                let filteredResults = []
-                let uniqueId = []
-                for (let i = 0; i < data.length; i++) {
-                    if (!uniqueId.includes(data[i].AircraftId)) {
-                        if (data[i]['Aircraft.tailNumber'] != null) {
-                            rawResults.push(data[i])
-                            uniqueId.push(data[i].AircraftId)
-                        }
-                    }
-                }
-                // console.log()
-                filteredResults = rawResults.map((a) => ({
-                    value: a.AircraftId,
-                    label: a['Aircraft.tailNumber'] + ' ' + a['Aircraft.AircraftModel.description'],
-
-                }))
-                let filteredResultsSorted = filteredResults.sort((a, b) => (a.label > b.label) ? 1 : ((b.label > a.label) ? -1 : 0))
-
-                // setlogbookForm(logbookForm => ({
-                //     ...logbookForm,
-                //     aircraftList: filteredResultsSorted
-                // }))
-                setAircraftList(filteredResultsSorted)
-            })
-            .catch(err => console.log(err))
+        getAircraftTypes()
     }, [])
 
     const getFlights = () => {
@@ -140,7 +116,35 @@ const Logbook = () => {
             [name]: value
         }))
     };
+    const getAircraftTypes = () => {
+        API.getAircraftTypes()
+            .then(({ data }) => {
+                let rawResults = []
+                let filteredResults = []
+                let uniqueId = []
+                for (let i = 0; i < data.length; i++) {
+                    if (!uniqueId.includes(data[i].AircraftId)) {
+                        if (data[i]['Aircraft.tailNumber'] != null) {
+                            rawResults.push(data[i])
+                            uniqueId.push(data[i].AircraftId)
+                        }
+                    }
+                }
+                // console.log()
+                filteredResults = rawResults.map((a) => ({
+                    value: a.AircraftId,
+                    label: a['Aircraft.tailNumber'] + ' ' + a['Aircraft.AircraftModel.description'],
 
+                }))
+                let filteredResultsSorted = filteredResults.sort((a, b) => (a.label > b.label) ? 1 : ((b.label > a.label) ? -1 : 0))
+
+                setlogbookForm(logbookForm => ({
+                    ...logbookForm,
+                    aircraftList: filteredResultsSorted
+                }))
+                // setAircraftList(filteredResultsSorted)
+            })
+    }
     const workingTimeDistance = async (e) => {
         e.preventDefault();
         if (logbookForm.route === undefined ||
@@ -349,6 +353,7 @@ const Logbook = () => {
         })
             .then((data) => {
                 console.log("logFlight data: ", data)
+                setlogbookFormBlank();
                 getFlights();
             })
             .catch(err => console.log(err))
@@ -385,45 +390,49 @@ const Logbook = () => {
             dualI: nullChecked.dualI,
             solo: nullChecked.solo,
             UserId: user.userId,
-            AircraftId: nullChecked.AircraftId
-        })
-            .then(res => {
-                setlogbookForm(prev => ({
-                    ...prev,
-                    date: '',
-                    total: '',
-                    crossCountry: '',
-                    night: '',
-                    arrTime: '',
-                    depTime: '',
-                    cfi: '',
-                    comments: '',
-                    dayLdg: '',
-                    depAir: '',
-                    dualI: '',
-                    enrRout: '',
-                    flightNum: '',
-                    holds: '',
-                    hood: '',
-                    iap: '',
-                    imc: '',
-                    instructor: '',
-                    landings: '',
-                    nightLdg: '',
-                    pic: '',
-                    sic: '',
-                    solo: '',
-                    student: '',
-                    tailNumber: '',
-                    cxt: '',
-                    // aircraftType: ''
-                }))
-            })
-            .catch(err => console.error(err))
+            AircraftId: nullChecked.AircraftId,
+            'Aircraft.tailNumber': nullChecked['Aircraft.tailNumber']
 
+
+        })
+            // .then(res => setlogbookFormBlank())
+            .catch(err => console.error(err))
+        setlogbookFormBlank()
         getFlights();
     }
+    const setlogbookFormBlank = () => {
+        setlogbookForm(prev=>({
+            ...prev,
+            date: moment().format('YYYY-MM-D'),
+            total: '',
+            crossCountry: '',
+            night: '',
+            arrTime: '',
+            depTime: '',
+            cfi: '',
+            comments: '',
+            dayLdg: '',
+            dualI: '',
+            route: '',
+            flightNum: '',
+            holds: '',
+            hood: '',
+            iap: '',
+            imc: '',
+            instructor: '',
+            landings: '',
+            nightLdg: '',
+            pic: '',
+            sic: '',
+            solo: '',
+            student: '',
+            tailNumber: '',
+            cxt: '',
+            aircraftId: '',
+            'Aircraft.tailNumber': ''
 
+        }))
+    }
     const getTotals = () => {
 
         API.getFlightTotals()
@@ -448,7 +457,6 @@ const Logbook = () => {
                             handleAddFlight={logFlight}
                             value={logbookForm}
                             text='Add Flight'
-                            setAircraft={setAircraft}
                         />
                     </>
                 )
@@ -466,7 +474,6 @@ const Logbook = () => {
                             handleClick={workingTimeDistance}
                             handleAddFlight={editFlight}
                             value={logbookForm}
-                            aircraftList={aircraftList}
                             text='Update Flight'
                         />
                     </>
@@ -499,7 +506,10 @@ const Logbook = () => {
         if (!selected) return;
         Object.keys(logbookForm).forEach(key => { newLog[key] = selected[key] })
         setlogbookForm(newLog)
-        console.log("new log", newLog)
+        getAircraftTypes()
+        console.log(logbookForm)
+        // setlogbookForm(newLog)
+        // console.log("new log", newLog)
         
         setModal(prevModal => ({
             ...prevModal,
