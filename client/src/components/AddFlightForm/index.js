@@ -67,6 +67,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, s
                         inputClass='addFlightInput'
                         placeholder='Aircraft Type'
                         width='200px'
+                        // defaultValue = {value.aircraftList[1]}
                         styles={customStyles}
                         onChange={setAircraft}
                     />

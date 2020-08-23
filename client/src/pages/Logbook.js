@@ -35,9 +35,8 @@ const Logbook = () => {
         cfi: '',
         comments: '',
         dayLdg: '',
-        depAir: '',
         dualI: '',
-        enrRout: '',
+        route: '',
         flightNum: '',
         holds: '',
         hood: '',
@@ -52,7 +51,7 @@ const Logbook = () => {
         student: '',
         total: '',
         cxt: '',
-        aircraftType: ''
+        aircraftId: ''
 
     })
     const [modal, setModal] = useState({
@@ -352,6 +351,7 @@ const Logbook = () => {
         })
             .then((data) => {
                 console.log("logFlight data: ", data)
+                setlogbookFormBlank();
                 getFlights();
             })
             .catch(err=> console.log(err))
@@ -360,8 +360,6 @@ const Logbook = () => {
 
     const editFlight = (e, id) => {
         e.preventDefault();
-        console.log('edit flight working')
-        // console.log('edit id', modal.values.id)
         const nullChecked = {}
         Object.keys(logbookForm)
             .forEach(key => {
@@ -389,46 +387,46 @@ const Logbook = () => {
             cfi: nullChecked.cfi,
             dualI: nullChecked.dualI,
             solo: nullChecked.solo,
-            UserId: user.userId
+            UserId: user.userId,
+            AircraftId: nullChecked.AircraftId
 
         })
-            .then(res => {
-                setlogbookForm(prev=>({
-                    ...prev,
-                    date: '',
-                    total: '',
-                    crossCountry: '',
-                    night: '',
-                    arrTime: '',
-                    depTime: '',
-                    cfi: '',
-                    comments: '',
-                    dayLdg: '',
-                    depAir: '',
-                    dualI: '',
-                    enrRout: '',
-                    flightNum: '',
-                    holds: '',
-                    hood: '',
-                    iap: '',
-                    imc: '',
-                    instructor: '',
-                    landings: '',
-                    nightLdg: '',
-                    pic: '',
-                    sic: '',
-                    solo: '',
-                    student: '',
-                    tailNumber: '',
-                    cxt: '',
-                    aircraftType: ''
-                }))
-            })
+            // .then(res => setlogbookFormBlank())
             .catch(err => console.error(err))
-
+        setlogbookFormBlank()
         getFlights();
     }
-
+    const setlogbookFormBlank = () => {
+        setlogbookForm(prev=>({
+            ...prev,
+            date: '',
+            total: '',
+            crossCountry: '',
+            night: '',
+            arrTime: '',
+            depTime: '',
+            cfi: '',
+            comments: '',
+            dayLdg: '',
+            dualI: '',
+            route: '',
+            flightNum: '',
+            holds: '',
+            hood: '',
+            iap: '',
+            imc: '',
+            instructor: '',
+            landings: '',
+            nightLdg: '',
+            pic: '',
+            sic: '',
+            solo: '',
+            student: '',
+            tailNumber: '',
+            cxt: '',
+            aircraftId: ''
+        }))
+    }
     const getTotals = () => {
 
         API.getFlightTotals()
@@ -502,7 +500,9 @@ const Logbook = () => {
 
         if (!selected) return;
         Object.keys(logbookForm).forEach(key => { newLog[key] = selected[key] })
-        setlogbookForm(newLog)
+        setlogbookForm(newLog,)
+        getAircraftTypes()
+        console.log(logbookForm)
         setModal(prevModal => ({
             ...prevModal,
             open: !modal.open
