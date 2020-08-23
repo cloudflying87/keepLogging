@@ -6,7 +6,7 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false
         },
-        aircraftModel:{
+        AircraftModelId:{
         type: DataTypes.INTEGER,
           references:{
               model:"AircraftModels",

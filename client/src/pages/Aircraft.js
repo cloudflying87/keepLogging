@@ -89,7 +89,7 @@ const Aircraft = () => {
             // date: new Date(),
             [name]: value
         }))
-        console.log(state)
+        
     };
 
     const addTail = (event) => {
@@ -98,7 +98,7 @@ const Aircraft = () => {
             tailNumber: state.tailNumber,
             aircraftModel: state.modelId
         })
-        .then((data) => console.log(data))
+        .then((data) => console.log(state))
         
         .catch(console.error)
     }
@@ -108,7 +108,7 @@ const Aircraft = () => {
             ...state,
             modelId: value.value
         }))
-        console.log(state)
+        
     }
 
     const switchFunc = arg => {

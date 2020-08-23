@@ -103,7 +103,8 @@ app.get("/api/aircraft/", function (req, res) {
     //     res.redirect(307, "/api/login");
     // } else {
     db.FlightTime.findAll({
-      where: {UserId: req.user.id},
+      // where: {UserId: req.user.id},
+      where: {UserId: 2},
       attributes:['AircraftId'],
       include:{
         model: db.Aircraft,
