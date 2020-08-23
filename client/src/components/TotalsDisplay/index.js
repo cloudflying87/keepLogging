@@ -1,10 +1,12 @@
 import React from 'react';
+import Chart from '../Chart/index';
 import './style.css'
 
 const TotalsDisplay = ({totals}) => {
 
     return (
         <div className='totalsList'>
+            <Chart totals={totals} />
             {
                 <ul >
                     {!!totals.cxt &&

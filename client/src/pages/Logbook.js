@@ -51,9 +51,10 @@ const Logbook = () => {
         student: '',
         total: '',
         cxt: '',
-        aircraftType: ''
-
+        aircraftType: '',
+        // aircraftList: []
     })
+    const [aircraftList, setAircraftList] = useState()
     const [modal, setModal] = useState({
         open: false,
         values: []
@@ -73,7 +74,7 @@ const Logbook = () => {
             .catch(err => {
                 console.error(err)
             })
-            API.getAircraftTypes()
+        API.getAircraftTypes()
             .then(({ data }) => {
                 let rawResults = []
                 let filteredResults = []
@@ -88,17 +89,19 @@ const Logbook = () => {
                 }
                 // console.log()
                 filteredResults = rawResults.map((a) => ({
-                    value: a.AircraftId, 
-                    label: a['Aircraft.tailNumber']+' '+a['Aircraft.AircraftModel.description'],
-                    
+                    value: a.AircraftId,
+                    label: a['Aircraft.tailNumber'] + ' ' + a['Aircraft.AircraftModel.description'],
+
                 }))
-                let filteredResultsSorted = filteredResults.sort((a,b) => (a.label > b.label) ? 1 : ((b.label > a.label)? -1 : 0))
-                
-                setlogbookForm(logbookForm => ({
-                    ...logbookForm,
-                    aircraftList: filteredResultsSorted
-                }))
+                let filteredResultsSorted = filteredResults.sort((a, b) => (a.label > b.label) ? 1 : ((b.label > a.label) ? -1 : 0))
+
+                // setlogbookForm(logbookForm => ({
+                //     ...logbookForm,
+                //     aircraftList: filteredResultsSorted
+                // }))
+                setAircraftList(filteredResultsSorted)
             })
+            .catch(err => console.log(err))
     }, [])
 
     const getFlights = () => {
@@ -126,9 +129,9 @@ const Logbook = () => {
     const setAircraft = (value) => {
         setlogbookForm(logbookForm => ({
             ...logbookForm,
-            AircraftId:value.value
+            AircraftId: value.value
         }))
-        
+
     }
     const handleFormInput = ({ target: { value, name } }) => {
         setlogbookForm(logbookForm => ({
@@ -142,9 +145,9 @@ const Logbook = () => {
         e.preventDefault();
         if (logbookForm.route === undefined ||
             logbookForm.depTime === undefined ||
-            logbookForm.arrTime === undefined ){
-                return alert('Need to fill in Route, Departure Time and Arrival Time')
-            }
+            logbookForm.arrTime === undefined) {
+            return alert('Need to fill in Route, Departure Time and Arrival Time')
+        }
         await workingTimes();
         await findDistance();
         await calcTime();
@@ -318,9 +321,6 @@ const Logbook = () => {
                 nullChecked[key] = !!logbookForm[key] ? logbookForm[key] : null
             })
 
-        console.log(logbookForm)
-        console.log(user.userId)
-
         e.preventDefault()
         API.createFlight({
             date: nullChecked.date,
@@ -351,14 +351,12 @@ const Logbook = () => {
                 console.log("logFlight data: ", data)
                 getFlights();
             })
-            .catch(err=> console.log(err))
+            .catch(err => console.log(err))
 
     }
 
-    const editFlight = (e, id) => {
+    const editFlight = e => {
         e.preventDefault();
-        console.log('edit flight working')
-        // console.log('edit id', modal.values.id)
         const nullChecked = {}
         Object.keys(logbookForm)
             .forEach(key => {
@@ -386,11 +384,11 @@ const Logbook = () => {
             cfi: nullChecked.cfi,
             dualI: nullChecked.dualI,
             solo: nullChecked.solo,
-            UserId: user.userId
-
+            UserId: user.userId,
+            AircraftId: nullChecked.AircraftId
         })
             .then(res => {
-                setlogbookForm(prev=>({
+                setlogbookForm(prev => ({
                     ...prev,
                     date: '',
                     total: '',
@@ -418,7 +416,7 @@ const Logbook = () => {
                     student: '',
                     tailNumber: '',
                     cxt: '',
-                    aircraftType: ''
+                    // aircraftType: ''
                 }))
             })
             .catch(err => console.error(err))
@@ -468,6 +466,7 @@ const Logbook = () => {
                             handleClick={workingTimeDistance}
                             handleAddFlight={editFlight}
                             value={logbookForm}
+                            aircraftList={aircraftList}
                             text='Update Flight'
                         />
                     </>
@@ -491,15 +490,17 @@ const Logbook = () => {
     };
 
     const openEdit = id => {
-        console.log('open edit id', id)
 
         const selected = state.fullResults
             .find(x => parseInt(x.id) === id)
         const newLog = {}
+        console.log('selected', selected)
 
         if (!selected) return;
         Object.keys(logbookForm).forEach(key => { newLog[key] = selected[key] })
         setlogbookForm(newLog)
+        console.log("new log", newLog)
+        
         setModal(prevModal => ({
             ...prevModal,
             open: !modal.open
