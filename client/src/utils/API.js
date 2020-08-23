@@ -30,6 +30,9 @@ export default {
     getAircraftTypes: function () {
         return axios.get('api/aircraftTypes/');
     },
+    getAircraftModels: function () {
+        return axios.get('api/aircraftModels/');
+    },
     // airport routes --------------------------------------------------------
     // all airports
 

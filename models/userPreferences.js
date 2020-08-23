@@ -5,7 +5,8 @@ module.exports = function(sequelize, DataTypes) {
             instructorCanView: DataTypes.BOOLEAN,
             instructorCanAdd: DataTypes.BOOLEAN,
             student: DataTypes.INTEGER,
-
+            aircraft: DataTypes.STRING,
+            UserId: DataTypes.INTEGER,
         })
     return userPreference;
 };
