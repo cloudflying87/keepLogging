@@ -97,7 +97,7 @@ const Nav = ({ children }) => {
                 </li>
                 <li>
                     <Link
-                        // {(API.userLogOut())}
+                        onClick={()=> API.userLogOut()}
                         to='/'>
                         Logout
                      </Link>

@@ -4,8 +4,7 @@ import Button from '../Button/index';
 import './style.css'
 import Select from 'react-select'
 
-const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, setAircraft, text }) => {
-    console.log('add flight from value: ', value)
+const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, setAircraft, text, aircraftList }) => {
     const customStyles ={
         option: (provided, state) =>({
             ...provided,
@@ -64,7 +63,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, s
                         label='Aircraft Type'
                         name='aircraftType'
                         inputId='aircraftTypeInput'
-                        inputClass='addFlightInput'
+                        inputClass='addFlightInput dropdown'
                         placeholder='Aircraft Type'
                         width='200px'
                         // defaultValue = {value.aircraftList[1]}
@@ -80,7 +79,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, s
                         inputClass='addFlightInput'
                         placeholder='Route'
                         handleInputChange={handleFormInput}
-                        value={value.depAir, value.enrRout, value.arrAir}
+                        value={value.route}
                     />
                 </div>
                 <div className='commentsDiv'>
@@ -165,7 +164,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, s
                         inputClass='addFlightInput'
                         placeholder='Hold'
                         handleInputChange={handleFormInput}
-                        size={4}
+                        size={2}
                         value={value.holds}
 
                     />
@@ -221,7 +220,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, s
                             inputClass='addFlightInput'
                             placeholder='Total'
                             handleInputChange={handleFormInput}
-                            size={4}
+                            size={3}
                             value={value.total}
                         />
                         <Input
@@ -231,9 +230,9 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, s
                             type='text'
                             inputId='crossCountryInput'
                             inputClass='addFlightInput'
-                            placeholder='Cross Country'
+                            placeholder='xCountry'
                             handleInputChange={handleFormInput}
-                            size={4}
+                            size={3}
                             value={value.cxt}
                         />
                         <Input
@@ -245,7 +244,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, s
                             inputClass='addFlightInput'
                             placeholder='Night'
                             handleInputChange={handleFormInput}
-                            size={4}
+                            size={3}
                             value={value.night}
                         />
                         <Input
@@ -257,7 +256,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, s
                             inputClass='addFlightInput'
                             placeholder='IMC'
                             handleInputChange={handleFormInput}
-                            size={4}
+                            size={3}
                             value={value.imc}
 
                         />
@@ -270,7 +269,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, s
                             inputClass='addFlightInput'
                             placeholder='Hood'
                             handleInputChange={handleFormInput}
-                            size={4}
+                            size={3}
                             value={value.hood}
 
                         />
@@ -285,7 +284,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, s
                             inputClass='addFlightInput'
                             placeholder='PIC'
                             handleInputChange={handleFormInput}
-                            size={4}
+                            size={3}
                             value={value.pic}
 
                         />
@@ -298,7 +297,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, s
                             inputClass='addFlightInput'
                             placeholder='SIC'
                             handleInputChange={handleFormInput}
-                            size={4}
+                            size={3}
                             value={value.sic}
 
                         />
@@ -311,7 +310,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, s
                             inputClass='addFlightInput'
                             placeholder='CFI'
                             handleInputChange={handleFormInput}
-                            size={4}
+                            size={3}
                             value={value.cfi}
 
                         />
@@ -324,7 +323,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, s
                             inputClass='addFlightInput'
                             placeholder='Dual'
                             handleInputChange={handleFormInput}
-                            size={4}
+                            size={3}
                             value={value.dualI}
 
                         />
@@ -337,7 +336,7 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, s
                             inputClass='addFlightInput'
                             placeholder='Solo'
                             handleInputChange={handleFormInput}
-                            size={4}
+                            size={3}
                             value={value.solo}
 
                         />

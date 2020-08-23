@@ -9,7 +9,6 @@ module.exports = function (app) {
 
   // Routes for flight_time table per user id
   app.get("/api/flight_time/", function (req, res) {
-    console.log('req.user: ', req.user)
     if (!req.user) {
       res.redirect(307, "/");
     } else {

@@ -58,7 +58,7 @@ const Aircraft = () => {
                     results: filteredResultsSorted
                 }))
             })
-    })
+    }, [])
     const handleFormInput = ({ target: { value, name } }) => {
         setState(state => ({
             ...state,

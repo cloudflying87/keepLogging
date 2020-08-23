@@ -51,9 +51,11 @@ const Logbook = () => {
         student: '',
         total: '',
         cxt: '',
-        aircraftId: ''
-
+        aircraftId: '',
+        aircraftType: '',
+        aircraftList: []
     })
+    // const [aircraftList, setAircraftList] = useState()
     const [modal, setModal] = useState({
         open: false,
         values: []
@@ -138,6 +140,7 @@ const Logbook = () => {
                     ...logbookForm,
                     aircraftList: filteredResultsSorted
                 }))
+                // setAircraftList(filteredResultsSorted)
             })
     }
     const workingTimeDistance = async (e) => {
@@ -320,9 +323,6 @@ const Logbook = () => {
                 nullChecked[key] = !!logbookForm[key] ? logbookForm[key] : null
             })
 
-        console.log(logbookForm)
-        console.log(user.userId)
-
         e.preventDefault()
         API.createFlight({
             date: nullChecked.date,
@@ -354,11 +354,11 @@ const Logbook = () => {
                 setlogbookFormBlank();
                 getFlights();
             })
-            .catch(err=> console.log(err))
+            .catch(err => console.log(err))
 
     }
 
-    const editFlight = (e, id) => {
+    const editFlight = e => {
         e.preventDefault();
         const nullChecked = {}
         Object.keys(logbookForm)
@@ -451,7 +451,6 @@ const Logbook = () => {
                             handleAddFlight={logFlight}
                             value={logbookForm}
                             text='Add Flight'
-                            setAircraft={setAircraft}
                         />
                     </>
                 )
@@ -492,17 +491,20 @@ const Logbook = () => {
     };
 
     const openEdit = id => {
-        console.log('open edit id', id)
 
         const selected = state.fullResults
             .find(x => parseInt(x.id) === id)
         const newLog = {}
+        console.log('selected', selected)
 
         if (!selected) return;
         Object.keys(logbookForm).forEach(key => { newLog[key] = selected[key] })
-        setlogbookForm(newLog,)
+        setlogbookForm(newLog)
         getAircraftTypes()
         console.log(logbookForm)
+        // setlogbookForm(newLog)
+        // console.log("new log", newLog)
+        
         setModal(prevModal => ({
             ...prevModal,
             open: !modal.open
