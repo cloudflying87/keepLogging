@@ -82,9 +82,9 @@
     transition: all .2s ease-in;
   }
   
-  .form-enter-done {
+  /* .form-enter-done {
     
-  }
+  } */
 
   
   @media screen and (max-width: 320px) {
