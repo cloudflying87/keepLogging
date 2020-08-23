@@ -5,54 +5,97 @@
 tbody {
     font-size: .6em;
 } */
-body{
-    font-size: .8em;
+
+body {
+  font-size: .8em;
 }
+
 .tableHeader {
-    display: flex;
-    flex-flow: row nowrap;
-    background-color: rgba(182, 182, 182, 0.658);
+  display: flex;
+  flex-flow: row nowrap;
+  background-color: rgba(182, 182, 182, 0.658);
 }
-.col0, .dateCol {
-    margin-left: 0;
-    margin-right: 20px;
-    max-width:30px
+
+.col0,
+.dateCol {
+  margin-left: 0;
+  margin-right: 20px;
+  max-width: 30px
 }
-.col1, .aircraftCol {
-    margin-left: 0;
-    margin-right: 10px;
-}
+
+.col1,
 .aircraftCol {
-    word-wrap: break-word;
-    width: 50px;
+  margin-left: 0;
+  margin-right: 10px;
 }
-.col2, .routeCol {
-    margin-left: 0;
-    margin-right: 30px;
+
+.aircraftCol {
+  word-wrap: break-word;
+  width: 50px;
 }
+
+.col2,
 .routeCol {
-    width: 20px;
+  margin-left: 0;
+  margin-right: 30px;
 }
-.col3, .commentsCol {
-    margin-left: 10px;
+
+.routeCol {
+  width: 20px;
 }
+
+.col3,
 .commentsCol {
-    overflow-y: scroll;
-    width: 100px;
+  margin-left: 10px;
 }
+
+.commentsCol {
+  overflow-y: scroll;
+  width: 100px;
+}
+
+
 /* .commentsCol::--webkit-scrollbar {
     color: red;
 } */
-.col4, .totalCol {
-    margin-left: auto;
-    margin-right: 10px;
+
+.col4,
+.totalCol {
+  margin-left: auto;
+  margin-right: 10px;
 }
+
 .tableCol {
-    display: flex;
-    flex-flow: row nowrap;
-    height: 65px;
+  display: flex;
+  flex-flow: row nowrap;
+  height: 65px;
 }
 
 .tableCol:nth-child(even) {
-    background-color: lightgrey;
+  background-color: lightgrey;
 }
+
+.enter {
+    opacity: 0;
+    height: 0;
+    transition: all 1s ease-in-out;
+}
+
+.enter-active {
+    font-size: 1em;
+    opacity: 1;
+  }
+  
+  /* .enter-done {
+    transform: all 2s;
+  } */
+  
+  /* .exit {
+    opacity: 1;
+  } */
+/*   
+  .exit-active {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 2s, transform 300ms;
+  } */
