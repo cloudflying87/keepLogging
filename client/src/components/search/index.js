@@ -5,13 +5,13 @@ import './style.css'
 
 
 
-const SearchDates = ({ handleClick, handleFormInput, value }) => {
+const SearchDates = ({ handleClick, handleReset, handleFormInput, value }) => {
 
     return (
         <div>
-            
+            <h2>Enter date range for flights</h2>
                 <div className='searchDiv'>
-                <h2>Enter date range for flights</h2>
+                
                     <Input
                         labelFor='startDate'
                         label='startDate'
@@ -46,7 +46,7 @@ const SearchDates = ({ handleClick, handleFormInput, value }) => {
                         text='Reset'
                         btnId='reset'
                         className='searchBtn'
-                        handleClick={handleClick}
+                        handleClick={handleReset}
                     />
                 </div>
                 

@@ -117,6 +117,13 @@ const Logbook = () => {
             mapped: searchMapped
         }))
     }
+    const resetMapped = (e) => {
+        
+        setState(state => ({
+            ...state,
+            mapped: state.mappedOriginal
+        }))
+    }
     const handleFormInput = ({ target: { value, name } }) => {
         setlogbookForm(logbookForm => ({
             ...logbookForm,
@@ -475,7 +482,8 @@ const Logbook = () => {
                     <SearchDates
                         handleFormInput={handleFormInput}
                         handleClick={searchDates}
-                        value={logbookForm}
+                        handleReset={resetMapped}
+                        value = {logbookForm}
                     />
                 )
             case 'editBtn':

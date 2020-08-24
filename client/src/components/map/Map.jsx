@@ -2,8 +2,8 @@
 import React from 'react'
 import GoogleMapReact from 'google-map-react'
 
-
 import './map.css'
+require('dotenv').config();
 
 const getMapOptions = (maps) => {
 
@@ -38,7 +38,7 @@ const Map = ({ location, zoomLevel }) => (
     <div style={{ height: '50vh', width: '100%' }}>
       <GoogleMapReact
         bootstrapURLKeys={{
-          key: 'AIzaSyADjyLrXt4_RMbDHBCVoJRgdOfEjj6sKyc'}}
+          key: ''}}
         
         center={location}
         zoom={zoomLevel}

@@ -56,18 +56,13 @@ module.exports = function (app) {
 
   // -----------------------------------------------------------------------------------------
   app.post("/api/verifyAccount", function (req, res) {
-    // console.log("verifyAccount req.body: ",req.body)
-    // res.send(req.body)
-    // if (!req.user) {
-    //   res.redirect(307, "/api/login");
-    // } else {
-    db.User.findAll({
-      where: {
-        email: req.body.studentEmail
-      },
-    })
-      .then(results => res.json(results))
-      .catch(err => res.status(404).json(err));
+      db.User.findAll({
+        where: {
+          email: req.body.studentEmail
+        },
+      })
+        .then(results => res.json(results))
+        .catch(err => res.status(404).json(err));
     // };
   })
 
@@ -78,7 +73,6 @@ module.exports = function (app) {
 
     // console.log("line 78", email)
     // console.log("line 79", user)
-    console.log("line 80", user)
     // console.log(user.data.id)
     main()
       .catch(err => console.log(err))
@@ -148,5 +142,17 @@ module.exports = function (app) {
         .then(results => res.json(results))
         .catch(err => res.status(404).json(err));
     }
+  })
+
+  app.post("/api/checkDuplicates", function (req, res) {
+      db.userPreferences.findAll({
+        where: {
+          instructorID: req.body.instructorID,
+          studentID: req.body.studentID,
+        },
+      })
+        .then(results => res.json(results))
+        .catch(err => res.status(404).json(err));
+    // };
   })
 }
