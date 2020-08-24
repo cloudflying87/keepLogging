@@ -4,15 +4,18 @@ import ViewAirport from '../components/ViewAirport'
 import API from '../utils/API';
 import Button from '../components/Button/index'
 import UserContext from '../utils/UserContext';
-
+import MapSection from '../components/map/Map' 
+import '../components/ViewAirport/style.css'
 
 const Airports = () => {
     const [state, setState] = useState({
-        open: false,
+        open: 0,
         btnClicked: '',
         userCurrentAircraft: [],
         airport: '',
-        modelId:0
+        modelId: 0,
+        google:'',
+        
     });
     const [user, setUser] = useState({
         userId: ''
@@ -22,64 +25,98 @@ const Airports = () => {
         setState(state => ({
             ...state,
             // date: new Date(),
-            [name]: value
+            airport: value
         }))
-        console.log(state)
+        // apiCall()  
+
     };
-    const switchFunc = arg => {
-        switch (arg) {
-            case 'viewAiport':
-                return (
-                    <>
-                        <ViewAirport
-                            handleFormInput={handleFormInput}
-                            value={state}
-                            
-                        />
-                    </>
-                )
-                break;
-            default:
-                return null;
-                break;
-        };
-    };
-    const openAccordion = e => {
-        const { target } = e
-        setState(state => ({
-            ...state,
-            open: !state.open,
-            btnClicked: target.id
-        }))
+    const apiCall = () => {
+        API.getAirports({
+            airport: state.airport
+        })
+            .then(({ data }) => {
+                const formattedResults = data.map(a => ({
+                    icao: a.icao,
+                    name: a.name,
+                    iata: a.iata,
+                    city: a.city,
+                    state: a.state,
+                    country: a.country,
+                    lat: a.lat,
+                    long: a.lon,
+                    elevation: a.elevation
+
+                }))
+                console.log(formattedResults)
+                setState(state => ({
+                    ...state,
+                    airportInfo: formattedResults,
+                    open: true
+                }))
+            })
+            .catch(console.error)
+    }
+    
+    const printState = (data) => {
+        if (data.length === 0) {
+            return (
+                <div className="airport">
+                    <h1>No Airport Found. Try again. </h1>
+                </div>
+            )
+        } else {
+            const location =[]
+            location.push(parseFloat(data[0].lat,10),
+            parseFloat(data[0].long,10))              
+              
+            return (
+                <>
+                <div className="airport">
+                    <h1>{data[0].name}</h1>
+                    <h2>{data[0].city + ' ' + data[0].state + ' ' + data[0].country}</h2>
+                    <h2>Elevation: {data[0].elevation}</h2>
+                </div>
+                <div>
+                <MapSection 
+                    location={location} 
+                    zoomLevel={13} 
+                    
+                    />
+                    
+                </div>
+                </>
+            )
+        }
+    }
+    const printNoAirport = () => {
+        return (
+            <div className="airport">
+                <h1>Search for an airport by ICAO code</h1>
+            </div>
+        )
+
     }
 
     return (
         <UserContext.Provider value={user}>
             <Nav />
             <div className='menuDiv'>
-                {/* here will be the buttons for this page. Maybe i'll make a component for these since there will be one on each page. */}
-                <Button
-                    text='View Airport'
-                    btnId='viewAiport'
-                    btnClass='menuBtn'
-                    handleClick={openAccordion}
+                <ViewAirport
+                    handleFormInput={handleFormInput}
+                    handleClick={apiCall}
+                    value={state}
+
                 />
             </div>
             <div className='formDiv'>
-                {
-                    !state.open
-                        ? null
-                        : (
-                            switchFunc(state.btnClicked)
-                        )
-                }
+                {!state.open ? printNoAirport() : (printState(state.airportInfo))}
             </div>
-            
+
 
         </UserContext.Provider>
     );
 
-    
+
 };
 
 

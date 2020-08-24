@@ -1,25 +1,16 @@
 body{
     font-size: .8em;
 }
-.tableHeader {
-    display: flex;
-    flex-flow: row nowrap;
-    background-color: rgba(182, 182, 182, 0.658);
-}
-.aircraft {
-    margin-top: 20px;
-    font-size: 1.3em;
-}
-h1 {
-    text-align: center;
-    margin-top: 5px;
-}
-.tableRow {
-    display:flex;
-    justify-content: center;
-    height: 65px;
-}
 
-.tableRow:nth-child(even) {
-    background-color: lightgrey;
+#airport {
+    height:30px;
+    font-size: 1.3em;
+    margin: 10px;
+}
+h2 {
+    text-align: center;
+}
+.airport{
+    justify-content: center;
+    padding:30px;
 }
