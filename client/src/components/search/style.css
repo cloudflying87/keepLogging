@@ -1,0 +1,20 @@
+body{
+    font-size: .8em;
+}
+
+.searchDates {
+    height:30px;
+    width: 130px;
+    font-size: 1.3em;
+    margin: 10px;
+}
+#search {
+    margin: 9px;
+}
+.searchDiv{
+    display:flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    
+    padding:25px;
+}
