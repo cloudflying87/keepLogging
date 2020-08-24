@@ -4,7 +4,7 @@ import Nav from '../components/Nav/index';
 import API from '../utils/API'
 import UserContext from '../utils/UserContext';
 import Table from '../components/Table/index';
-import Model from '../components/Modal/index';
+import Modal from '../components/Modal/index';
 
 
 const Training = () => {
