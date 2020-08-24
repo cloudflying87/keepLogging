@@ -8,13 +8,11 @@ body{
     font-size: 1.3em;
     margin: 10px;
 }
-.searchBtn {
-    margin: 9px;
+button {
+    margin: 15px;
 }
 .searchDiv{
     display:flex;
     flex-flow: row wrap;
     justify-content: center;
-    
-    padding:25px;
 }
