@@ -115,16 +115,13 @@ export default {
     redirect: function (validationKey, studentEmail) {
         return axios.get(`/redirect/${validationKey}/${studentEmail}`);
     },
-<<<<<<< HEAD
     // route for getting student id's of associated instructor
     getStudents: function(id) {
         return axios.get('/api/getStudents/'+id);
-    }
-=======
+    },
     checkDuplicates: function (instructorID, studentID) {
         return axios.post('/api/checkDuplicates', instructorID, studentID);
     },
->>>>>>> 5c6a4f8f1e50f9495cdfe2831e6ce3a57d132048
 }
 
 
