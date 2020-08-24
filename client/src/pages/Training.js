@@ -19,7 +19,6 @@ const Training = () => {
 
     const onSubmit = async (event) => {
         event.preventDefault();
-        console.log(studentEmail)
         if (!studentEmail) {
 
             return setInvalidSubmission(true); // render an error message
@@ -32,24 +31,38 @@ const Training = () => {
                 studentEmail: studentEmail
             })
                 .then(function (matchingStudent) {
-                    console.log("MatchingStudent", matchingStudent)
                     if (matchingStudent.data[0]) {
+
                         // Find current logged in user
                         API.userData({
                         })
                             .then(function (loggedInUser) {
-                                console.log("Logged in user", loggedInUser)
 
-                                API.sendMail({
-                                    "email": matchingStudent.data[0].email,
-                                    "ID": matchingStudent.data[0].id,
-                                    "user": loggedInUser
+                                API.checkDuplicates({
+                                    instructorID: loggedInUser.data.id,
+                                    studentID: matchingStudent.data[0].id
                                 })
+                                    .then(function (DuplicateAccess) {
+                                        if (!DuplicateAccess.data[0]) {
+
+                                            API.sendMail({
+                                                "email": matchingStudent.data[0].email,
+                                                "ID": matchingStudent.data[0].id,
+                                                "user": loggedInUser
+                                            })
+                                        }
+                                        else {
+                                            console.log("You already have access to this student")
+                                        }
+
+                                    })
+
                             })
                             .catch(error => (console.log(error)))
+
                     }
-                    else{
-                        console.log("This user needs to create an account first")
+                    else {
+                        console.log("This student needs to create an account first")
                     }
                 })
 
