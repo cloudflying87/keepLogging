@@ -8,6 +8,7 @@ import TotalsDisplay from '../components/TotalsDisplay/index';
 import API from '../utils/API';
 import UserContext from '../utils/UserContext';
 import moment from 'moment'
+import SearchDates from '../components/search/index'
 import { CSSTransition } from 'react-transition-group';
 import './logbook.css'
 import getAircraftTypesFunction from '../components/AircraftDisplay/function';
@@ -22,6 +23,7 @@ const Logbook = () => {
         btnClicked: '',
         fullResults: [],
         mapped: [],
+        mappedOriginal:[],
         totals: [],
         // userId: ''
     })
@@ -54,6 +56,8 @@ const Logbook = () => {
         aircraftId: '',
         aircraftType: '',
         aircraftList: [],
+        startDate: '',
+        endDate: '',
         'Aircraft.tailNumber': ''
 
     })
@@ -94,7 +98,8 @@ const Logbook = () => {
                 setState(state => ({
                     ...state,
                     fullResults: res.data,
-                    mapped
+                    mappedOriginal:mapped,
+                    mapped:mapped
                 }))
             })
             .catch(err => {
@@ -108,7 +113,22 @@ const Logbook = () => {
             AircraftId: value.value
         }))
     }
-    
+    const searchDates = (e) => {
+        e.preventDefault()
+        
+        let startDate = moment.utc(logbookForm.startDate)
+        let endDate = moment.utc(logbookForm.endDate).format('x')
+        // moment.utc(searchMapped[0].Date).format('x')
+        const searchMapped = state.mappedOriginal.filter(x => {
+            
+            return (moment.utc(x.Date).format('x') >= startDate && moment.utc(x.Date).format('x') <= endDate)
+            
+        })
+        setState(state => ({
+            ...state,
+            mapped: searchMapped
+        }))
+    }
     const handleFormInput = ({ target: { value, name } }) => {
         setlogbookForm(logbookForm => ({
             ...logbookForm,
@@ -467,6 +487,14 @@ const Logbook = () => {
                         totals={state.totals}
                     />
                 )
+            case 'searchBtn':
+                return (
+                    <SearchDates
+                        handleFormInput={handleFormInput}
+                        handleClick={searchDates}
+                        value = {logbookForm}
+                    />
+                )
             case 'editBtn':
                 return (
                     <>
@@ -623,15 +651,15 @@ const Logbook = () => {
                         }}
                     />
                 </div>
-                    <div className='formDiv'>
-                        {
-                            !state.open
-                                ? null
-                                : (
-                                    switchFunc(state.btnClicked)
-                                )
-                        }
-                    </div>
+                <div className='formDiv'>
+                    {
+                        !state.open
+                            ? null
+                            : (
+                                switchFunc(state.btnClicked)
+                            )
+                    }
+                </div>
                 <main>
                     {
                         <Table

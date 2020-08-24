@@ -1,8 +1,8 @@
 module.exports = function(sequelize, DataTypes) {
     var userPreferences = sequelize.define("userPreferences", {
-            Email: DataTypes.STRING,
+            instructorID: DataTypes.STRING,
             Access: DataTypes.STRING,
-            AccountAccess: DataTypes.STRING,
+            studentID: DataTypes.STRING,
             AircraftIds: DataTypes.STRING,
             // instructorCanView: DataTypes.BOOLEAN,
             // instructorCanAdd: DataTypes.BOOLEAN,
