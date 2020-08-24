@@ -173,7 +173,7 @@ const Training = () => {
     // }
 
     console.log(user)
-    console.log(students.mapped)
+    console.log(students.mapped[0])
     return (
         <>
             {/* {
