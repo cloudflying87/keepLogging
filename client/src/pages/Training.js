@@ -12,9 +12,10 @@ const Training = () => {
 
     const [studentEmail, setStudentEmail] = useState("");
     const [invalidSubmission, setInvalidSubmission] = useState(false);
-    // const [students, setStudents] = useState({
-    //     id: ''
-    // })
+    const [students, setStudents] = useState({
+        ids: [],
+        flights: []
+    })
     const user = useContext(UserContext)
 
     useEffect(() => {
@@ -43,8 +44,6 @@ const Training = () => {
                         })
                             .then(function (loggedInUser) {
                                 console.log("Logged in user", loggedInUser)
-                                // setInstructor({ id: loggedInUser.id })
-
                                 API.sendMail({
                                     "email": matchingStudent.data[0].email,
                                     "ID": matchingStudent.data[0].id,
@@ -68,40 +67,44 @@ const Training = () => {
         // When they click on the key it changes the key in the user's profile back to the students email address
     }
 
+    // grab students associated with the instructor
     const getStudents = () => {
-        console.log('working')
         API.getStudents(user.userId)
-            .then(res => console.log('getStudents res', res.studentID))
+            .then(({ data }) => {
+                console.log(data)
+                // const mapped = data.map(x=> ({
+                //     studentId: x.studentID,
+                // }))
+                // setStudents()
+            })
             .catch(err => console.log(err))
     }
 
-    const getStudentFlights = () => {
+    // const getStudentFlights = () => {
 
-    }
+    // }
 
     console.log(user)
     return (
         <>
-                <Nav />
-                <main>
-                    <form onSubmit={onSubmit}>
-                        <Input
-                            type="text"
-                            id="student-email-input"
-                            placeholder="Student Email"
-                            label="Student Email"
-                            handleInputChange={({ target: { value } }) => setStudentEmail(value)}
-                        />
-                        <button id='add-student' type="submit" >
-                            Add Student
+            <Nav />
+            <main>
+                <form onSubmit={onSubmit}>
+                    <Input
+                        type="text"
+                        id="student-email-input"
+                        placeholder="Student Email"
+                        label="Student Email"
+                        handleInputChange={({ target: { value } }) => setStudentEmail(value)}
+                    />
+                    <button id='add-student' type="submit" >
+                        Add Student
                 </button>
-                    </form>
-                    {invalidSubmission && (<div>Please enter a valid email</div>)}
-                </main>
+                </form>
+                {invalidSubmission && (<div>Please enter a valid email</div>)}
+            </main>
         </>
     );
-
-
 };
 
 

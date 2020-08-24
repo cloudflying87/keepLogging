@@ -553,6 +553,7 @@ const Logbook = () => {
     }
 
 
+    console.log(user)
     return (
             <>
                 {

@@ -137,12 +137,16 @@ module.exports = function (app) {
 
   // route for getting the student id's associated with an instructor.
   app.get("/api/getStudents/:id", (req, res) => {
-    db.userPreferences.findAll({
-      where: {
-        instructorID: req.params.id.toString()
-      }
-    })
-      .then(results => res.json(results))
-      .catch(err => res.status(404).json(err));
+    if (!req.user) {
+      res.redirect(307, '/');
+    } else {
+      db.userPreferences.findAll({
+        where: {
+          instructorID: req.params.id.toString()
+        }
+      })
+        .then(results => res.json(results))
+        .catch(err => res.status(404).json(err));
+    }
   })
 }

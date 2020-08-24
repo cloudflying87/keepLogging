@@ -16,7 +16,7 @@ function App() {
 
   const [user, setUser] = useState({
     userId: '',
-    updateUser: function(userId) {
+    updateUser: function (userId) {
       setUser({
         ...user,
         userId
@@ -25,9 +25,9 @@ function App() {
   })
 
   return (
-    <Router>
+    <UserContext.Provider value={user}>
+      <Router>
         <Switch>
-      <UserContext.Provider value={user}>
           <Route exact path='/' component={Signup} />
           <Route exact path='/logbook' component={Logbook} />
           <Route exact path='/training' component={Training} />
@@ -35,9 +35,9 @@ function App() {
           <Route exact path='/Airports' component={Airports} />
           <Route exact path='/myProfile' component={MyProfile} />
           <Route exact path='/redirect/:key/:studentID' component={Redirect} />
-    </UserContext.Provider>
         </Switch>
       </Router>
+    </UserContext.Provider>
   );
 }
 
