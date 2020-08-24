@@ -46,7 +46,6 @@ const Training = () => {
                             })
 
 
-
                             // API.userAccess({
                             // })
                             //     .then(function (random, loggedInUser) {
@@ -70,7 +69,6 @@ const Training = () => {
     }
 
     return (
-
         <>
             <Nav/>
             <main>
