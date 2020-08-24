@@ -19,15 +19,15 @@ import API from '../utils/API'
     // console.log(props.match.params.key)
     API.userAccess({
         key: props.match.params.key,
-        studentEmail: props.match.params.studentEmail
+        ID: props.match.params.studentID
     })
    
         
         console.log("validate.js line 26-key", props.match.params.key)
-        console.log("validate.js line 27-studentEmail", props.match.params.studentEmail)
+        console.log("validate.js line 27-ID", props.match.params.studentID)
         return(
-            <h1>Redirecting to home page</h1>
-            // <Redirect to="/training" />
+            <h1>Your connection to this user has been verified! You can now close this window.</h1>
+            // <Redirect to="/logbook" />
         );
         
     
