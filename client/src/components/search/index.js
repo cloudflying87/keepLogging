@@ -5,7 +5,7 @@ import './style.css'
 
 
 
-const SearchDates = ({ handleClick, handleFormInput, value }) => {
+const SearchDates = ({ handleClick, handleReset, handleFormInput, value }) => {
 
     return (
         <div>
@@ -46,7 +46,7 @@ const SearchDates = ({ handleClick, handleFormInput, value }) => {
                         text='Reset'
                         btnId='reset'
                         className='searchBtn'
-                        handleClick={handleClick}
+                        handleClick={handleReset}
                     />
                 </div>
                 
