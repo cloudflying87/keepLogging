@@ -22,9 +22,8 @@ if (process.env.JAWSDB_URL) {
     });
 };
 
-// var importFile = './db/sampleDataSmall2.csv'
-// var importFile = './db/airplanes.csv'
-var importFile = ['./db/users.csv', './db/airplanes.csv', './db/airports.csv', './db/sampleDataSmall2.csv']
+
+var importFile = ['./db/Users.csv','./db/airportone.csv','./db/airporttwo.csv','./db/aircraftModels.csv','./db/aircraft.csv','./db/sampledata.csv']
 for (let i = 0; i < importFile.length; i++) {
     importing = true
     let stream = fs.createReadStream(importFile[i]);
@@ -41,27 +40,45 @@ for (let i = 0; i < importFile.length; i++) {
             connection.connect((error) => {
                 if (error) {
                     console.error(error);
-                } else if (importFile[i] == './db/sampleDataSmall2.csv') {
-                    let query = 'INSERT INTO flighttimes (id,UserId,date,tailnumber,depAir,enrRout,arrAir,flightNum,depTime,arrTime,landings,imc,hood,iap,holds,AircraftId,pic,sic,cfi,dualI,cxt,solo,total,dayLdg,night,nightLdg,comments,instructor,student,createdAt,updatedAt) VALUES ?';
+                } else if (importFile[i] == './db/sampledata.csv') {
+                    let query = 'INSERT INTO FlightTimes (id,UserId,date,AircraftId,route,flightNum,depTime,arrTime,landings,imc,hood,iap,holds,pic,sic,cfi,dualI,cxt,solo,total,dayLdg,night,nightLdg,comments,instructor,student,createdAt,updatedAt) VALUES ?';
                     connection.query(query, [myData], (error, response) => {
                         console.log(error || response);
                     });
-                } else if (importFile[i] == './db/airplanes.csv') {
-                    let query = 'INSERT INTO aircraft (id,aircraftType,class,numEngine, tailWheel,complex,highPerf,turboFan,turboProp,rotorcraft,poweredLift,createdAt,updatedAt) VALUES ?'
+                } else if (importFile[i] == './db/aircraftModels.csv') {
+                    console.log("models")
+                    let query = 'INSERT INTO AircraftModels (id,manufacture_code,description,category_class,engine_count,engine_type,wtc,tdesig,complex,highPerf,tailWheel,taa,simulator,createdAt,updatedAt) VALUES ?'
                     connection.query(query, [myData], (error, response) => {
                         console.log(error || response);
                     })
-                } else if (importFile[i] == './db/airports.csv') {
-                    let query = 'INSERT INTO airports (id,airportName,airportCity,airportCountry,threeLetter,icao,latitude,longitude,airportElevation,timeZone,timeZoneName,createdAt,updatedAt) VALUES ?'
+                } else if (importFile[i] == './db/airportone.csv') {  
+                    console.log("airports")
+                    let query = 'INSERT INTO Airports (id,icao,iata,name,city,state,country,elevation,lat,lon,tz,createdAt,updatedAt) VALUES ?'
+                    connection.query(query, [myData], (error, response) => {
+                        console.log(error || response);
+                    })
+                } else if (importFile[i] == './db/airporttwo.csv') {  
+                    console.log("airports")
+                    let query = 'INSERT INTO Airports (id,icao,iata,name,city,state,country,elevation,lat,lon,tz,createdAt,updatedAt) VALUES ?'
                     connection.query(query, [myData], (error, response) => {
                         console.log(error || response);
                     })
                 } else if (importFile[i] == './db/users.csv') {
-                    let query = 'INSERT INTO users (id,email,password,createdAt,updatedAt) VALUES ?'
+                    console.log("users")
+                    let query = 'INSERT INTO Users (id,email,password,createdAt,updatedAt) VALUES ?'
                     connection.query(query, [myData], (error, response) => {
                         console.log(error || response);
                     });
-                };
+                
+                } else if (importFile[i] == './db/aircraft.csv') {  
+                    console.log("aircraft")
+                    let query = 'INSERT INTO Aircraft (id,tailNumber,AircraftModelId,avionics,createdAt,updatedAt) VALUES ?'
+                    connection.query(query, [myData], (error, response) => {
+                        console.log(error || response);
+                    })
+                } else {
+                    console.log("Test" ,myData.length)
+                }
             });
         });
 
