@@ -12,7 +12,7 @@ module.exports = function (app) {
   app.post("/api/login", passport.authenticate("local"), function (req, res) {
 
     res.json(req.user)
-});
+  });
 
 
   // Route for signing up a user. The user's password is automatically hashed and stored securely thanks to
@@ -41,20 +41,20 @@ module.exports = function (app) {
   // Route for getting some data about our user to be used client side
   app.get("/api/user_data", function (req, res) {
     // if (!req.user) {
-      // The user is not logged in, send back an empty object
-      // res.json({});
+    // The user is not logged in, send back an empty object
+    // res.json({});
     // } else {
-      // Otherwise send back the user's email and id
-      // Sending back a password, even a hashed password, isn't a good idea
-      res.json({
-        email: req.user.email,
-        id: req.user.id,
-        access: req.user.accountAccess
-      });
+    // Otherwise send back the user's email and id
+    // Sending back a password, even a hashed password, isn't a good idea
+    res.json({
+      email: req.user.email,
+      id: req.user.id,
+      access: req.user.accountAccess
+    });
     // }
   });
 
-// -----------------------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------------------
   app.post("/api/verifyAccount", function (req, res) {
       db.User.findAll({
         where: {
@@ -66,65 +66,82 @@ module.exports = function (app) {
     // };
   })
 
-  app.post("/api/sendMail", function (req, res)  {
+  app.post("/api/sendMail", function (req, res) {
     const { email } = req.body;
     const { ID } = req.body;
     const { user } = req.body;
-    
+
     // console.log("line 78", email)
     // console.log("line 79", user)
     // console.log(user.data.id)
     main()
-      .catch(err=> console.log(err))
+      .catch(err => console.log(err))
 
     async function main() {
-    
-    // create reusable transporter object using the default SMTP transport
-    let transporter = nodemailer.createTransport({
+
+      // create reusable transporter object using the default SMTP transport
+      let transporter = nodemailer.createTransport({
         host: "mail.flyhomemn.com",
         port: 465,
         secure: true, // true for 465, false for other ports
         auth: {
-            user: "keeplogging@flyhomemn.com", // generated ethereal user
-            pass: "keeplogging", // generated ethereal password
+          user: "keeplogging@flyhomemn.com", // generated ethereal user
+          pass: "keeplogging", // generated ethereal password
         },
-    });
-    const key = randomstring.generate()
-    const info = await transporter.sendMail ({
+      });
+      const key = randomstring.generate()
+      const info = await transporter.sendMail({
         from: '"keep_logging" <keeplogging@flyhomemn.com>', // sender address
         to: `${email}`, // list of receivers
         subject: `${user.data.email} would like to connect with you on KeepLogging`, // Subject line
         // text: "A user would like to connect with you on KeepLogging. Please click confirm if you would like to proceed", // plain text body
         html: `<p>${user.data.email} would like to connect with you on KeepLogging. Please click confirm if you would like to proceed</p><a href="http://localhost:3000/redirect/${key}/${ID}" class="button" >Confirm</a>`, // html body
-       
-    })
-    // db.products.insert( { item: "card", qty: 15 } )
-    db.userPreferences.create({
-      instructorID: user.data.id,
-      Access: key
-    })
-     
-  
-    console.log("Message sent: %s", info.messageId);
-    // console.log("Message sent: %s", info);
-    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-  
-    // Preview only available when sending through an Ethereal account
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-    // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 
-    res.json(info)
-  
-  }})
-  
+      })
+      // db.products.insert( { item: "card", qty: 15 } )
+      db.userPreferences.create({
+        instructorID: user.data.id,
+        Access: key
+      })
+
+
+      console.log("Message sent: %s", info.messageId);
+      // console.log("Message sent: %s", info);
+      // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+
+      // Preview only available when sending through an Ethereal account
+      console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+      // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+
+      res.json(info)
+
+    }
+  })
+
   app.post("/api/addAccess", function (req, res) {
-      db.userPreferences.update(
-        {studentID: req.body.ID},
-        {where: {Access: req.body.key}}
-      )
+    console.log("routes 126", req.body)
+    db.userPreferences.update(
+      { studentID: req.body.ID },
+      { where: { Access: req.body.key } }
+    )
+      .then(results => res.json(results))
+      .catch(err => res.status(404).json(err));
+    // };
+  })
+
+  // route for getting the student id's associated with an instructor.
+  app.get("/api/getStudents/:id", (req, res) => {
+    if (!req.user) {
+      res.redirect(307, '/');
+    } else {
+      db.userPreferences.findAll({
+        where: {
+          instructorID: req.params.id.toString()
+        }
+      })
         .then(results => res.json(results))
         .catch(err => res.status(404).json(err));
-    // };
+    }
   })
 
   app.post("/api/checkDuplicates", function (req, res) {

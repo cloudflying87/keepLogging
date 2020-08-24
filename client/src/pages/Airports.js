@@ -47,7 +47,6 @@ const Airports = () => {
                     elevation: a.elevation
 
                 }))
-                console.log(formattedResults)
                 setState(state => ({
                     ...state,
                     airportInfo: formattedResults,

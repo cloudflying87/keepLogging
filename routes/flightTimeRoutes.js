@@ -7,13 +7,13 @@ const { col } = require("sequelize");
 module.exports = function (app) {
 
   // Routes for flight_time table per user id
-  app.get("/api/flight_time/", function (req, res) {
+  app.get("/api/flight_time/:id", function (req, res) {
     if (!req.user) {
       res.redirect(307, "/");
     } else {
       db.FlightTime.findAll({
         where: {
-          UserId: req.user.id
+          UserId: req.params.id
         },
         include: [{
           model: db.Aircraft,

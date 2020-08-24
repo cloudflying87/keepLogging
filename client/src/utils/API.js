@@ -60,8 +60,8 @@ export default {
     },
     // flight_time routes ----------------------------------------------------------------
     // get all flight_times for the user
-    getFlights: function () {
-        return axios.get('/api/flight_time/');
+    getFlights: function (id) {
+        return axios.get('/api/flight_time/'+id);
     },
     // select one flight_time
     getOneFlight: function (userId, id) {
@@ -115,11 +115,11 @@ export default {
     redirect: function (validationKey, studentEmail) {
         return axios.get(`/redirect/${validationKey}/${studentEmail}`);
     },
+    // route for getting student id's of associated instructor
+    getStudents: function(id) {
+        return axios.get('/api/getStudents/'+id);
+    },
     checkDuplicates: function (instructorID, studentID) {
         return axios.post('/api/checkDuplicates', instructorID, studentID);
     },
 }
-
-
-
-
