@@ -2,7 +2,7 @@ import React from 'react';
 import Input from '../Input/index';
 import Button from '../Button/index';
 import './style.css'
-import Select from 'react-select'
+
 
 
 const ViewAirport = ({ handleClick, handleFormInput }) => {

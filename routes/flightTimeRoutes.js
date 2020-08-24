@@ -2,7 +2,6 @@ var db = require("../models");
 const sequelize = require("sequelize");
 const util = require("util");
 var SunCalc = require('suncalc');
-// const WorkingFlightTime = require("../util/flightTimeWorking.js")
 const { col } = require("sequelize");
 
 module.exports = function (app) {
