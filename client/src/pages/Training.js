@@ -32,7 +32,7 @@ const Training = () => {
                 studentEmail: studentEmail
             })
                 .then(function (matchingStudent) {
-                    console.log("Matching user", matchingStudent)
+                    console.log("MatchingStudent", matchingStudent)
                     if (matchingStudent.data[0]) {
                         // Find current logged in user
                         API.userData({
@@ -41,7 +41,8 @@ const Training = () => {
                                 console.log("Logged in user", loggedInUser)
 
                                 API.sendMail({
-                                    "email": studentEmail,
+                                    "email": matchingStudent.data[0].email,
+                                    "ID": matchingStudent.data[0].id,
                                     "user": loggedInUser
                                 })
                             })

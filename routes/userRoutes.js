@@ -73,11 +73,12 @@ module.exports = function (app) {
 
   app.post("/api/sendMail", function (req, res)  {
     const { email } = req.body;
+    const { ID } = req.body;
     const { user } = req.body;
     
     // console.log("line 78", email)
     // console.log("line 79", user)
-    // console.log("line 80", req.body.user.data.email)
+    console.log("line 80", user)
     // console.log(user.data.id)
     main()
       .catch(err=> console.log(err))
@@ -98,14 +99,14 @@ module.exports = function (app) {
     const info = await transporter.sendMail ({
         from: '"keep_logging" <keeplogging@flyhomemn.com>', // sender address
         to: `${email}`, // list of receivers
-        subject: `A user would like to connect with you on KeepLogging`, // Subject line
+        subject: `${user.data.email} would like to connect with you on KeepLogging`, // Subject line
         // text: "A user would like to connect with you on KeepLogging. Please click confirm if you would like to proceed", // plain text body
-        html: `<p>A user would like to connect with you on KeepLogging. Please click confirm if you would like to proceed</p><a href="http://localhost:3000/redirect/${key}/${email}" class="button" >Click Here</a>`, // html body
+        html: `<p>${user.data.email} would like to connect with you on KeepLogging. Please click confirm if you would like to proceed</p><a href="http://localhost:3000/redirect/${key}/${ID}" class="button" >Confirm</a>`, // html body
        
     })
     // db.products.insert( { item: "card", qty: 15 } )
     db.userPreferences.create({
-      Email: req.body.user.data.email,
+      instructorID: user.data.id,
       Access: key
     })
      
@@ -123,9 +124,9 @@ module.exports = function (app) {
   }})
   
   app.post("/api/addAccess", function (req, res) {
-    console.log("routes 126", req.body.key)
+    console.log("routes 126", req.body)
       db.userPreferences.update(
-        {AccountAccess: req.body.studentEmail},
+        {studentID: req.body.ID},
         {where: {Access: req.body.key}}
       )
         .then(results => res.json(results))
