@@ -5,7 +5,8 @@ var path = require("path");
 var isAuthenticated = require("../config/middleware/isAuthenticated");
 
 // export the module as a function for use in our server.js file
-module.exports = function(app) {
+module.exports = function (app) {
+  /*
 
   // retrives our root route
   app.get("/", function(req, res) {
@@ -31,8 +32,13 @@ module.exports = function(app) {
   // Here we've add our isAuthenticated middleware to this route.
   // If a user who is not logged in tries to access this route they will be redirected to the signup page
   // isAuthenticated is declared in config>middleware and determines if the user has an account, if they do not, it redirects them to the login page
-  app.get("/main", isAuthenticated, function(req, res) {
-    res.sendFile(path.join(__dirname, "../public/main.html"));
-  });
+  // app.get("/main", isAuthenticated, function(req, res) {
+  //   res.sendFile(path.join(__dirname, "../public/main.html"));
+  // });
+  */
+
+  app.use((req, res) =>
+    res.sendFile(path.join(__dirname, "../client/build/index.html"))
+  );
 
 };
