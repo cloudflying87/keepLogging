@@ -5,7 +5,8 @@ var path = require("path");
 var isAuthenticated = require("../config/middleware/isAuthenticated");
 
 // export the module as a function for use in our server.js file
-module.exports = function(app) {
+module.exports = function (app) {
+  /*
 
   // retrives our root route
   app.get("/", function(req, res) {
@@ -34,5 +35,10 @@ module.exports = function(app) {
   // app.get("/main", isAuthenticated, function(req, res) {
   //   res.sendFile(path.join(__dirname, "../public/main.html"));
   // });
+  */
+
+  app.use((req, res) =>
+    res.sendFile(path.join(__dirname, "../client/build/index.html"))
+  );
 
 };
