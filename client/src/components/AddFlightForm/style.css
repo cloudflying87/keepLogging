@@ -1,0 +1,116 @@
+  .header {
+    width: 100%;
+    margin: 0 2% 8px;
+    font-family: "Roboto Mono", monospace;
+  }
+  
+  form {
+    display: flex;
+    flex-flow: row wrap;
+    min-height: auto;
+    background-image: linear-gradient(to left, #D1D1D1 20%, #85c7f2 30%, #DBDBDB);;
+    justify-content: space-evenly;
+  }
+  
+  textarea {
+    text-align: center;
+  }
+  
+  input:focus,
+  textarea:focus {
+    text-align: left;
+  }
+  
+  input:hover,
+  textarea:hover {
+    cursor: pointer;
+  }
+  .threeboxes{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+  }
+  .addFlightInput {
+    margin: 2px 1px 0;
+  }
+  
+  .commentsDiv {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin: 8px 0;
+  }
+  
+  .appLandDiv {
+    width: 85%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .timesDivRow1 {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .timesDivRow2 {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+  }
+  
+  .btnWrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  /* .form-appear {
+    transition: all 0.5s;
+    display: none;
+    opacity: 0;
+  } */
+  .form-enter{
+    opacity: .2;
+    /* transition: all .5s ease-in; */
+    transition: transform 1s;
+    transform: height 0;
+  }
+  
+  .form-enter-active {
+    opacity: 1;
+    transition: all .2s ease-in;
+  }
+  
+  /* .form-enter-done {
+    
+  } */
+
+  
+  @media screen and (max-width: 320px) {
+    .addFlightInput {
+      margin: 0;
+    }
+    #dateInput {
+      margin-right: 0;
+    }
+    .css-yk16xz-control {
+      display:block;
+      
+      background-color: purple;
+    }
+    #commentsInput {
+      width: 300px;
+    } 
+    .menuBtn {
+      font-size: .74312em;
+    }
+
+    #autoFill {
+      font-size: .8em;
+    }
+    body,
+    html {
+      overflow-y: scroll;
+    }
+  }

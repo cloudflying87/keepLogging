@@ -85,31 +85,3 @@ for (let i = 0; i < importFile.length; i++) {
     stream.pipe(csvStream);
     
 }
-
-// let stream = fs.createReadStream('./db/aircraftModels.csv');
-//     let myData = [];
-//     console.log('./db/aircraftModels.csv')
-//     let csvStream = csv
-//         .parse()
-//         .on("data", function (data) {
-//             myData.push(data);
-//         })
-//         .on("end", function () {
-//             myData.shift();
-//             connection.connect((error) => {
-                
-//                 if (error) {
-                    
-//                     console.error(error);
-//                 } else {
-//                     console.log(myData.length)
-//                     let query = 'INSERT INTO aircraftmodels (id,manufacture_code,description,category_class,engine_count,engine_type,wtc,tdesig,complex,highPerf,tailWheel,taa,createdAt,updatedAt) VALUES ?'
-//                     connection.query(query, [myData], (error, response) => {
-//                         console.log(error || response);
-//                     })
-//                 } 
-//             })
-//         })
-// 
-//     stream.pipe(csvStream)
-// 

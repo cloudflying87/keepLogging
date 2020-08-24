@@ -21,16 +21,33 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "array-uniq": "^2.1.0",
+    "axios": "^0.19.2",
     "bcryptjs": "2.4.3",
+    "chart.js": "^2.9.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.0",
     "express-session": "^1.16.1",
     "fast-csv": "^4.3.1",
+    "if-env": "^1.0.4",
+    "moment": "^2.27.0",
     "mysql2": "^1.6.5",
     "node-sass": "^4.14.1",
+    "nodemailer": "^6.4.11",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
+    "randomstring": "^1.1.5",
+    "react": "^16.13.1",
+    "react-chartjs-2": "^2.10.0",
+    "react-dom": "^16.13.1",
+    "react-select": "^3.1.0",
+    "react-transition-group": "^4.4.1",
+    "sendmail": "^1.6.1",
     "sequelize": "^5.22.3",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "suncalc": "^1.8.0"
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0"
   }
 }

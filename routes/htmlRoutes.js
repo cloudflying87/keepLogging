@@ -12,7 +12,7 @@ module.exports = function(app) {
     // If the user already has an account send them to the members page
 
     if (req.user) {
-      res.redirect("/main");
+      res.redirect("/logbook");
     }
     // if user does not have an account, send them to the signup page
     res.sendFile(path.join(__dirname, "../public/authenticate.html"));
@@ -22,7 +22,7 @@ module.exports = function(app) {
   app.get("/login", function(req, res) {
     // If the user already has an account and is logged in send them to the main page
     if (req.user) {
-      res.redirect("/main");
+      res.redirect("/logbook");
     }
     // if the user has an account and is not logged in, send them to login.html.
     res.sendFile(path.join(__dirname, "../public/authenticate.html"));

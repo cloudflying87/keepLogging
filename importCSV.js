@@ -1,7 +1,6 @@
 const fs = require('fs');
 const mysql = require('mysql2');
 const csv = require('fast-csv');
-var importing
 require('dotenv').config();
 
 let host = process.env.HOST_LOCAL
@@ -10,35 +9,38 @@ let user = process.env.USER_LOCAL
 let password = process.env.PASS_LOCAL
 let database = process.env.NAME_LOCAL
 let connection;
-if (process.env.JAWSDB_URL) {
-    connection = mysql.createConnection(process.env.JAWSDB_URL);
-} else {
-    connection = mysql.createConnection({
-        host: host,
-        port: port,
-        user: user,
-        password: password,
-        database: database,
-    });
-};
+
 
 
 var importFile = ['./db/Users.csv','./db/airportone.csv','./db/airporttwo.csv','./db/aircraftModels.csv','./db/aircraft.csv','./db/sampledata.csv']
 for (let i = 0; i < importFile.length; i++) {
-    importing = true
     let stream = fs.createReadStream(importFile[i]);
     let myData = [];
-
+    
     let csvStream = csv
         .parse()
         .on("data", function (data) {
             myData.push(data);
+            
         })
         .on("end", function () {
             myData.shift();
 
+        if (process.env.JAWSDB_URL) {
+            connection = mysql.createConnection(process.env.JAWSDB_URL);
+        } else {
+            connection = mysql.createConnection({
+                host: host,
+                port: port,
+                user: user,
+                password: password,
+                database: database,
+            });
+        };
             connection.connect((error) => {
+                
                 if (error) {
+                    
                     console.error(error);
                 } else if (importFile[i] == './db/sampledata.csv') {
                     let query = 'INSERT INTO FlightTimes (id,UserId,date,AircraftId,route,flightNum,depTime,arrTime,landings,imc,hood,iap,holds,pic,sic,cfi,dualI,cxt,solo,total,dayLdg,night,nightLdg,comments,instructor,student,createdAt,updatedAt) VALUES ?';
@@ -81,6 +83,7 @@ for (let i = 0; i < importFile.length; i++) {
                 }
             });
         });
-
     stream.pipe(csvStream);
+    
 }
+
