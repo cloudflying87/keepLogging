@@ -116,8 +116,8 @@ export default {
         return axios.get(`/redirect/${validationKey}/${studentEmail}`);
     },
     // route for getting student id's of associated instructor
-    getStudents: function() {
-        return axios.get('/api/getStudents');
+    getStudents: function(id) {
+        return axios.get('/api/getStudents/'+id);
     }
 }
 

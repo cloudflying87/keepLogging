@@ -12,23 +12,20 @@ const Training = () => {
 
     const [studentEmail, setStudentEmail] = useState("");
     const [invalidSubmission, setInvalidSubmission] = useState(false);
-    const [students, setStudents] = useState({
-        id: ''
-    })
+    // const [students, setStudents] = useState({
+    //     id: ''
+    // })
     const user = useContext(UserContext)
 
-    console.log('user', user)
-
     useEffect(() => {
-        if (studentEmail && invalidSubmission) setInvalidSubmission(false);
         getStudents();
+        if (studentEmail && invalidSubmission) setInvalidSubmission(false);
     }, [studentEmail])
 
     const onSubmit = async (event) => {
         event.preventDefault();
         console.log(studentEmail)
         if (!studentEmail) {
-
             return setInvalidSubmission(true); // render an error message
         }
         try {
@@ -72,30 +69,35 @@ const Training = () => {
     }
 
     const getStudents = () => {
-        API.getStudents()
-            .then(res => console.log(res))
+        console.log('working')
+        API.getStudents(user.userId)
+            .then(res => console.log('getStudents res', res.studentID))
             .catch(err => console.log(err))
+    }
+
+    const getStudentFlights = () => {
+
     }
 
     console.log(user)
     return (
         <>
-            <Nav />
-            <main>
-                <form onSubmit={onSubmit}>
-                    <Input
-                        type="text"
-                        id="student-email-input"
-                        placeholder="Student Email"
-                        label="Student Email"
-                        handleInputChange={({ target: { value } }) => setStudentEmail(value)}
-                    />
-                    <button id='add-student' type="submit" >
-                        Add Student
+                <Nav />
+                <main>
+                    <form onSubmit={onSubmit}>
+                        <Input
+                            type="text"
+                            id="student-email-input"
+                            placeholder="Student Email"
+                            label="Student Email"
+                            handleInputChange={({ target: { value } }) => setStudentEmail(value)}
+                        />
+                        <button id='add-student' type="submit" >
+                            Add Student
                 </button>
-                </form>
-                {invalidSubmission && (<div>Please enter a valid email</div>)}
-            </main>
+                    </form>
+                    {invalidSubmission && (<div>Please enter a valid email</div>)}
+                </main>
         </>
     );
 
