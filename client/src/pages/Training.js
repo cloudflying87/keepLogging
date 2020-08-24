@@ -33,29 +33,23 @@ const Training = () => {
             })
                 .then(function (matchingStudent) {
                     console.log("Matching user", matchingStudent)
-
-                    // Find current logged in user
-                    API.userData({
-                    })
-                        .then(function (loggedInUser) {
-                            console.log("Logged in user", loggedInUser)
-
-                            API.sendMail({
-                                "email": studentEmail,
-                                "user": loggedInUser
-                            })
-
-
-
-                            // API.userAccess({
-                            // })
-                            //     .then(function (random, loggedInUser) {
-                            //         console.log("Logged in user", loggedInUser)
-                            //         console.log("random", random)
-                            //     })
+                    if (matchingStudent.data[0]) {
+                        // Find current logged in user
+                        API.userData({
                         })
-                        .catch(error => (console.log(error)))
+                            .then(function (loggedInUser) {
+                                console.log("Logged in user", loggedInUser)
 
+                                API.sendMail({
+                                    "email": studentEmail,
+                                    "user": loggedInUser
+                                })
+                            })
+                            .catch(error => (console.log(error)))
+                    }
+                    else{
+                        console.log("This user needs to create an account first")
+                    }
                 })
 
         }
@@ -72,7 +66,7 @@ const Training = () => {
     return (
 
         <>
-            <Nav/>
+            <Nav />
             <main>
                 <form onSubmit={onSubmit}>
                     <Input
