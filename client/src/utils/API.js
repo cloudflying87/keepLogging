@@ -60,8 +60,8 @@ export default {
     },
     // flight_time routes ----------------------------------------------------------------
     // get all flight_times for the user
-    getFlights: function () {
-        return axios.get('/api/flight_time/');
+    getFlights: function (id) {
+        return axios.get('/api/flight_time/'+id);
     },
     // select one flight_time
     getOneFlight: function (userId, id) {
@@ -123,7 +123,3 @@ export default {
         return axios.post('/api/checkDuplicates', instructorID, studentID);
     },
 }
-
-
-
-

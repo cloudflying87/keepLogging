@@ -74,7 +74,7 @@ const Logbook = () => {
     }, [])
 
     const getFlights = () => {
-        API.getFlights()
+        API.getFlights(user.userId)
             .then((res) => {
                 const mapped = res.data.map(x => ({
                     Date: x.date,
