@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Input from '../components/Input';
 import Nav from '../components/Nav/index';
 import API from '../utils/API'
-// import SMTP from '../utils/SMTP'
-import randomstring from 'randomstring'
-// const sendmail = require('sendmail')();
 
 
 
@@ -24,27 +21,28 @@ const Training = () => {
             return setInvalidSubmission(true); // render an error message
         }
         try {
-            var random = randomstring.generate()
 
             // Find if the entered email address is already in the system
             API.userVerify({
                 studentEmail: studentEmail
             })
                 .then(function (matchingStudent) {
+                    // If the email address entered corresponds to another created user account
                     if (matchingStudent.data[0]) {
 
                         // Find current logged in user
                         API.userData({
                         })
                             .then(function (loggedInUser) {
-
+                                // Find if the logged in user already has access to the entered student account
                                 API.checkDuplicates({
                                     instructorID: loggedInUser.data.id,
                                     studentID: matchingStudent.data[0].id
                                 })
                                     .then(function (DuplicateAccess) {
+                                        // If a duplicate is not found
                                         if (!DuplicateAccess.data[0]) {
-
+                                            // Send an authentication email to the email address typed in
                                             API.sendMail({
                                                 "email": matchingStudent.data[0].email,
                                                 "ID": matchingStudent.data[0].id,
@@ -70,11 +68,6 @@ const Training = () => {
         catch (error) {
             console.error(error);
         }
-
-        // Set email as a variable
-        // Add a random key to the logged in user's profile
-        // Send the email with the same random key
-        // When they click on the key it changes the key in the user's profile back to the students email address
     }
 
     return (
