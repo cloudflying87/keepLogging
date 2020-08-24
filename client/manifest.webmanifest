@@ -1,6 +1,6 @@
 {
     "short_name": "logbook",
-    "name": "keep Loggin",
+    "name": "keep Logging",
     "icons": [
       {
         "src": "/assets/icons/airplane-icon-72.png",
@@ -18,7 +18,7 @@
         "type": "image/png"
       }
     ],
-    "start_url": "/authenticate",
+    "start_url": "/",
     "background_color": "#808080",
     "display": "standalone",
     "theme_color": "#808080"
