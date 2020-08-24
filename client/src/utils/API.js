@@ -114,7 +114,10 @@ export default {
     },
     redirect: function (validationKey, studentEmail) {
         return axios.get(`/redirect/${validationKey}/${studentEmail}`);
-    }
+    },
+    checkDuplicates: function (instructorID, studentID) {
+        return axios.post('/api/checkDuplicates', instructorID, studentID);
+    },
 }
 
 
