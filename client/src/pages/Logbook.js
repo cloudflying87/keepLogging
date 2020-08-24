@@ -23,6 +23,7 @@ const Logbook = () => {
         btnClicked: '',
         fullResults: [],
         mapped: [],
+        mappedOriginal:[],
         totals: [],
         // userId: ''
     })
@@ -97,7 +98,8 @@ const Logbook = () => {
                 setState(state => ({
                     ...state,
                     fullResults: res.data,
-                    mapped
+                    mappedOriginal:mapped,
+                    mapped:mapped
                 }))
             })
             .catch(err => {
@@ -114,15 +116,18 @@ const Logbook = () => {
     const searchDates = (e) => {
         e.preventDefault()
         
-        let startDate = moment.utc(logbookForm.startDate).format('x')
+        let startDate = moment.utc(logbookForm.startDate)
         let endDate = moment.utc(logbookForm.endDate).format('x')
         // moment.utc(searchMapped[0].Date).format('x')
-        const searchMapped = state.mapped.filter(x => {
-            console.log(moment.utc(x.date).format('x')," ", startDate)
-            return (moment.utc(x.date).format('x') >= startDate && moment.utc(x.date).format('x') <= endDate)
+        const searchMapped = state.mappedOriginal.filter(x => {
+            
+            return (moment.utc(x.Date).format('x') >= startDate && moment.utc(x.Date).format('x') <= endDate)
             
         })
-        console.log(searchMapped)
+        setState(state => ({
+            ...state,
+            mapped: searchMapped
+        }))
     }
     const handleFormInput = ({ target: { value, name } }) => {
         setlogbookForm(logbookForm => ({

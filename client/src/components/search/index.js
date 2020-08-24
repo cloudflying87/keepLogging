@@ -39,7 +39,13 @@ const SearchDates = ({ handleClick, handleFormInput, value }) => {
                     <Button
                         text='Search'
                         btnId='search'
-                        className='formBtn'
+                        className='searchBtn'
+                        handleClick={handleClick}
+                    />
+                    <Button
+                        text='Reset'
+                        btnId='reset'
+                        className='searchBtn'
                         handleClick={handleClick}
                     />
                 </div>
