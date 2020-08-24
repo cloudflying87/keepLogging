@@ -22,12 +22,12 @@ const Training = () => {
         }
         try {
 
-            // Find if the entered email address is already in the system
+            // Find if the entered email address is already in the database
             API.userVerify({
                 studentEmail: studentEmail
             })
                 .then(function (matchingStudent) {
-                    // If the email address entered corresponds to another created user account
+                    // If the email address entered corresponds to active user account
                     if (matchingStudent.data[0]) {
 
                         // Find current logged in user
@@ -42,12 +42,21 @@ const Training = () => {
                                     .then(function (DuplicateAccess) {
                                         // If a duplicate is not found
                                         if (!DuplicateAccess.data[0]) {
-                                            // Send an authentication email to the email address typed in
-                                            API.sendMail({
-                                                "email": matchingStudent.data[0].email,
-                                                "ID": matchingStudent.data[0].id,
-                                                "user": loggedInUser
-                                            })
+                                            console.log("line 45", loggedInUser.data.id)
+                                            console.log("line 45", matchingStudent.data[0].id)
+
+                                            // If the user didn't enter their own email address
+                                            if(!(loggedInUser.data.id === matchingStudent.data[0].id)){
+                                                // Send an authentication email to the email address typed in
+                                                API.sendMail({
+                                                    "email": matchingStudent.data[0].email,
+                                                    "ID": matchingStudent.data[0].id,
+                                                    "user": loggedInUser
+                                                })
+                                            }
+                                            else {
+                                                console.log("You have entered your own email address")
+                                            }
                                         }
                                         else {
                                             console.log("You already have access to this student")
@@ -56,7 +65,6 @@ const Training = () => {
                                     })
 
                             })
-                            .catch(error => (console.log(error)))
 
                     }
                     else {
