@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Button from '../components/Button/index';
 import Nav from '../components/Nav/index';
 import AddFlightForm from '../components/AddFlightForm/index';
@@ -23,7 +23,7 @@ const Logbook = () => {
         btnClicked: '',
         fullResults: [],
         mapped: [],
-        mappedOriginal:[],
+        mappedOriginal: [],
         totals: [],
         // userId: ''
     })
@@ -66,21 +66,10 @@ const Logbook = () => {
         open: false,
         values: []
     });
-    const [user, setUser] = useState({
-        userId: ''
-    })
-
+    const user = useContext(UserContext)
+    
     useEffect(() => {
         getFlights();
-        API.userData()
-            .then(res => {
-                setUser(({
-                    userId: res.data.id
-                }))
-            })
-            .catch(err => {
-                console.error(err)
-            })
         getAircraftTypes()
     }, [])
 
@@ -98,12 +87,11 @@ const Logbook = () => {
                 setState(state => ({
                     ...state,
                     fullResults: res.data,
-                    mappedOriginal:mapped,
-                    mapped:mapped
+                    mappedOriginal: mapped,
+                    mapped: mapped
                 }))
             })
             .catch(err => {
-                console.log(err)
                 window.location.href = '/'
             });
     }
@@ -115,14 +103,14 @@ const Logbook = () => {
     }
     const searchDates = (e) => {
         e.preventDefault()
-        
+
         let startDate = moment.utc(logbookForm.startDate)
         let endDate = moment.utc(logbookForm.endDate).format('x')
         // moment.utc(searchMapped[0].Date).format('x')
         const searchMapped = state.mappedOriginal.filter(x => {
-            
+
             return (moment.utc(x.Date).format('x') >= startDate && moment.utc(x.Date).format('x') <= endDate)
-            
+
         })
         setState(state => ({
             ...state,
@@ -150,7 +138,6 @@ const Logbook = () => {
                         }
                     }
                 }
-                // console.log()
                 filteredResults = rawResults.map((a) => ({
                     value: a.AircraftId,
                     label: a['Aircraft.tailNumber'] + ' ' + a['Aircraft.AircraftModel.description'],
@@ -276,7 +263,6 @@ const Logbook = () => {
         // always going to take the first airport and the last airport. Getting the last airport by finding the length of the array and taking the last two items. 
         // all calculations are done on sunrise and sunset times. Carrying dawn times but not using them for anything right now. 
         const numofAirport = airportLoc.length
-        console.log()
         await sunTimes(depart, airportLoc[0], airportLoc[1])
         await sunTimes(arrive, airportLoc[numofAirport - 2], airportLoc[numofAirport - 1])
 
@@ -284,7 +270,6 @@ const Logbook = () => {
         let depSet = sunTimesArr[2]
         let arrRise = sunTimesArr[5]
         let arrSet = sunTimesArr[6]
-        console.log("dep ", depRise, " depart ", depart)
 
         if ((depart.isBefore(depRise) && arrive.isBefore(arrRise)) || (depart.isAfter(depSet) && arrive.isAfter(arrSet))) {
             // this is for an all night flight before sunrise or after sunset
@@ -303,7 +288,6 @@ const Logbook = () => {
         if (nightTime > timeCalc) {
             nightTime = timeCalc
         }
-        console.log(nightTime)
         setlogbookForm(logbookForm => ({
             ...logbookForm,
             total: timeCalc,
@@ -372,11 +356,10 @@ const Logbook = () => {
             AircraftId: nullChecked.AircraftId
         })
             .then((data) => {
-                console.log("logFlight data: ", data)
                 setlogbookFormBlank();
                 getFlights();
             })
-            .catch(err => console.log(err))
+            .catch(console.error)
 
     }
 
@@ -492,7 +475,7 @@ const Logbook = () => {
                     <SearchDates
                         handleFormInput={handleFormInput}
                         handleClick={searchDates}
-                        value = {logbookForm}
+                        value={logbookForm}
                     />
                 )
             case 'editBtn':
@@ -522,8 +505,6 @@ const Logbook = () => {
             open: !modal.open,
             values: state.fullResults.find(x => parseInt(x.id) === parseInt(target.id))
         }))
-        // console.log(modal)
-        // console.log(state)
     };
 
     const openEdit = id => {
@@ -531,15 +512,12 @@ const Logbook = () => {
         const selected = state.fullResults
             .find(x => parseInt(x.id) === id)
         const newLog = {}
-        console.log('selected', selected)
 
         if (!selected) return;
         Object.keys(logbookForm).forEach(key => { newLog[key] = selected[key] })
         setlogbookForm(newLog)
         getAircraftTypes()
-        console.log(logbookForm)
-        // setlogbookForm(newLog)
-        // console.log("new log", newLog)
+        
 
         setModal(prevModal => ({
             ...prevModal,
@@ -576,8 +554,7 @@ const Logbook = () => {
 
 
     return (
-        <UserContext.Provider value={user}>
-            <div>
+            <>
                 {
                     (modal.open && !!modal.values) &&
 
@@ -621,30 +598,12 @@ const Logbook = () => {
                             getTotals();
                         }}
                     />
-                    {/* <Button
-                    text='Training'
-                    btnId='training'
-                    btnClass='menuBtn'
-                    handleClick={(e) => {
-                        const { target } = e;
-                        e.preventDefault()
-                        console.log("add flight")
-                        setState(state => ({
-                            ...state,
-                            open: !state.open,
-                            btnClicked: target.id
-                        }))
-                        console.log(state.btnClicked)
-                    }}
-                /> */}
                     <Button
                         text='Logout'
                         btnId='logout'
                         btnClass='menuBtn'
                         handleClick={(e) => {
                             e.preventDefault()
-                            console.log("logout")
-                            console.log(state.btnClicked)
                             API.userLogOut()
                                 .then(window.location.href = "/")
                                 .catch(err => console.error(err))
@@ -670,9 +629,7 @@ const Logbook = () => {
                     {/* Modal for popping out table. maybe a 'view' button opens and closes it */}
                     {/* The table will live here. Might try to do an actual table first, then will try grid or flexbox. */}
                 </main>
-
-            </div>
-        </UserContext.Provider>
+            </>
     )
 }
 

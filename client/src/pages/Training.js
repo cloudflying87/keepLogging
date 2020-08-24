@@ -1,20 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Input from '../components/Input';
 import Nav from '../components/Nav/index';
 import API from '../utils/API'
 // import SMTP from '../utils/SMTP'
 import randomstring from 'randomstring'
 // const sendmail = require('sendmail')();
-
+import UserContext from '../utils/UserContext';
 
 
 const Training = () => {
 
     const [studentEmail, setStudentEmail] = useState("");
     const [invalidSubmission, setInvalidSubmission] = useState(false);
+    const [students, setStudents] = useState({
+        id: ''
+    })
+    const user = useContext(UserContext)
+
+    console.log('user', user)
 
     useEffect(() => {
         if (studentEmail && invalidSubmission) setInvalidSubmission(false);
+        getStudents();
     }, [studentEmail])
 
     const onSubmit = async (event) => {
@@ -39,6 +46,7 @@ const Training = () => {
                         })
                             .then(function (loggedInUser) {
                                 console.log("Logged in user", loggedInUser)
+                                // setInstructor({ id: loggedInUser.id })
 
                                 API.sendMail({
                                     "email": matchingStudent.data[0].email,
@@ -48,11 +56,10 @@ const Training = () => {
                             })
                             .catch(error => (console.log(error)))
                     }
-                    else{
+                    else {
                         console.log("This user needs to create an account first")
                     }
                 })
-
         }
         catch (error) {
             console.error(error);
@@ -64,6 +71,13 @@ const Training = () => {
         // When they click on the key it changes the key in the user's profile back to the students email address
     }
 
+    const getStudents = () => {
+        API.getStudents()
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
+    }
+
+    console.log(user)
     return (
         <>
             <Nav />

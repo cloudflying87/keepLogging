@@ -4,8 +4,9 @@ import API from '../utils/API';
 import AircraftDisplay from '../components/AircraftDisplay/'
 import Button from '../components/Button/index'
 import AddAircraft from '../components/AddAircraftForm'
-import UserContext from '../utils/UserContext';
+// import UserContext from '../utils/UserContext';
 import getAircraftTypesFunction from '../components/AircraftDisplay/function'
+
 
 
 const Aircraft = () => {
@@ -14,16 +15,12 @@ const Aircraft = () => {
         btnClicked: '',
         userCurrentAircraft: [],
         tailNumber: '',
-        modelId:0
+        modelId: 0
     });
-    const [user, setUser] = useState({
-        userId: ''
-    })
 
     useEffect(() => {
         getCurrentTypes()
         getAllTypes()
-
     }, [])
 
     const getAllTypes = () => {
@@ -40,8 +37,8 @@ const Aircraft = () => {
                 }))
             })
 
-
     }
+
     const getCurrentTypes = () => {
         API.getAircraftTypes()
             .then(({ data }) => {
@@ -55,7 +52,6 @@ const Aircraft = () => {
                             uniqueId.push(data[i].AircraftId)
                         }
                     }
-
                 }
 
 
@@ -72,7 +68,6 @@ const Aircraft = () => {
                     // simulator:a['Aircraft.AircraftModel.simulator'],
                     // designator: a['Aircraft.AircraftModel.tdesig'],
 
-
                 }))
                 let filteredResultsSorted = filteredResults.sort((a, b) => (a.tailNumber > b.tailNumber) ? 1 : ((b.tailNumber > a.tailNumber) ? -1 : 0))
 
@@ -86,10 +81,9 @@ const Aircraft = () => {
     const handleFormInput = ({ target: { value, name } }) => {
         setState(state => ({
             ...state,
-            // date: new Date(),
             [name]: value
         }))
-        
+
     };
 
     const addTail = (event) => {
@@ -98,19 +92,20 @@ const Aircraft = () => {
             tailNumber: state.tailNumber,
             AircraftModelId: state.modelId
         })
-        .then((data) => {
-            console.log(state)
-            console.log(data)})
-        
-        .catch(console.error)
+            .then((data) => {
+                // console.log(state)
+                // console.log(data)
+            })
+
+            .catch(console.error)
     }
 
     const setAircraft = (value) => {
-        setState(state =>({
+        setState(state => ({
             ...state,
             modelId: value.value
         }))
-        
+
     }
 
     const switchFunc = arg => {
@@ -126,67 +121,11 @@ const Aircraft = () => {
                         />
                     </>
                 )
-                break;
-            case 'modelBtn':
-                // console.log('totals', state.totals)
-                // getTotals()
-                // return (
-                // <TotalsDisplay
-                //     totals={state.totals}
-                // />
-                // )
-                break;
             default:
-                return null;
                 break;
         };
     };
 
-    // const openModal = e => {
-    //     e.preventDefault();
-    //     const { target } = e;
-
-    //     setModal(prevModal => ({
-    //         ...prevModal,
-    //         open: !modal.open,
-    //         values: state.fullResults.find(x => parseInt(x.id) === parseInt(target.id))
-    //     }))
-    //     console.log(modal)
-    //     console.log(state)
-    // };
-
-    // const openEdit = id => {
-    //     console.log('open edit id', id)
-
-    //     const selected = state.fullResults
-    //         .find(x => parseInt(x.id) === id)
-    //     const newLog = {}
-
-    //     if (!selected) return;
-    //     Object.keys(logbookForm).forEach(key => { newLog[key] = selected[key] })
-    //     setlogbookForm(newLog)
-    //     setModal(prevModal => ({
-    //         ...prevModal,
-    //         open: !modal.open
-    //     }))
-    //     setState({
-    //         ...state,
-    //         open: true,
-    //         btnClicked: 'addFlightBtn'
-    //     })
-    // }
-
-    // const deleteBtn = id => {
-    //     // hit the delete flight route
-    //     API.deleteFlight(id)
-    //         .then(getFlights())
-    //         .catch(err => console.log(err))
-    //     // closes modal after flight is deleted
-    //     setModal(prevModal => ({
-    //         ...prevModal,
-    //         open: !modal.open
-    //     }))
-    // }
     const openAccordion = e => {
         const { target } = e
         setState(state => ({
@@ -196,10 +135,9 @@ const Aircraft = () => {
         }))
     }
     return (
-        <UserContext.Provider value={user}>
+        <>
             <Nav />
             <div className='menuDiv'>
-                {/* here will be the buttons for this page. Maybe i'll make a component for these since there will be one on each page. */}
                 <Button
                     text='Add Aircraft'
                     btnId='Addaircraft'
@@ -217,8 +155,7 @@ const Aircraft = () => {
                 }
             </div>
             <AircraftDisplay aircraft={state.userCurrentAircraft} />
-
-        </UserContext.Provider>
+        </>
     );
 
 
