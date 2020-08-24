@@ -13,7 +13,7 @@ module.exports = function(app) {
         // };
       });
     
-      app.get("/api/airports/:id", function (req, res) {
+      app.get("/api/airport/:id", function (req, res) {
         // if (!req.user) {
         //   res.redirect(307, "/login");
         // } else {

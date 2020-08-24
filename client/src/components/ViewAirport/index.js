@@ -9,8 +9,7 @@ const ViewAirport = ({ handleClick, handleFormInput }) => {
 
     return (
         <div>
-            <form>
-                <h4 className='header'>Aircraft Information</h4>
+            
                 <div className='inputDiv'>
                     <Input
                         labelFor='airport'
@@ -21,6 +20,7 @@ const ViewAirport = ({ handleClick, handleFormInput }) => {
                         inputClass='addFlightInput'
                         placeholder='Enter ICAO Identifier'
                         handleInputChange={handleFormInput}
+                        onChange={handleFormInput}
                         // value={value.tailNumber}
                     />
                     <Button
@@ -33,7 +33,7 @@ const ViewAirport = ({ handleClick, handleFormInput }) => {
                 
                 
                 
-            </form>
+            
         </div>
     )
 }
