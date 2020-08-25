@@ -19,7 +19,7 @@ const AddStudent = ({ addT, setAircraft, value, handleFormInput }) => {
                         inputClass='addFlightInput'
                         placeholder='Add Student Email'
                         handleInputChange={handleFormInput}
-                        // value={value.tailNumber}
+                        value={value.studentsEmail}
                     />
                 </div>
                 <div className='btnWrapper'>

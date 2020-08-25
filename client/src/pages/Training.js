@@ -21,6 +21,7 @@ const Training = () => {
     const [invalidSubmission, setInvalidSubmission] = useState(false);
     const [students, setStudents] = useState({
         ids: [],
+        studentEmail: '',
         flights: [],
         errorMessage: ''
     })
@@ -37,17 +38,20 @@ const Training = () => {
 
     const onSubmit = async (event) => {
         event.preventDefault();
+        
         // if (!studentEmail) {
         //     return setInvalidSubmission(true); // render an error message
         // }
         try {
 
             // Find if the entered email address is already in the database
+            const studentEmail = students.studentEmail
             API.userVerify({
-                studentEmail: studentEmail
+                studentEmail
             })
                 .then(function (matchingStudent) {
                     // If the email address entered corresponds to active user account
+                    console.log('studentEmail',studentEmail)
                     if (matchingStudent.data[0]) {
 
                         // Find current logged in user
@@ -119,7 +123,8 @@ const Training = () => {
             .catch(err => console.log(err))
     }
 
-    const getStudentFlights = async () => {
+    const getStudentFlights = async (e) => {
+        e.preventDefault()
         API.getFlights(await students.mapped[0].studentId)
             .then((res) => {
                 console.log('res', res)
@@ -197,11 +202,11 @@ const Training = () => {
     }
 
     const handleFormInput = ({ target: { value, name } }) => {
-        setState(state => ({
-            ...state,
+        setStudents(students => ({
+            ...students,
             [name]: value
         }))
-
+        console.log(students)
     };
     const switchFunc = arg => {
         switch (arg) {
@@ -210,7 +215,8 @@ const Training = () => {
                     <>
                         <AddStudent
                             handleFormInput={handleFormInput}
-                            addT={getStudentFlights}
+                            addT={onSubmit}
+                            value={students}
                         />
                     </>
                 )
