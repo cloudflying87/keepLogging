@@ -95,14 +95,17 @@ module.exports = function (app) {
         to: `${email}`, // list of receivers
         subject: `${user.data.email} would like to connect with you on KeepLogging`, // Subject line
         // text: "A user would like to connect with you on KeepLogging. Please click confirm if you would like to proceed", // plain text body
-        html: `<p>${user.data.email} would like to connect with you on KeepLogging. Please click confirm if you would like to proceed</p><a href="http://localhost:3000/redirect/${key}/${ID}" class="button" >Confirm</a>`, // html body
+        html: `<p>${user.data.email} would like to connect with you on KeepLogging. Please click confirm if you would like to proceed</p><a href="http://localhost:3000/redirect/${key}/${ID}/${email}" class="button" >Confirm</a>`, // html body
 
       })
       // db.products.insert( { item: "card", qty: 15 } )
       db.userPreferences.create({
         instructorID: user.data.id,
-        Access: key
+        instructorEmail: user.data.email,
+        Access: key,
+        studentEmail: email
       })
+      
 
 
       console.log("Message sent: %s", info.messageId);
