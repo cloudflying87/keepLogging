@@ -194,38 +194,61 @@ const Training = () => {
         }))
         console.log(students)
     };
-    // const switchFunc = arg => {
-    //     switch (arg) {
-    //         case 'addStudentMenu':
-    //             return (
-    //                 <> 
-    //                     <AddStudent
-    //                         handleFormInput={handleFormInput}
-    //                         addT={onSubmit}
-    //                         value={state}
-    //                     />
-    //                 </>
-    //             )
-    //         case 'selectStudentMenu':
-    //             return (
-    //                 <>
-    //                     {console.log(state)}
-    //                     <SelectStudent
-    //                         handleFormInput={handleFormInput}
-    //                         addT={getStudentFlights}
-    //                         data={state}
-    //                     />
-    //                 </>
-    //             )
-    //         default:
-    //             break;
-    //     };
-    // };
+    const switchFunc = arg => {
+        switch (arg) {
+            case 'addStudentMenu':
+                return (
+                    <> 
+                    <form onSubmit={onSubmit}>
+                    <label htmlFor="student-email-input" > Student Email </label>
+                    <input
+                        ref={studentEmailInputEl}
+                        type="email"
+                        id="student-email-input"
+                        placeholder="Student Email"
+                        onChange={({ target: { value } }) => {
+                            setStudentEmail(value);
+                            setInputInvalidError('');
+                        }}
+                    />
+                    <Button 
+                        text='Add Student'
+                        btnid='add-student' 
+                        className='formBtn'
+                        type="submit" 
+                    />
+                </form>
+                    </>
+                )
+            case 'selectStudentMenu':
+                return (
+                    <>
+                        <select
+                    name="students"
+                    id="student-select"
+                    onChange={({ target: { value } }) => {
+                        setSelectedStudentIndex(value)
+                    }}
+                    onClick={() => setRefreshStudents(true)}
+                >
+
+                    {
+                        students && students.length ?
+                            students.map(({ studentEmail }, index) => (<option value={index} key={index}>{studentEmail}</option>)) :
+                            (<option value=""> ... </option>)
+                    }
+                </select>
+                    </>
+                )
+            default:
+                break;
+        };
+    };
 
     return (
         <>
             <Nav />
-            {/* <div className='menuDiv'>
+            <div className='menuDiv'>
                 <Button
                     text='Add Student'
                     btnId='addStudentMenu'
@@ -253,45 +276,16 @@ const Training = () => {
                 studentFlights &&
                 <Table
                     flights={studentFlights} />
-            } */}
+            }
             <main>
-                <form onSubmit={onSubmit}>
-                    <label htmlFor="student-email-input" > Student Email </label>
-                    <input
-                        ref={studentEmailInputEl}
-                        type="email"
-                        id="student-email-input"
-                        placeholder="Student Email"
-                        onChange={({ target: { value } }) => {
-                            setStudentEmail(value);
-                            setInputInvalidError('');
-                        }}
-                    />
-                    <button id='add-student' type="submit" >
-                        Add Student
-                    </button>
-                </form>
-                <select
-                    name="students"
-                    id="student-select"
-                    onChange={({ target: { value } }) => {
-                        setSelectedStudentIndex(value)
-                    }}
-                    onClick={() => setRefreshStudents(true)}
-                >
-
-                    {
-                        students && students.length ?
-                            students.map(({ studentEmail }, index) => (<option value={index} key={index}>{studentEmail}</option>)) :
-                            (<option value=""> ... </option>)
-                    }
-                </select>
+                
+                
             </main>
-            {
+            {/* {
                 studentFlights &&
                 <Table
                     flights={studentFlights} />
-            }
+            } */}
         </>
     );
 };
