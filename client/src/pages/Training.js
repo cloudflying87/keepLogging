@@ -1,14 +1,22 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Input from '../components/Input';
+import Button from '../components/Button/'
 import Nav from '../components/Nav/index';
 import API from '../utils/API'
 import UserContext from '../utils/UserContext';
-import Table from '../components/Table/index';
-import Model from '../components/Modal/index';
-
+import Table from '../components/Table/';
+import Model from '../components/Modal/';
+import AddStudent from '../components/AddStudent/studentEmail';
+import SelectStudent from '../components/AddStudent/studentDropDown';
 
 const Training = () => {
-
+    const [state, setState] = useState({
+        open: false,
+        btnClicked: '',
+        userCurrentAircraft: [],
+        tailNumber: '',
+        modelId: 0
+    });
     const [studentEmail, setStudentEmail] = useState("");
     const [invalidSubmission, setInvalidSubmission] = useState(false);
     const [students, setStudents] = useState({
@@ -179,8 +187,48 @@ const Training = () => {
     //         open: !modal.open
     //     }))
     // }
+    const openAccordion = e => {
+        const { target } = e
+        setState(state => ({
+            ...state,
+            open: !state.open,
+            btnClicked: target.id
+        }))
+    }
 
-    
+    const handleFormInput = ({ target: { value, name } }) => {
+        setState(state => ({
+            ...state,
+            [name]: value
+        }))
+
+    };
+    const switchFunc = arg => {
+        switch (arg) {
+            case 'addStudent':
+                return (
+                    <>
+                        <AddStudent
+                            handleFormInput={handleFormInput}
+                            addT={getStudentFlights}
+                        />
+                    </>
+                )
+            case 'selectStudent':
+            return (
+                    <>
+                        <SelectStudent
+                            handleFormInput={handleFormInput}
+                            addT={getStudentFlights}
+                            data={students}
+                        />
+                    </>
+                )
+            default:
+                break;
+        };
+    };
+
     return (
         <>
             {/* {
@@ -201,9 +249,37 @@ const Training = () => {
                 />
 
             } */}
+
             <Nav />
-            <main>
-                <form onSubmit={onSubmit}>
+            <div className='menuDiv'>
+                <Button
+                    text='Add Student'
+                    btnId='addStudent'
+                    btnClass='menuBtn'
+                    handleClick={openAccordion}
+                />
+                <Button
+                    text='Select Student'
+                    btnId='selectStudent'
+                    btnClass='menuBtn'
+                    handleClick={openAccordion}
+                />
+            </div>
+                <div className='formDiv'>
+                    {
+                        !state.open
+                            ? null
+                            : (
+                                switchFunc(state.btnClicked)
+                            )
+                    }
+                </div>
+                {
+                    !!students.flights.length &&
+                    <Table
+                        flights={students.flights} />
+                }
+                {/* <form onSubmit={onSubmit}>
                     <Input
                         type="text"
                         id="student-email-input"
@@ -214,22 +290,17 @@ const Training = () => {
                     <button id='add-student' type="submit" >
                         Add Student
                 </button>
-                <div>{students.errorMessage}</div>
+                    <div>{students.errorMessage}</div>
                 </form>
                 {invalidSubmission && (<div>Please enter a valid email</div>)}
                 <button
                     onClick={() => {
-                        getStudentFlights();
+                        ;
                         console.log(students)
                     }}>
                     Student Table
-                </button>
-            </main>
-            {
-                !!students.flights.length &&
-            <Table
-                flights={students.flights} />
-            }
+                </button> */}
+
         </>
     );
 };
