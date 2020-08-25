@@ -1,16 +1,75 @@
-# Logbook
-The purpose of this project was to start creating an electronic logbook that pilots can use to keep track of their flight information. This project has many possibilities that we look forward to pursuing in time. This project gave us the opportunity to implement several new technologies including tippyJS, SlimSelect, SCSS, authentication, and importing from a CSV. keep Logging was our first build from the bottom up to include the server. 
+# Keep Logging
 
+## App
 
+Find the deployed app [here](https://keeplogging.herokuapp.com/)
 
-![Application Homepage](./public/assets/images/2020-07-29-23-08-35.png)
-![Modal for First Time Users](./public/assets/images/2020-07-29-23-09-49.png)
-![Entry Page for Returning Users](./public/assets/images/2020-07-29-23-11-23.png)
-![Create Flight Menu](./public/assets/images/2020-07-29-23-12-10.png)
-![Create Aircraft Menu](./public/assets/images/2020-07-29-23-12-49.png)
-![Totals Page](./public/assets/images/2020-07-29-23-13-33.png)
+## Introduction
 
+Keep Logging is a mobile responsive electronic logbook for pilots, inspired by [Myflightbook](https://myflightbook.com) and a very detailed, comprehensive, and impressive Excel spreadsheet by project leader [David Hale](https://github.com/cloudflying87).  
 
-[Github Repository](https://github.com/cloudflying87/keepLogging)
+## Features
 
-[Deployed Heroku Application](https://fathomless-thicket-06721.herokuapp.com/login)
+The user is taken to a signup page on visiting the site. Here they can log in or create a new account.
+
+![login page](./client/public/assets/images/login.png)
+
+After logging in, the user will be presented with their logbook. A user can add a flight, click on a flight for more information, search through their flights by date, or view their totals.
+
+![logbook](./client/public/assets/images/logbook.png)
+![add a flight](./client/public/assets/images/addFlight.png)
+![modal view of table row](./client/public/assets/images/modal.png)
+![search by date range](./client/public/assets/images/search.png)
+![totals view](./client/public/assets/images/totals.png)
+![totals view cont](./client/public/assets/images/totals2.png)
+
+Add and view aircraft in their virtual hangar.
+
+![user aircraft](./client/public/assets/images/aircraft.png)
+
+View Airports 
+
+![airports](./client/public/assets/images/airports.png)
+
+Here, an instructor can add the email address of their student. The student will recieve an email to confirm the invitation. Once confirmed, the instructor will be able to view and add flights to the student's table. In a future release, the instructor will be able to add a digital signature or other verification to flights.
+
+![training](./client/public/assets/images/training.png)
+
+## Frameworks and Technology
+
+- Node.js
+  - Express.js
+  - Sequelize
+  - Nodemailer
+  - Passport.js
+
+- React.js
+  - Moment.js
+  - Chart.js
+  - react-transitions-group
+  - google-map-react
+  - react-slick
+  - react-select
+  - axios
+
+## Future Development
+
+- Instructors can add flights to the student's table
+- Instructors can add a digital signature to a student's flight
+  - Add an iacra from total
+- Upload images to the flight
+- Import logbooks through .kml file
+- Export logbooks to .pdf and .kml
+- Print logbook in a nice looking format
+- Search and sort flights in more ways
+- Dark mode
+- Social media sharing options
+- User preference tab 
+  - auto-log on clock times
+  - multi-factor-authentication
+
+## Dev Team
+
+- [David Hale](https://github.com/cloudflying87)
+- [Coby Sher](https://github.com/CobyPear)
+- [Austin Kramer](https://github.com/AKKramer)
