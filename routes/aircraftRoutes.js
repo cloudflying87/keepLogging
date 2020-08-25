@@ -98,16 +98,12 @@ app.get("/api/aircraft/", function (req, res) {
     // };
   });
 
-  app.get("/api/aircraftTypes/", function (req, res) {
+  app.get("/api/aircraftTypesAllTails/", function (req, res) {
     // if (!req.user) {
     //     res.redirect(307, "/api/login");
     // } else {
     db.Aircraft.findAll({
-      attributes:['AircraftId'],
-      include:{
-        model: db.Aircraft,
-        attributes:['tailNumber'],
-        include:{
+         include:{
           model:db.AircraftModels,
           attributes:[
             'tdesig',
@@ -119,7 +115,6 @@ app.get("/api/aircraft/", function (req, res) {
             'taa',
             'simulator'
         ]
-        }
       },
        
       raw: true
@@ -129,7 +124,7 @@ app.get("/api/aircraft/", function (req, res) {
     // };
   });
   
-  app.get("/api/aircraftTypesUserId/", function (req, res) {
+  app.get("/api/aircraftTypes/", function (req, res) {
     // if (!req.user) {
     //     res.redirect(307, "/api/login");
     // } else {

@@ -134,23 +134,22 @@ const Logbook = () => {
         }))
     };
     const getAircraftTypes = () => {
-        API.getAircraftTypes()
+        API.getAircraftTails()
             .then(({ data }) => {
-                let rawResults = []
                 let filteredResults = []
-                let uniqueId = []
-                for (let i = 0; i < data.length; i++) {
-                    if (!uniqueId.includes(data[i].AircraftId)) {
-                        if (data[i]['Aircraft.tailNumber'] != null) {
-                            rawResults.push(data[i])
-                            uniqueId.push(data[i].AircraftId)
-                        }
-                    }
-                }
+                // let uniqueId = []
+                // for (let i = 0; i < data.length; i++) {
+                //     if (!uniqueId.includes(data[i].AircraftId)) {
+                //         if (data[i]['Aircraft.tailNumber'] != null) {
+                //             rawResults.push(data[i])
+                //             uniqueId.push(data[i].AircraftId)
+                //         }
+                //     }
+                // }
                 
-                filteredResults = rawResults.map((a) => ({
-                    value: a.AircraftId,
-                    label: a['Aircraft.tailNumber'] + ' ' + a['Aircraft.AircraftModel.description'],
+                filteredResults = data.map((a) => ({
+                    value: a.id,
+                    label: a['tailNumber'] + ' ' + a['AircraftModel.description'],
 
                 }))
                 let filteredResultsSorted = filteredResults.sort((a, b) => (a.label > b.label) ? 1 : ((b.label > a.label) ? -1 : 0))
@@ -182,7 +181,8 @@ const Logbook = () => {
     }
     async function getLatLong(icao) {
         await API.getAirports(icao)
-            .then(async ({ data }) => {
+            .then(async ( {data} ) => {
+                
                 const objectArray = Object.values(data[0])
                 airportLoc.push(parseFloat(objectArray[8], 10), parseFloat(objectArray[9], 10))
             })
@@ -211,7 +211,7 @@ const Logbook = () => {
         var a = Math.pow(Math.cos(lat2) * Math.sin(lonDelta), 2) + Math.pow(Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lonDelta), 2);
         var b = Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lonDelta);
         var angle = Math.atan2(Math.sqrt(a), b);
-
+        console.log('Distance',angle*r)
         distNum.push(angle * r)
 
     }

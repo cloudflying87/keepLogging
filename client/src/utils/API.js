@@ -26,9 +26,13 @@ export default {
     getAircraftId: function (aircraftType) {
         return axios.get('/api/aircraft/userFind/' + aircraftType);
     },
-    // putting aircraft types in a list for our dropdown menu
+    // putting aircraft types in a by user list for our dropdown menu
     getAircraftTypes: function () {
         return axios.get('api/aircraftTypes/');
+    },
+    // Returning All Tail numbers
+    getAircraftTails: function () {
+        return axios.get('api/aircraftTypesAllTails/');
     },
     getAircraftModels: function () {
         return axios.get('api/aircraftModels/');
@@ -37,7 +41,7 @@ export default {
     // all airports
 
     getAirports: function (icao) {
-        return axios.get('/api/airport/' + icao.airport);
+        return axios.get('/api/airport/' + icao);
     },
     // get airport by id
     getOneAirport: function (id) {
