@@ -112,8 +112,8 @@ export default {
     sendMail: function (email, ID, loggedInUser) {
         return axios.post('/api/sendMail', email, ID, loggedInUser);
     },
-    redirect: function (validationKey, studentEmail) {
-        return axios.get(`/redirect/${validationKey}/${studentEmail}`);
+    redirect: function (validationKey, studentID, studentEmail) {
+        return axios.get(`/redirect/${validationKey}/${studentID}/${studentEmail}`);
     },
     // route for getting student id's of associated instructor
     getStudents: function(id) {

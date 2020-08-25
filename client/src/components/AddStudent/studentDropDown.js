@@ -11,7 +11,7 @@ const SelectStudent = ({ addT, setAircraft, value, handleFormInput }) => {
             <form>
                 <div className='inputDiv'>
                     <Select
-                        // options={value.ids}
+                        options={value.email}
                         labelFor='selectStudent'
                         label='Students'
                         name='selectStudent'

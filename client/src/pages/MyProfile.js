@@ -9,7 +9,7 @@ const MyProfile = () => {
         <>
             <Nav/>
             <div>
-                <h1>My Profile Coming Soon</h1>
+                <h1>Welcome to your User Profile</h1>
             </div>
         </>
     );
