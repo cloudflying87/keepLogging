@@ -5,6 +5,7 @@ import API from '../utils/API';
 import './signup.css'
 import UserContext from '../utils/UserContext';
 import logo from '../../src/logoSmall.png';
+import SimpleSlider from '../components/SlickCarousel/index'
 
 const Signup = props => {
 
@@ -110,7 +111,9 @@ const Signup = props => {
                 {
                     state.error && <h1>{state.error.message}</h1>
                 }
+                
             </main>
+            
         </>
     );
 };

@@ -43,6 +43,9 @@ export default {
     getAirports: function (icao) {
         return axios.get('/api/airport/' + icao);
     },
+    getAirportsAirports: function (icao) {
+        return axios.get('/api/airport/' + icao.airport);
+    },
     // get airport by id
     getOneAirport: function (id) {
         return axios.get('/api/airports/' + id);

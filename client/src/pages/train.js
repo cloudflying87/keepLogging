@@ -1,15 +1,23 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import Input from '../components/Input';
+import Button from '../components/Button/'
 import Nav from '../components/Nav/index';
 import API from '../utils/API'
 import UserContext from '../utils/UserContext';
-import Table from '../components/Table/index';
-import Modal from '../components/Modal/index';
-
+import Table from '../components/Table/';
+import Model from '../components/Modal/';
+import AddStudent from '../components/AddStudent/studentEmail';
+import SelectStudent from '../components/AddStudent/studentDropDown';
 
 const Training = () => {
     const user = useContext(UserContext);
-
+    const [state, setState] = useState({
+        open: false,
+        btnClicked: '',
+        students:[],
+        mapped: [],
+        email:'',
+    })
     const [studentEmail, setStudentEmail] = useState("");
     const [refreshStudents, setRefreshStudents] = useState(true);
     const [students, setStudents] = useState();
@@ -37,7 +45,7 @@ const Training = () => {
         const handle = setTimeout(async () => {
             try {
                 const { data } = await API.getStudents(user.userId);
-                const students = data.filter(({studentID}) => studentID != null);
+                const students = data.filter(({ studentID }) => studentID != null);
                 setStudents(students);
                 setRefreshStudents(false);
                 if (!students.length) return setSelectedStudentIndex(undefined);
@@ -78,11 +86,11 @@ const Training = () => {
                 return setInputInvalidError('You already have access to this student');
             }
 
-                // If the user didn't enter their own email address
+            // If the user didn't enter their own email address
             if ((loggedInUser.data.id === matchingStudent.data[0].id)) {
                 return setInputInvalidError('You have entered your own Email.');
             }
-            
+
             // Send an authentication email to the email address typed in
             API.sendMail({
                 "email": matchingStudent.data[0].email,
@@ -98,7 +106,7 @@ const Training = () => {
 
     const getStudentFlights = async () => {
         try {
-            const { studentID } =   students[selectedStudentIndex];
+            const { studentID } = students[selectedStudentIndex];
             const { data } = await API.getFlights(studentID)
             setStudentFlights(data.map(x => ({
                 Date: x.date,
@@ -159,31 +167,40 @@ const Training = () => {
     //         open: !modal.open
     //     }))
     // }
+    const mapStudents = () => {
+        console.log(students)
+        const studentArray = students.map(({ studentEmail }, index) => ({
+            value:index, 
+            email: studentEmail
+        }))
+        setState({ ...state,
+            students: studentArray
+            })
+        console.log(state)
+    }
+    const openAccordion = e => {
+        e.preventDefault()
+        const { target } = e
+        setState(state => ({
+            ...state,
+            open: !state.open,
+            btnClicked: target.id
+        }))
+    }
 
-
-    return (
-        <>
-            {/* {
-                (modal.open && !!modal.values) &&
-
-                <Modal
-                    key={modal.values.id}
-                    results={modal.values}
-                    openEdit={openEdit}
-                    deleteBtn={deleteBtn}
-                    handleClick={e => {
-                        e.preventDefault();
-                        setModal(state => ({
-                            ...state,
-                            open: !modal.open
-                        }))
-                    }}
-                />
-
-            } */}
-            <Nav />
-            <main>
-                <form onSubmit={onSubmit}>
+    const handleFormInput = ({ target: { value, name } }) => {
+        setStudents(students => ({
+            ...students,
+            [name]: value
+        }))
+        console.log(students)
+    };
+    const switchFunc = arg => {
+        switch (arg) {
+            case 'addStudentMenu':
+                return (
+                    <> 
+                    <form onSubmit={onSubmit}>
                     <label htmlFor="student-email-input" > Student Email </label>
                     <input
                         ref={studentEmailInputEl}
@@ -195,32 +212,81 @@ const Training = () => {
                             setInputInvalidError('');
                         }}
                     />
-                    <button id='add-student' type="submit" >
-                        Add Student
-                    </button>
+                    <Button 
+                        text='Add Student'
+                        btnid='add-student' 
+                        className='formBtn'
+                        type="submit" 
+                    />
                 </form>
-                <select
+                    </>
+                )
+            case 'selectStudentMenu':
+                return (
+                    <>
+                        <select
                     name="students"
                     id="student-select"
-                    onChange={({ target: { value } }) =>  {
+                    onChange={({ target: { value } }) => {
                         setSelectedStudentIndex(value)
                     }}
-                    onClick={() => setRefreshStudents(true) }
+                    onClick={() => setRefreshStudents(true)}
                 >
-                    
+
                     {
                         students && students.length ?
-                        
-                        students.map(({studentEmail}, index) => (<option value={index} key={index}>{studentEmail}</option>)) :
-                        (<option value=""> ... </option> )
+                            students.map(({ studentEmail }, index) => (<option value={index} key={index}>{studentEmail}</option>)) :
+                            (<option value=""> ... </option>)
                     }
                 </select>
-            </main>
+                    </>
+                )
+            default:
+                break;
+        };
+    };
+
+    return (
+        <>
+            <Nav />
+            <div className='menuDiv'>
+                <Button
+                    text='Add Student'
+                    btnId='addStudentMenu'
+                    btnClass='menuBtn'
+                    handleClick={openAccordion}
+                />
+                <Button
+                    text='Select Student'
+                    btnId='selectStudentMenu'
+                    btnClass='menuBtn'
+                    handleClick={openAccordion}
+                    // handleClick={mapStudents}
+                />
+            </div>
+            <div className='formDiv'>
+                {
+                    !state.open
+                        ? null
+                        : (
+                            switchFunc(state.btnClicked)
+                        )
+                }
+            </div>
             {
                 studentFlights &&
                 <Table
                     flights={studentFlights} />
             }
+            <main>
+                
+                
+            </main>
+            {/* {
+                studentFlights &&
+                <Table
+                    flights={studentFlights} />
+            } */}
         </>
     );
 };

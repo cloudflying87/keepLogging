@@ -179,6 +179,7 @@ const Training = () => {
         console.log(state)
     }
     const openAccordion = e => {
+        e.preventDefault()
         const { target } = e
         setState(state => ({
             ...state,
