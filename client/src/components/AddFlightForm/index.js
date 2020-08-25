@@ -5,7 +5,7 @@ import './style.css'
 import Select from 'react-select'
 import { CSSTransition } from 'react-transition-group'
 
-const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, setAircraft, text, aircraftList }) => {
+const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, setAircraft, text, resetForm }) => {
     const [open, setOpen] = useState(false)
     useEffect(() => {
         setOpen(true)
@@ -362,6 +362,12 @@ const AddFlightForm = ({ handleFormInput, handleAddFlight, handleClick, value, s
                             btnId='createFlightBtn'
                             className='formBtn'
                             handleClick={handleAddFlight}
+                        />
+                        <Button
+                            text='Reset Form'
+                            btnId='resetForm'
+                            className='formBtn'
+                            handleClick={resetForm}
                         />
                     </div>
                 </form>

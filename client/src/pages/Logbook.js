@@ -416,7 +416,8 @@ const Logbook = () => {
         setlogbookFormBlank()
         getFlights();
     }
-    const setlogbookFormBlank = () => {
+    const setlogbookFormBlank = (e) => {
+        e.preventDefault();
         setlogbookForm(prev => ({
             ...prev,
             date: moment().format('YYYY-MM-D'),
@@ -470,6 +471,7 @@ const Logbook = () => {
                         <AddFlightForm
                             handleFormInput={handleFormInput}
                             handleClick={workingTimeDistance}
+                            resetForm={setlogbookFormBlank}
                             handleAddFlight={logFlight}
                             setAircraft={setAircraft}
                             value={logbookForm}

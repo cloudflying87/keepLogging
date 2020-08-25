@@ -4,6 +4,7 @@ import Input from '../components/Input/index';
 import API from '../utils/API';
 import './signup.css'
 import UserContext from '../utils/UserContext';
+import logo from '../../src/logoSmall.png';
 
 const Signup = props => {
 
@@ -63,6 +64,9 @@ const Signup = props => {
     
     return (
         <>
+            <div className='logoDiv'>
+                <img src={logo} alt='keep_logging logo' />
+            </div>
             <main className='signupWrapper'>
                 <form className='signupForm'>
                     <div className='formDiv1'>
