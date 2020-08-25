@@ -35,7 +35,7 @@ function App() {
           <Route exact path='/Aircraft' component={Aircraft} />
           <Route exact path='/Airports' component={Airports} />
           <Route exact path='/myProfile' component={MyProfile} />
-          <Route exact path='/redirect/:key/:studentID' component={Redirect} />
+          <Route exact path='/redirect/:key/:studentID/:studentEmail' component={Redirect} />
         </Switch>
       </Router>
     </UserContext.Provider>

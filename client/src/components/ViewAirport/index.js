@@ -30,7 +30,7 @@ const ViewAirport = ({ handleClick, handleFormInput }) => {
                         handleClick={handleClick}
                     />
                 </div>
-                
+        
                 
                 
             
