@@ -45,13 +45,13 @@ const Training = () => {
         try {
 
             // Find if the entered email address is already in the database
-            const studentEmail = students.studentEmail
+            const emailCheck = students.studentEmail
             API.userVerify({
-                studentEmail
+                emailCheck
             })
                 .then(function (matchingStudent) {
                     // If the email address entered corresponds to active user account
-                    console.log('studentEmail',studentEmail)
+                    console.log(students.studentEmail)
                     if (matchingStudent.data[0]) {
 
                         // Find current logged in user

@@ -104,7 +104,6 @@ export default {
         return axios.get('/api/user_data');
     },
     userVerify: function (email) {
-        console.log(email)
         return axios.post('/api/verifyAccount', email);
     },
     userAccess: function (key, studentID) {

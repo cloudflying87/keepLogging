@@ -102,6 +102,37 @@ app.get("/api/aircraft/", function (req, res) {
     // if (!req.user) {
     //     res.redirect(307, "/api/login");
     // } else {
+    db.Aircraft.findAll({
+      attributes:['AircraftId'],
+      include:{
+        model: db.Aircraft,
+        attributes:['tailNumber'],
+        include:{
+          model:db.AircraftModels,
+          attributes:[
+            'tdesig',
+            'description',
+            'category_class',
+            'complex',
+            'highPerf',
+            'tailWheel',
+            'taa',
+            'simulator'
+        ]
+        }
+      },
+       
+      raw: true
+    })
+      .then(results => {res.json(results)})
+      .catch(err => res.status(404).json(err));
+    // };
+  });
+  
+  app.get("/api/aircraftTypesUserId/", function (req, res) {
+    // if (!req.user) {
+    //     res.redirect(307, "/api/login");
+    // } else {
     db.FlightTime.findAll({
       where: {UserId: req.user.id},
       // where: {UserId: 2},
@@ -130,7 +161,7 @@ app.get("/api/aircraft/", function (req, res) {
       .catch(err => res.status(404).json(err));
     // };
   });
-  
+
   app.get("/api/aircraftModels/", function (req, res) {
     // if (!req.user) {
     //     res.redirect(307, "/api/login");
