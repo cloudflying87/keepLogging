@@ -61,6 +61,7 @@ export default {
     // flight_time routes ----------------------------------------------------------------
     // get all flight_times for the user
     getFlights: function (id) {
+        console.log(id)
         return axios.get('/api/flight_time/'+id);
     },
     // select one flight_time

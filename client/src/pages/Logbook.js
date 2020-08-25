@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Button from '../components/Button/index';
 import Nav from '../components/Nav/index';
 import AddFlightForm from '../components/AddFlightForm/index';
@@ -25,7 +25,6 @@ const Logbook = () => {
         mapped: [],
         mappedOriginal:[],
         totals: [],
-        // userId: ''
     })
     const [logbookForm, setlogbookForm] = useState({
         date: moment().format('YYYY-MM-D'),
@@ -66,26 +65,15 @@ const Logbook = () => {
         open: false,
         values: []
     });
-    const [user, setUser] = useState({
-        userId: ''
-    })
+    const user = useContext(UserContext)
 
     useEffect(() => {
         getFlights();
-        API.userData()
-            .then(res => {
-                setUser(({
-                    userId: res.data.id
-                }))
-            })
-            .catch(err => {
-                console.error(err)
-            })
         getAircraftTypes()
     }, [])
 
     const getFlights = () => {
-        API.getFlights()
+        API.getFlights(user.userId)
             .then((res) => {
                 const mapped = res.data.map(x => ({
                     Date: x.date,
@@ -95,6 +83,7 @@ const Logbook = () => {
                     Total: x.total,
                     id: x.id
                 }))
+                
                 setState(state => ({
                     ...state,
                     fullResults: res.data,
@@ -157,7 +146,7 @@ const Logbook = () => {
                         }
                     }
                 }
-                // console.log()
+                
                 filteredResults = rawResults.map((a) => ({
                     value: a.AircraftId,
                     label: a['Aircraft.tailNumber'] + ' ' + a['Aircraft.AircraftModel.description'],
@@ -283,7 +272,6 @@ const Logbook = () => {
         // always going to take the first airport and the last airport. Getting the last airport by finding the length of the array and taking the last two items. 
         // all calculations are done on sunrise and sunset times. Carrying dawn times but not using them for anything right now. 
         const numofAirport = airportLoc.length
-        console.log()
         await sunTimes(depart, airportLoc[0], airportLoc[1])
         await sunTimes(arrive, airportLoc[numofAirport - 2], airportLoc[numofAirport - 1])
 
@@ -310,7 +298,7 @@ const Logbook = () => {
         if (nightTime > timeCalc) {
             nightTime = timeCalc
         }
-        console.log(nightTime)
+        // console.log(nightTime)
         setlogbookForm(logbookForm => ({
             ...logbookForm,
             total: timeCalc,
@@ -379,11 +367,11 @@ const Logbook = () => {
             AircraftId: nullChecked.AircraftId
         })
             .then((data) => {
-                console.log("logFlight data: ", data)
+                
                 setlogbookFormBlank();
                 getFlights();
             })
-            .catch(err => console.log(err))
+            .catch(console.error)
 
     }
 
@@ -530,8 +518,6 @@ const Logbook = () => {
             open: !modal.open,
             values: state.fullResults.find(x => parseInt(x.id) === parseInt(target.id))
         }))
-        // console.log(modal)
-        // console.log(state)
     };
 
     const openEdit = id => {
@@ -539,15 +525,11 @@ const Logbook = () => {
         const selected = state.fullResults
             .find(x => parseInt(x.id) === id)
         const newLog = {}
-        console.log('selected', selected)
 
         if (!selected) return;
         Object.keys(logbookForm).forEach(key => { newLog[key] = selected[key] })
         setlogbookForm(newLog)
         getAircraftTypes()
-        console.log(logbookForm)
-        // setlogbookForm(newLog)
-        // console.log("new log", newLog)
 
         setModal(prevModal => ({
             ...prevModal,
@@ -584,7 +566,6 @@ const Logbook = () => {
 
 
     return (
-        <UserContext.Provider value={user}>
             <div>
                 {
                     (modal.open && !!modal.values) &&
@@ -629,30 +610,12 @@ const Logbook = () => {
                             getTotals();
                         }}
                     />
-                    {/* <Button
-                    text='Training'
-                    btnId='training'
-                    btnClass='menuBtn'
-                    handleClick={(e) => {
-                        const { target } = e;
-                        e.preventDefault()
-                        console.log("add flight")
-                        setState(state => ({
-                            ...state,
-                            open: !state.open,
-                            btnClicked: target.id
-                        }))
-                        console.log(state.btnClicked)
-                    }}
-                /> */}
                     <Button
                         text='Logout'
                         btnId='logout'
                         btnClass='menuBtn'
                         handleClick={(e) => {
                             e.preventDefault()
-                            console.log("logout")
-                            console.log(state.btnClicked)
                             API.userLogOut()
                                 .then(window.location.href = "/")
                                 .catch(err => console.error(err))
@@ -680,7 +643,6 @@ const Logbook = () => {
                 </main>
 
             </div>
-        </UserContext.Provider>
     )
 }
 

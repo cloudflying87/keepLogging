@@ -60,7 +60,7 @@ const Signup = props => {
     };
 
 
-    console.log('signup user ', user)
+    
     return (
         <>
             <main className='signupWrapper'>
