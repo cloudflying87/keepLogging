@@ -120,7 +120,6 @@ const Logbook = () => {
         }))
     }
     const resetMapped = (e) => {
-        
         setState(state => ({
             ...state,
             mapped: state.mappedOriginal

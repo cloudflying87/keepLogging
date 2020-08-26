@@ -6,7 +6,7 @@ module.exports = function(app) {
     // Routes for aircraft table per user id
 app.get("/api/aircraft/", function (req, res) {
     if (!req.user) {
-        res.redirect(307, "/api/login");
+        // res.redirect(307, "/api/login");
     } else {
     db.Aircraft.findAll({
       include:[{
