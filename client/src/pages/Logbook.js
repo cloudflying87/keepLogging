@@ -23,9 +23,8 @@ const Logbook = () => {
         btnClicked: '',
         fullResults: [],
         mapped: [],
-        mappedOriginal: [],
+        mappedOriginal:[],
         totals: [],
-        // userId: ''
     })
     const [logbookForm, setlogbookForm] = useState({
         date: moment().format('YYYY-MM-D'),
@@ -67,7 +66,7 @@ const Logbook = () => {
         values: []
     });
     const user = useContext(UserContext)
-    
+
     useEffect(() => {
         getFlights();
         getAircraftTypes()
@@ -76,6 +75,7 @@ const Logbook = () => {
     const getFlights = () => {
         API.getFlights(user.userId)
             .then((res) => {
+
                 const mapped = res.data.map(x => ({
                     Date: x.date,
                     Aircraft: x['Aircraft.tailNumber'],
@@ -84,14 +84,16 @@ const Logbook = () => {
                     Total: x.total,
                     id: x.id
                 }))
+                
                 setState(state => ({
                     ...state,
                     fullResults: res.data,
-                    mappedOriginal: mapped,
-                    mapped: mapped
+                    mappedOriginal:mapped,
+                    mapped:mapped
                 }))
             })
             .catch(err => {
+                console.log(err)
                 window.location.href = '/'
             });
     }
@@ -103,14 +105,14 @@ const Logbook = () => {
     }
     const searchDates = (e) => {
         e.preventDefault()
-
+        
         let startDate = moment.utc(logbookForm.startDate)
         let endDate = moment.utc(logbookForm.endDate).format('x')
         // moment.utc(searchMapped[0].Date).format('x')
         const searchMapped = state.mappedOriginal.filter(x => {
-
+            
             return (moment.utc(x.Date).format('x') >= startDate && moment.utc(x.Date).format('x') <= endDate)
-
+            
         })
         setState(state => ({
             ...state,
@@ -118,7 +120,6 @@ const Logbook = () => {
         }))
     }
     const resetMapped = (e) => {
-        
         setState(state => ({
             ...state,
             mapped: state.mappedOriginal
@@ -132,22 +133,22 @@ const Logbook = () => {
         }))
     };
     const getAircraftTypes = () => {
-        API.getAircraftTypes()
+        API.getAircraftTails()
             .then(({ data }) => {
-                let rawResults = []
                 let filteredResults = []
-                let uniqueId = []
-                for (let i = 0; i < data.length; i++) {
-                    if (!uniqueId.includes(data[i].AircraftId)) {
-                        if (data[i]['Aircraft.tailNumber'] != null) {
-                            rawResults.push(data[i])
-                            uniqueId.push(data[i].AircraftId)
-                        }
-                    }
-                }
-                filteredResults = rawResults.map((a) => ({
-                    value: a.AircraftId,
-                    label: a['Aircraft.tailNumber'] + ' ' + a['Aircraft.AircraftModel.description'],
+                // let uniqueId = []
+                // for (let i = 0; i < data.length; i++) {
+                //     if (!uniqueId.includes(data[i].AircraftId)) {
+                //         if (data[i]['Aircraft.tailNumber'] != null) {
+                //             rawResults.push(data[i])
+                //             uniqueId.push(data[i].AircraftId)
+                //         }
+                //     }
+                // }
+                
+                filteredResults = data.map((a) => ({
+                    value: a.id,
+                    label: a['tailNumber'] + ' ' + a['AircraftModel.description'],
 
                 }))
                 let filteredResultsSorted = filteredResults.sort((a, b) => (a.label > b.label) ? 1 : ((b.label > a.label) ? -1 : 0))
@@ -179,7 +180,8 @@ const Logbook = () => {
     }
     async function getLatLong(icao) {
         await API.getAirports(icao)
-            .then(async ({ data }) => {
+            .then(async ( {data} ) => {
+                
                 const objectArray = Object.values(data[0])
                 airportLoc.push(parseFloat(objectArray[8], 10), parseFloat(objectArray[9], 10))
             })
@@ -208,7 +210,7 @@ const Logbook = () => {
         var a = Math.pow(Math.cos(lat2) * Math.sin(lonDelta), 2) + Math.pow(Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lonDelta), 2);
         var b = Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lonDelta);
         var angle = Math.atan2(Math.sqrt(a), b);
-
+        console.log('Distance',angle*r)
         distNum.push(angle * r)
 
     }
@@ -277,6 +279,7 @@ const Logbook = () => {
         let depSet = sunTimesArr[2]
         let arrRise = sunTimesArr[5]
         let arrSet = sunTimesArr[6]
+        console.log("dep ", depRise, " depart ", depart)
 
         if ((depart.isBefore(depRise) && arrive.isBefore(arrRise)) || (depart.isAfter(depSet) && arrive.isAfter(arrSet))) {
             // this is for an all night flight before sunrise or after sunset
@@ -295,6 +298,7 @@ const Logbook = () => {
         if (nightTime > timeCalc) {
             nightTime = timeCalc
         }
+        // console.log(nightTime)
         setlogbookForm(logbookForm => ({
             ...logbookForm,
             total: timeCalc,
@@ -363,6 +367,7 @@ const Logbook = () => {
             AircraftId: nullChecked.AircraftId
         })
             .then((data) => {
+                
                 setlogbookFormBlank();
                 getFlights();
             })
@@ -410,7 +415,12 @@ const Logbook = () => {
         setlogbookFormBlank()
         getFlights();
     }
-    const setlogbookFormBlank = () => {
+    const setlogbookBlankClick = (e) => {
+        e.preventDefault();
+        setlogbookFormBlank()
+    }
+    const setlogbookFormBlank = (e) => {
+        
         setlogbookForm(prev => ({
             ...prev,
             date: moment().format('YYYY-MM-D'),
@@ -464,6 +474,7 @@ const Logbook = () => {
                         <AddFlightForm
                             handleFormInput={handleFormInput}
                             handleClick={workingTimeDistance}
+                            resetForm={setlogbookBlankClick}
                             handleAddFlight={logFlight}
                             setAircraft={setAircraft}
                             value={logbookForm}
@@ -525,7 +536,6 @@ const Logbook = () => {
         Object.keys(logbookForm).forEach(key => { newLog[key] = selected[key] })
         setlogbookForm(newLog)
         getAircraftTypes()
-        
 
         setModal(prevModal => ({
             ...prevModal,
@@ -561,9 +571,8 @@ const Logbook = () => {
     }
 
 
-    console.log(user)
     return (
-            <>
+            <div>
                 {
                     (modal.open && !!modal.values) &&
 
@@ -638,7 +647,8 @@ const Logbook = () => {
                     {/* Modal for popping out table. maybe a 'view' button opens and closes it */}
                     {/* The table will live here. Might try to do an actual table first, then will try grid or flexbox. */}
                 </main>
-            </>
+
+            </div>
     )
 }
 

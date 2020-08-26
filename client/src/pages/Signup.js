@@ -4,6 +4,8 @@ import Input from '../components/Input/index';
 import API from '../utils/API';
 import './signup.css'
 import UserContext from '../utils/UserContext';
+import logo from '../../src/logoSmall.png';
+import SimpleSlider from '../components/SlickCarousel/index'
 
 const Signup = props => {
 
@@ -60,9 +62,12 @@ const Signup = props => {
     };
 
 
-    console.log('signup user ', user)
+    
     return (
         <>
+            <div className='logoDiv'>
+                <img src={logo} alt='keep_logging logo' />
+            </div>
             <main className='signupWrapper'>
                 <form className='signupForm'>
                     <div className='formDiv1'>
@@ -106,7 +111,9 @@ const Signup = props => {
                 {
                     state.error && <h1>{state.error.message}</h1>
                 }
+                
             </main>
+            
         </>
     );
 };
