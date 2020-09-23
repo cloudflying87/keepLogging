@@ -28,13 +28,14 @@ const Airports = () => {
             airport: value
         }))
         // apiCall()  
-
+        console.log(state.airport)
     };
     const apiCall = () => {
-        API.getAirports({
-            airport: state.airport
+        API.getAirportsAirports({
+            airport: (state.airport)
         })
             .then(({ data }) => {
+                
                 const formattedResults = data.map(a => ({
                     icao: a.icao,
                     name: a.name,

@@ -93,8 +93,7 @@ const Aircraft = () => {
             AircraftModelId: state.modelId
         })
             .then((data) => {
-                // console.log(state)
-                // console.log(data)
+                
             })
 
             .catch(console.error)

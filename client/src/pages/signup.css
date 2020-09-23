@@ -2,7 +2,10 @@
     display: flex;
     justify-content: center;
 } */
-
+.logoDiv {
+    background-color: #528DC9;
+    height: auto;
+}
 .signupForm {
     height: 200px;
     display: flex;
