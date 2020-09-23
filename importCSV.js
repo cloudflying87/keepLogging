@@ -21,6 +21,7 @@ var importFile = [
     path.join(__dirname, './db/aircraft.csv'),
     path.join(__dirname, './db/sampledata.csv')
 ]
+
 for (let i = 0; i < importFile.length; i++) {
     let stream = fs.createReadStream(importFile[i]);
     let myData = [];
@@ -50,37 +51,37 @@ for (let i = 0; i < importFile.length; i++) {
                 if (error) {
 
                     console.error(error);
-                } else if (importFile[i] == './db/sampledata.csv') {
+                } else if (importFile[i] == path.join(__dirname, './db/sampledata.csv')) {
                     let query = 'INSERT INTO FlightTimes (id,UserId,date,AircraftId,route,flightNum,depTime,arrTime,landings,imc,hood,iap,holds,pic,sic,cfi,dualI,cxt,solo,total,dayLdg,night,nightLdg,comments,instructor,student,createdAt,updatedAt) VALUES ?';
                     connection.query(query, [myData], (error, response) => {
                         console.log(error || response);
                     });
-                } else if (importFile[i] == './db/aircraftModels.csv') {
+                } else if (importFile[i] == path.join(__dirname, './db/aircraftModels.csv')) {
                     console.log("models")
                     let query = 'INSERT INTO AircraftModels (id,manufacture_code,description,category_class,engine_count,engine_type,wtc,tdesig,complex,highPerf,tailWheel,taa,simulator,createdAt,updatedAt) VALUES ?'
                     connection.query(query, [myData], (error, response) => {
                         console.log(error || response);
                     })
-                } else if (importFile[i] == './db/airportone.csv') {
+                } else if (importFile[i] == path.join(__dirname, './db/airportone.csv')) {
                     console.log("airports")
                     let query = 'INSERT INTO Airports (id,icao,iata,name,city,state,country,elevation,lat,lon,tz,createdAt,updatedAt) VALUES ?'
                     connection.query(query, [myData], (error, response) => {
                         console.log(error || response);
                     })
-                } else if (importFile[i] == './db/airporttwo.csv') {
+                } else if (importFile[i] == path.join(__dirname, './db/airporttwo.csv')) {
                     console.log("airports")
                     let query = 'INSERT INTO Airports (id,icao,iata,name,city,state,country,elevation,lat,lon,tz,createdAt,updatedAt) VALUES ?'
                     connection.query(query, [myData], (error, response) => {
                         console.log(error || response);
                     })
-                } else if (importFile[i] == './db/users.csv') {
+                } else if (importFile[i] == path.join(__dirname, './db/users.csv')) {
                     console.log("users")
                     let query = 'INSERT INTO Users (id,email,password,createdAt,updatedAt) VALUES ?'
                     connection.query(query, [myData], (error, response) => {
                         console.log(error || response);
                     });
 
-                } else if (importFile[i] == './db/aircraft.csv') {
+                } else if (importFile[i] == path.join(__dirname, './db/aircraft.csv')) {
                     console.log("aircraft")
                     let query = 'INSERT INTO Aircraft (id,tailNumber,AircraftModelId,avionics,createdAt,updatedAt) VALUES ?'
                     connection.query(query, [myData], (error, response) => {
