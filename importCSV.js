@@ -14,7 +14,7 @@ let connection;
 
 
 var importFile = [
-    path.join(__dirname, './db/Users.csv'),
+    path.join(__dirname, './db/users.csv'),
     path.join(__dirname, './db/airportone.csv'),
     path.join(__dirname, './db/airporttwo.csv'),
     path.join(__dirname, './db/aircraftModels.csv'),
