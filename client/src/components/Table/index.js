@@ -10,7 +10,7 @@ const Table = ({ openModal, flights }) => {
         setShowTable(true)
     }, [])
     return (
-        <>
+        // <>
             <CSSTransition
                 in={showTable}
                 timeout={2000}
@@ -38,7 +38,7 @@ const Table = ({ openModal, flights }) => {
                     </div>
                 </div>
             </CSSTransition>
-        </>
+        // </>
     )
 }
 

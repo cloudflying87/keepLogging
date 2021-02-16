@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Button from '../components/Button/index';
 import Input from '../components/Input/index';
 import API from '../utils/API';
@@ -13,7 +13,15 @@ const Signup = props => {
         email: '',
         password: ''
     });
-    const user = useContext(UserContext);
+    let userFromStorage = JSON.parse(localStorage.getItem('user'));
+    let user = useContext(UserContext);
+
+    useEffect(() => {
+        if (userFromStorage) {
+            user = userFromStorage
+        }
+    }, [])
+
 
     const handleSignup = e => {
         e.preventDefault();
@@ -42,6 +50,7 @@ const Signup = props => {
             password: state.password
         })
             .then(({ data }) => {
+                localStorage.setItem('user', JSON.stringify(data.id))
                 user.updateUser(data.id);
                 props.history.push('/logbook');
             })

@@ -10,7 +10,7 @@ export default {
     getOneAircraft: function (id) {
         return axios.get('/api/aircraft/' + id);
     },
-    // create an aiarcraft
+    // create an aircraft
     createAircraft: function (tail) {
         return axios.post('/api/aircraft/' , tail);
     },

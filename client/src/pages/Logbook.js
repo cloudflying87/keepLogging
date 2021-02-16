@@ -65,8 +65,8 @@ const Logbook = () => {
         open: false,
         values: []
     });
-    const user = useContext(UserContext)
-
+    let user = useContext(UserContext)
+    
     useEffect(() => {
         getFlights();
         getAircraftTypes()
@@ -229,14 +229,14 @@ const Logbook = () => {
         const arrTime = logbookForm.arrTime
         // Here we are checking if the user just input a time. If that is true then we take the date from the date box and put it in from of the time. We are using the newDate to format it as a date correctly to work with. 
 
-        if (new Date(departTime) == 'Invalid Date') {
+        if (new Date(departTime) === 'Invalid Date') {
             departTimeDate = moment.utc((userDate + ' ' + departTime))
             departTimeDateAdd = true
         } else {
             departTimeDate = moment.utc(departTime)
         }
 
-        if (new Date(arrTime) == 'Invalid Date') {
+        if (new Date(arrTime) === 'Invalid Date') {
             arrTimeDate = moment.utc(userDate + ' ' + arrTime + ":00Z")
             arrTimeDateAdd = true
         } else {
